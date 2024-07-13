@@ -1,22 +1,24 @@
 import React, { useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [visible, setVisible] = useState(false);
   return (
-    <div className='flex items-center justify-center h-screen bg-gray-100'>
-      <div className='flex flex-col gap-3 items-center rounded h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
-        <h2 className='lg:h-25  sm:h-20 p-10 sm:p-6 text-center sm:text-2xl md:text-3xl lg:text-4xl font-extrabold'>
+    <div className='flex items-center justify-center h-screen bg-blue-100'>
+      <div className='flex flex-col gap-2 items-center rounded h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
+        <h2 className='h-auto p-3 text-center sm:text-2xl md:text-3xl lg:text-4xl font-extrabold'>
           Login your account
         </h2>
         <div className='lg:w-2/3 md:w-full sm:w-full h-full'>
-          <form className="flex flex-col p-4 gap-4">
+          <form className="flex flex-col p-4 gap-3">
             
             <div className='flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
                 htmlFor="email"
-                className='block md:text-lg lg:text-2xl '>
+                className='block md:text-lg lg:text-2xl font-medium  '>
                 Email Address
               </label>
               <input
@@ -26,30 +28,50 @@ const Login = () => {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                 className='block lg:w-3/4 md:w-full sm:w-full  shadow-xl rounded'></input>
+                 className='block text-xl font-medium lg:w-3/4 md:w-full sm:w-full h-8 shadow-xl rounded'/>
             </div>
 
-             <div className='flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
+             <div className='relative flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
                 htmlFor="password"
-                className='block md:text-lg lg:text-2xl '>
+                className='block md:text-lg lg:text-2xl font-medium '>
                 Password 
               </label>
-              <input
-                 type="password"
-                  name="password"
-                  autoComplete="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                 className='block lg:w-3/4 md:w-full sm:w-full  shadow-xl rounded'></input>
+   <div className='relative w-full lg:w-3/4 md:w-full sm:w-full'>
+    <input
+      type={visible ? "text" : "password"}
+      name="password"
+      autoComplete="password"
+      required
+      value={password}
+      onChange={(e) => setPassword(e.target.value)}
+      className='block text-xl font-medium w-full h-8 shadow-xl rounded pr-10' 
+    />
+    {
+      visible ? (
+        <AiOutlineEye
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          size={25}
+          onClick={() => setVisible(false)}
+        />
+      ) : (
+        <AiOutlineEyeInvisible
+          className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer"
+          size={25}
+          onClick={() => setVisible(true)}
+        />
+      )
+    }
+  
+  </div>
+
             </div>
 
             <div className="flex justify-between p-3 bg-slate-200 rounded-lg">
               <input type="checkbox"
                 name="remember me"
                 id="remember me"
-                className="w-5 h-5 "></input>
+                className="w-5 h-5 "/>
               <label  htmlFor="remember-me" className="text-xl font-medium text-blue-600">Remember me</label>
             </div>
 
