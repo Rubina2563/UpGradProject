@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
+import axios from "axios";
+import { server } from "../../server";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -10,15 +12,32 @@ const SignUp = () => {
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
 
-  const handleSubmitAction = () => {
-    console.log("submiited");
-  };
+ 
 
     const handleFileInput = (e) => {
         console.log(e.target.value);
     const file = e.target.files[0];
     setAvatar(file);
   };
+
+  const handleSubmitAction = async (e) => {
+     e.preventDefault()
+     const config = { headers: {"Content-Type":"multipart/form-data"}};
+     const formdata = new FormData();
+
+     formdata.append("file", avatar);
+     formdata.append("name", name);
+     formdata.append("email", email);
+     formdata.append("password", password);
+
+    axios.post(`${server}/user/create-user`, formdata, config).then((res) => {
+      
+      console.log(res);
+    }).catch((err) => {
+      console.log(err);
+     })
+  };
+
 
   return (
     <div className='flex items-center justify-center h-screen bg-blue-100'>
@@ -28,7 +47,7 @@ const SignUp = () => {
         </h2>
 
         <div className='lg:w-2/3 md:w-full sm:w-full h-full'>
-          <form className='flex flex-col p-4 gap-3'>
+          <form className='flex flex-col p-4 gap-3' onSubmit={ handleSubmitAction}>
             <div className='flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
                 htmlFor='name'
