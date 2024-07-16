@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
@@ -11,7 +11,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
-
+  const navigate = useNavigate();
  
 
     const handleFileInput = (e) => {
@@ -33,6 +33,11 @@ const SignUp = () => {
     try {
       const response = await axios.post(`${server}/user/create-user`, formData, config);
       console.log(response.data);
+      response.then((res) => {
+        if (res.data.success === true) {
+          navigate("/")
+        }
+      })
     } catch (error) {
       console.error("Error creating user:", error.response ? error.response.data : error.message);
     }
