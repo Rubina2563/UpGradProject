@@ -20,22 +20,22 @@ const SignUp = () => {
     setAvatar(file);
   };
 
-  const handleSubmitAction = async (e) => {
-     e.preventDefault()
-     const config = { headers: {"Content-Type":"multipart/form-data"}};
-     const formdata = new FormData();
+ const handleSubmitAction = async (e) => {
+    e.preventDefault();
+    const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const formData = new FormData();
 
-     formdata.append("file", avatar);
-     formdata.append("name", name);
-     formdata.append("email", email);
-     formdata.append("password", password);
+    formData.append("file", avatar);
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("password", password);
 
-    axios.post(`${server}/user/create-user`, formdata, config).then((res) => {
-      
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-     })
+    try {
+      const response = await axios.post(`${server}/user/create-user`, formData, config);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error creating user:", error.response ? error.response.data : error.message);
+    }
   };
 
 

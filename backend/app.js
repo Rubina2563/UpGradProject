@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import ErrorHandler from "./utils/ErrorHandler.js";
+import ErrorHandler from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import user from "./controllers/user.js";
@@ -12,12 +12,14 @@ const app = express();
 app.use("/", express.static("uploads"));
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors());
+
+app.use(cors());
+
+
 
 app.use(bodyParser.urlencoded({extended: true, limit:"50mb"}));
 
-app.use(ErrorHandler);
+
 
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
@@ -27,5 +29,7 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 
 app.use("/api/v2/user", user);
+
+app.use(ErrorHandler);
 
 export default app;

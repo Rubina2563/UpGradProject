@@ -6,6 +6,26 @@ import ErrorHandler from "../utils/ErrorHandler.js";
 
 const router = express.Router();
 
+// Dummy route to create a user
+router.post("/create-user2", (req, res) => {
+  const { name, email, password } = req.body;
+
+  // Simulate saving user data
+  const user = {
+    name,
+    email,
+    password,
+  };
+
+  console.log(user);
+
+  res.status(201).json({
+    success: true,
+    message: "User created successfully",
+    user,
+  });
+});
+
 router.post("/create-user", upload.single("file"), async(req, res, next) =>{
     const { name, email, password } = req.body;
 const userEmail=await User.findOne({ email });
@@ -23,6 +43,12 @@ const userEmail=await User.findOne({ email });
     };
 
     console.log(user);
+
+      res.status(201).json({
+        success: true,
+        message: "User created successfully",
+        user,
+      });
 })
 
 export default router;
