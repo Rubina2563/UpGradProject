@@ -36,18 +36,23 @@ const userEmail=await User.findOne({ email });
     const fileUrl = path.join(filename);
 
     const user = {
-        name: name,
-        email: email,
-        password: password,
-        avatar: fileUrl,
+      name: name,
+      email: email,
+      password: password,
+      avatar: {
+        public_id: filename,
+        url: fileUrl,
+      },
     };
 
     console.log(user);
 
+    const newUser = await User.create(user);
+
       res.status(201).json({
         success: true,
         message: "User created successfully",
-        user,
+        newUser,
       });
 })
 
