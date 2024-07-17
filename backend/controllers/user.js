@@ -9,7 +9,7 @@ import { dirname } from "path";
 import jwt from "jsonwebtoken";
 import sendMail from "../utils/sendMail.js";
 import dotenv from "dotenv";
-import asyncErrorHandler from '../middlewares/asyncErrorHandler.js';
+import AsyncErrorHandler from '../middlewares/AsyncErrorHandler.js';
 import sendToken from "../utils/jwtToken.js";
 
 // Load environment variables
@@ -73,12 +73,11 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       },
     };
 
-    console.log(user);
-
+   
     const activationToken = createActivationToken(user);
    
 
-    const activationUrl = `https://localhost:3000/activation/${activationToken}`;
+    const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
     try {
       console.log("two")
@@ -121,8 +120,8 @@ const createActivationToken = (user) => {
   });
 };
 
-router.post(
-  "/activation", asyncErrorHandler(async (req, res, next) => {
+router.post("/activation", AsyncErrorHandler(async (req, res, next) => {
+   console.log("Activation route hit");
     try {
       const { activation_token } = req.body;
 
@@ -135,6 +134,7 @@ router.post(
         return next(new ErrorHandler("Invalid token", 400));
       }
       const { name, email, password, avatar } = newUser;
+      console.log(newUser)
 
       let user = await User.findOne({ email });
 
