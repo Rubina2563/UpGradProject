@@ -7,17 +7,20 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load environment variables from a specific .env file
-const envPath = path.resolve(__dirname, "../path-to-your-env-file/.env");
+const envPath = path.resolve(__dirname, "../.env");
 dotenv.config({ path: envPath });
 
 const sendMail = async (options) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: process.env.SMTP_PORT,
-    service: process.env.SMTP_SERVICE,
+    secure: process.env.SMTP_PORT == 465, // true for 465, false for other ports
     auth: {
       user: process.env.SMTP_MAIL,
       pass: process.env.SMTP_PASSWORD,
+    },
+    tls: {
+      rejectUnauthorized: false,
     },
   });
 
@@ -28,7 +31,14 @@ const sendMail = async (options) => {
     text: options.message,
   };
 
-  await transporter.sendMail(mailOptions);
+  try {
+    const info = await transporter.sendMail(mailOptions);
+    console.log("Email sent: ", info.response);
+    return info.response;
+  } catch (error) {
+    console.error("Error sending email: ", error);
+    throw error;
+  }
 };
 
 export default sendMail;

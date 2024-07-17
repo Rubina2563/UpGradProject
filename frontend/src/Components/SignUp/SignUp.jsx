@@ -34,9 +34,8 @@ const SignUp = () => {
       const response = await axios.post(`${server}/user/create-user`, formData, config);
       console.log(response.data);
       response.then((res) => {
-        if (res.data.success === true) {
-          navigate("/")
-        }
+        alert(res.message);
+        
       })
     } catch (error) {
       console.error("Error creating user:", error.response ? error.response.data : error.message);
