@@ -2,14 +2,14 @@ import express from "express";
 import path from "path";
 import upload from "../multer.js";
 import User from "../model/user.js";
-import ErrorHandler from "../utils/ErrorHandler.js";
+import ErrorHandler from "../middlewares/error.js";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import jwt from "jsonwebtoken";
 import sendMail from "../utils/sendMail.js";
 import dotenv from "dotenv";
-import AsyncErrorHandler from '../middlewares/AsyncErrorHandler.js';
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import sendToken from "../utils/jwtToken.js";
 
 // Load environment variables
@@ -52,8 +52,6 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
         if (err) {
           console.log(err);
           res.status(500).json({ message: "Error while deleting file" });
-        } else {
-          res.json({ message: "File deleted" });
         }
       });
 
@@ -73,20 +71,18 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       },
     };
 
-   
     const activationToken = createActivationToken(user);
-   
 
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
     try {
-      console.log("two")
+      console.log("two");
       const mailResponse = await sendMail({
         email: user.email,
         subject: "Activate your account",
         message: `Hello ${user.name}, please click on the link to activate your account: ${activationUrl}`,
       });
-     
+
       console.log("Mail response: ", mailResponse);
       res.status(201).json({
         success: true,
@@ -114,39 +110,54 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
 // create activation token
 const createActivationToken = (user) => {
- 
   return jwt.sign(user, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
+    expiresIn: "20m",
   });
 };
 
-router.post("/activation", AsyncErrorHandler(async (req, res, next) => {
-   console.log("Activation route hit");
+router.post(
+  "/activation",
+  AsyncErrorHandler(async (req, res, next) => {
+    console.log("Activation route hit");
     try {
-      const { activation_token } = req.body;
+      // Log the entire request body to ensure activation_string is received
+      console.log("Request body:", req.body);
+
+      const { activation_string } = req.body;
+      console.log("Activation string received:", activation_string);
 
       const newUser = jwt.verify(
-        activation_token,
+        activation_string,
         process.env.ACTIVATION_SECRET
       );
 
       if (!newUser) {
         return next(new ErrorHandler("Invalid token", 400));
       }
-      const { name, email, password, avatar } = newUser;
-      console.log(newUser)
 
+      const { name, email, password, avatar } = newUser;
+      console.log(
+        `Name: ${name}, Email: ${email}, Password: ${password}, Avatar:${JSON.stringify(
+          avatar
+        )}`
+      );
+
+      // Log when the user search begins
+      console.log("Searching for user with email:", email);
       let user = await User.findOne({ email });
+      console.log("User found:", user);
 
       if (user) {
         return next(new ErrorHandler("User already exists", 400));
       }
+
       user = await User.create({
         name,
         email,
         avatar,
         password,
       });
+      console.log("New user created:", user);
 
       sendToken(user, 201, res);
     } catch (error) {

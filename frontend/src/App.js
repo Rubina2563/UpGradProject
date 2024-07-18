@@ -10,7 +10,8 @@ const App = () => {
       <Routes>
         <Route path='/login' element={<LoginPage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
-        <Route path='/activation/:url' element={<UserActivationPage />}
+        <Route
+          path='/activation/:activation_string' element={<UserActivationPage />}
         />
       </Routes>
     </BrowserRouter>
