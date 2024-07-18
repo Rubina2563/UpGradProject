@@ -2,7 +2,7 @@ import express from "express";
 import path from "path";
 import upload from "../multer.js";
 import User from "../model/user.js";
-import ErrorHandler from "../middlewares/error.js";
+import ErrorHandler from "../utils/ErrorHandler.js";
 import fs from "fs";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -11,6 +11,7 @@ import sendMail from "../utils/sendMail.js";
 import dotenv from "dotenv";
 import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import sendToken from "../utils/jwtToken.js";
+import mongoose from "mongoose";
 
 // Load environment variables
 dotenv.config();
@@ -19,6 +20,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const router = express.Router();
+
 // Dummy route to create a user
 router.post("/create-user2", (req, res) => {
   const { name, email, password } = req.body;
@@ -44,17 +46,8 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
 
   try {
     const userEmail = await User.findOne({ email });
+    console.log(`mail: `, userEmail);
     if (userEmail) {
-      const filename = req.file.filename;
-      const filePath = path.join(__dirname, "../uploads", filename);
-
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          console.log(err);
-          res.status(500).json({ message: "Error while deleting file" });
-        }
-      });
-
       return next(new ErrorHandler("User exists already!!", 400));
     }
 
@@ -62,9 +55,9 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     const fileUrl = path.join("/uploads", filename);
 
     const user = {
-      name: name,
-      email: email,
-      password: password,
+      name,
+      email,
+      password,
       avatar: {
         public_id: filename,
         url: fileUrl,
@@ -76,7 +69,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     const activationUrl = `http://localhost:3000/activation/${activationToken}`;
 
     try {
-      console.log("two");
+      console.log("Sending activation email...");
       const mailResponse = await sendMail({
         email: user.email,
         subject: "Activate your account",
@@ -86,7 +79,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       console.log("Mail response: ", mailResponse);
       res.status(201).json({
         success: true,
-        message: `please check your email:- ${user.email} to activate your account!`,
+        message: `Please check your email: ${user.email} to activate your account!`,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -119,6 +112,7 @@ router.post(
   "/activation",
   AsyncErrorHandler(async (req, res, next) => {
     console.log("Activation route hit");
+
     try {
       // Log the entire request body to ensure activation_string is received
       console.log("Request body:", req.body);
@@ -143,24 +137,27 @@ router.post(
       );
 
       // Log when the user search begins
-      console.log("Searching for user with email:", email);
-      let user = await User.findOne({ email });
-      console.log("User found:", user);
+      console.log("Creating user in the database...");
 
-      if (user) {
-        return next(new ErrorHandler("User already exists", 400));
+      // Ensure the MongoDB connection is established
+      if (mongoose.connection.readyState !== 1) {
+        return next(
+          new ErrorHandler("Database connection not established", 500)
+        );
       }
 
-      user = await User.create({
+      const user = await User.create({
         name,
         email,
         avatar,
         password,
       });
+
       console.log("New user created:", user);
 
       sendToken(user, 201, res);
     } catch (error) {
+      console.error("Error creating user:", error);
       return next(new ErrorHandler(error.message, 500));
     }
   })
