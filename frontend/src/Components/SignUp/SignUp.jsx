@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { RxAvatar } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
+
+import { useSnackbar } from 'notistack';
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -11,9 +13,9 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
   const [avatar, setAvatar] = useState(null);
-  const navigate = useNavigate();
+ // const navigate = useNavigate();
  
-
+ const { enqueueSnackbar } = useSnackbar();
     const handleFileInput = (e) => {
         console.log(e.target.value);
     const file = e.target.files[0];
@@ -32,13 +34,14 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(`${server}/user/create-user`, formData, config);
-      console.log(response.data);
+      console.log(response.data.message);
       response.then((res) => {
         alert(res.message);
         
       })
     } catch (error) {
-      console.error("Error creating user:", error.response ? error.response.data : error.message);
+      enqueueSnackbar(`there is an error`, { variant: 'error' });
+     console.error("Error creating user:", error.response ? error.response.data : error.message);
     }
   };
 
