@@ -34,11 +34,9 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(`${server}/user/create-user`, formData, config);
-      console.log(response.data.message);
-      response.then((res) => {
-        alert(res.message);
-        
-      })
+      console.log(response.data);
+      
+     
     } catch (error) {
       enqueueSnackbar(`there is an error`, { variant: 'error' });
      console.error("Error creating user:", error.response ? error.response.data : error.message);

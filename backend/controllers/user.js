@@ -131,13 +131,13 @@ router.post(
 
       const { name, email, password, avatar } = newUser;
       console.log(
-        `Name: ${name}, Email: ${email}, Password: ${password}, Avatar:${JSON.stringify(
+        `Name: ${name}, Email: ${email}, Password: ${password}, Avatar: ${JSON.stringify(
           avatar
         )}`
       );
 
       // Log when the user search begins
-      console.log("Creating user in the database...");
+      console.log("Checking if user already exists...");
 
       // Ensure the MongoDB connection is established
       if (mongoose.connection.readyState !== 1) {
@@ -146,16 +146,24 @@ router.post(
         );
       }
 
-      const user = await User.create({
+      let user = await User.findOne({ email });
+
+      if (user != null) {
+        return next(new ErrorHandler("User already exists", 400));
+      }
+
+      console.log("Creating user in the database...");
+
+      const createdUser = await User.create({
         name,
         email,
         avatar,
         password,
       });
 
-      console.log("New user created:", user);
+      console.log("New user created:", createdUser);
 
-      sendToken(user, 201, res);
+      sendToken(createdUser, 201, res);
     } catch (error) {
       console.error("Error creating user:", error);
       return next(new ErrorHandler(error.message, 500));
