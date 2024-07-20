@@ -13,7 +13,12 @@ app.use("/", express.static("uploads"));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000", // Specify the exact origin
+    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+  })
+);
 app.use(bodyParser.urlencoded({extended: true, limit:"50mb"}));
 
 

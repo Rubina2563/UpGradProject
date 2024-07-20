@@ -32,15 +32,26 @@ const SignUp = () => {
     formData.append("email", email);
     formData.append("password", password);
 
-    try {
-      const response = await axios.post(`${server}/user/create-user`, formData, config);
-      console.log(response.data);
-      
-     
-    } catch (error) {
-      enqueueSnackbar(`there is an error`, { variant: 'error' });
-     console.error("Error creating user:", error.response ? error.response.data : error.message);
-    }
+   try {
+  const response = await axios.post(`${server}/user/create-user`, formData, config);
+  console.log(response.data);
+
+  // Handle success response here if needed, e.g., navigate to a different page, show success message, etc.
+     enqueueSnackbar(' Please check your mail box to activate your  account', { variant: 'success' });
+        setName("");
+        setEmail("");
+        setPassword("");
+        setAvatar();
+} catch (error) {
+  // Check if the error response exists and has a data property with a message
+  if (error.response && error.response.data && error.response.data.message) {
+    enqueueSnackbar(`Error: ${error.response.data.message}`, { variant: 'error' });
+  } else {
+    // Fallback message if error.response.data.message is not available
+    enqueueSnackbar('An unexpected error occurred', { variant: 'error' });
+  }
+  console.error("Error creating user:", error.response ? error.response.data : error.message);
+}
   };
 
 

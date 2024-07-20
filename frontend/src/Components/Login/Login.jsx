@@ -1,11 +1,37 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate  } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { useSnackbar } from 'notistack';
+import axios from "axios";
+import { server } from "../../server";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
+  
+ const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    axios.post(
+      `${server}/user/login-user`,
+      {
+        email,
+        password,
+      },
+      { withCredentials: true }
+    )
+    .then((res) => {
+      enqueueSnackbar("Login Success!", { variant: 'success' });
+      navigate("/");
+      window.location.reload(true); 
+    })
+    .catch((err) => {
+      enqueueSnackbar(err.response?.data?.message || 'An unexpected error occurred', { variant: 'error' });
+    });
+  };
   return (
     <div className='flex items-center justify-center h-screen bg-blue-100'>
 
@@ -17,7 +43,7 @@ const Login = () => {
 
         <div className='lg:w-2/3 md:w-full sm:w-full h-full'>
           
-          <form className='flex flex-col p-4 gap-3'>
+          <form className='flex flex-col p-4 gap-3' onSubmit={handleSubmit}>
 
             <div className='flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
