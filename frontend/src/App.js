@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LoginPage, SignUpPage, UserActivationPage } from "./Routes.js";
+import { LoginPage, SignUpPage, UserActivationPage,HomePage} from "./Routes.js";
 import Store from "./redux/store";
 //import axios from 'axios';
 //import { server } from './server.js';
@@ -16,6 +16,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
         <Route
