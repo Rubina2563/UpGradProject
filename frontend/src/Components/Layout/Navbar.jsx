@@ -5,14 +5,14 @@ import { navItems } from '../../Static/data';
 
 const Navbar = ({ active }) => {
   return (
-    <div className={`block 800px:flex 800px:items-center`}>
+    <div className={`block md:flex sm:flex-wrap items-center justify-center`}>
       {navItems && navItems.map((i, index) => (
         <div key={index} className="flex">
           <Link
             to={i.url}
             className={`${
-              active === index + 1 ? "text-[#17dd1f]" : "text-black 800px:text-[#fff]"
-            } font-[500] cursor-pointer pb-[30px] 800px:pb-0 px-6`}
+              active === index + 1 ? "text-[#17dd1f]" : "text-[#fff]"
+            } font-[900] cursor-pointer px-6 hover:text-[#17dd1f]`}
           >
             {i.title}
           </Link>
