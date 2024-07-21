@@ -1,7 +1,7 @@
-import React from 'react'
+
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { navItems } from '../../static/data';
+import { navItems } from '../../Static/data';
 
 const Navbar = ({ active }) => {
   return (
