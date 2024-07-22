@@ -1,12 +1,11 @@
 import React from "react";
-
-import CountDown from "./CountDown";
-import { Link } from "react-router-dom";
+import CountDown from "./CountDown.jsx";
+//import { Link } from "react-router-dom";
+import One from "../../Static/one.jpg";
 //import { useDispatch, useSelector } from "react-redux";
 //import { addTocart } from "../../redux/actions/cart";
 
-
-const EventCard = ({ active, data }) => {
+const EventCard = () => {
   //const { cart } = useSelector((state) => state.cart);
   //const dispatch = useDispatch();
 
@@ -25,36 +24,42 @@ const EventCard = ({ active, data }) => {
     }
   }*/
   return (
-    <div
-      className={`w-full block bg-white rounded-lg lg:flex p-2`}
-    >
-      <div className="w-full lg:-w[50%] m-auto">
-        <img src={`${data.images[0]?.url}`} alt="" />
-      </div>
-      <div className="w-full lg:[w-50%] flex flex-col justify-center">
-        <h2 className={`${styles.productTitle}`}>I phone max</h2>
+   <div className="w-3/5 block bg-white rounded-lg p-2 lg:flex ">
+ <div className="w-full lg:w-[50%] m-auto relative overflow-hidden">
+  <img src={One} alt="Event" className="w-[95%] h-[95%] object-cover m-auto" />
+</div>
+      <div className="w-full lg:w-[50%] flex flex-col justify-center">
+        <h2 className="text-lg font-bold">I phone max</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, sint deleniti voluptatum fugit error eius repudiandae assumenda qui voluptas ipsum quaerat adipisci sit consectetur ipsam sunt non molestias ea praesentium?</p>
         <div className="flex py-2 justify-between">
           <div className="flex">
-            <h5 className="font-[500] text-[18px] text-[#d55b45] pr-3 line-through">
+            <h5 className="font-medium text-lg text-red-600 pr-3 line-through">
               1099 Rs
             </h5>
-            <h5 className="font-bold text-[20px] text-[#333] font-Roboto">
+            <h5 className="font-bold text-xl text-gray-800 font-Roboto">
               {/*data.discountPrice*/}999 Rs
             </h5>
           </div>
-          <span className="pr-3 font-[400] text-[17px] text-[#44a55e]">
+          <span className="pr-3 font-medium text-lg text-green-600">
             {/*data.sold_out*/} 120 sold
           </span>
         </div>
-        <CountDown data={data} />
+        <CountDown />
         <br />
-        <div className="flex items-center">
+       
+        {/* <div className="flex items-center">
           <Link to={`/product/${data._id}?isEvent=true`}>
-            <div className={`${styles.button} text-[#fff]`}>See Details</div>
+            <div className="my-3 flex h-12 w-36 items-center justify-center rounded-xl bg-black cursor-pointer text-white">
+              See Details
+            </div>
           </Link>
-          <div className={`${styles.button} text-[#fff] ml-5`} onClick={() => addToCartHandler(data)}>Add to cart</div>
-        </div>
+          <div
+            className="my-3 flex h-12 w-36 items-center justify-center rounded-xl bg-black cursor-pointer text-white ml-5"
+           // onClick={() => addToCartHandler(data)}
+          >
+            Add to cart
+          </div>
+        </div>*/}
       </div>
     </div>
   );
