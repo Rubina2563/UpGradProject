@@ -12,14 +12,14 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import DropDown from "./Dropdown";
 import Navbar from "./Navbar";
-
-//import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { backend_url } from "../../server";
 //import Cart from "../cart/Cart";
 //import Wishlist from "../Wishlist/Wishlist";
 //import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ heading }) => {
-  //const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, user} = useSelector((state) => state.user);
   //const { isSeller } = useSelector((state) => state.seller);
  // const { wishlist } = useSelector((state) => state.wishlist);
  // const { cart } = useSelector((state) => state.cart);
@@ -31,7 +31,8 @@ const Header = ({ heading }) => {
  // const [openCart, setOpenCart] = useState(false);
 //  const [openWishlist, setOpenWishlist] = useState(false);
   //const [open, setOpen] = useState(false);
-
+  console.log(user);
+  
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
@@ -64,7 +65,7 @@ const Header = ({ heading }) => {
                 className="h-[50px] w-10"
               />
                       </Link>
-                      <h1 className=" font-extrabold text-blue-800 sm:text-1xl lg:text-2xl  text-center bg-gray-100 p-4 shadow-lg rounded-lg">
+  <h1 className=" font-extrabold text-blue-800 sm:text-1xl lg:text-2xl  text-center bg-gray-100 p-4 shadow-lg rounded-lg">
   ShopPlusPlus
 </h1>
           </div>
@@ -165,21 +166,21 @@ const Header = ({ heading }) => {
       {/* user login icon setting */}
       <div className="relative cursor-pointer">
         <Link to="/login">
-          <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+         
         </Link>
-        {/* isAuthenticated ? (
-          <Link to="/profile">
-            <img
-              src={`${user?.avatar?.url}`}
-              className="w-[35px] h-[35px] rounded-full"
-              alt="User Avatar"
-            />
-          </Link>
-        ) : (
-          <Link to="/login">
-            <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-          </Link>
-        ) */}
+            {isAuthenticated ? (
+              <Link to="/profile">
+                <img
+                  src={`${backend_url}${user.avatar.url}`}
+                  className="w-[35px] h-[35px] rounded-full"
+                  alt="User Avatar"
+                />
+              </Link>
+            ) : (
+              <Link to="/login">
+                <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+              </Link>
+            )}
       </div>
     </div>
   </div>

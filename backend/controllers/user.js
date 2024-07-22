@@ -22,25 +22,6 @@ const __dirname = dirname(__filename);
 
 const router = express.Router();
 
-// Dummy route to create a user
-router.post("/create-user2", (req, res) => {
-  const { name, email, password } = req.body;
-
-  // Simulate saving user data
-  const user = {
-    name,
-    email,
-    password,
-  };
-
-  console.log(user);
-
-  res.status(201).json({
-    success: true,
-    message: "User created successfully",
-    user,
-  });
-});
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   const { name, email, password } = req.body;
@@ -214,6 +195,11 @@ router.get(
       if (!user) {
         return next(new ErrorHandler("User doesn't exists", 400));
       }
+
+ if (user.avatar && user.avatar.url) {
+   user.avatar.url = user.avatar.url.replace(/\\/g, "/");
+ }
+      console.log(user)
 
       res.status(200).json({
         success: true,
