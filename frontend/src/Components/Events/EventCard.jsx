@@ -5,7 +5,7 @@ import One from "../../Static/one.jpg";
 //import { useDispatch, useSelector } from "react-redux";
 //import { addTocart } from "../../redux/actions/cart";
 
-const EventCard = () => {
+const EventCard = ({active}) => {
   //const { cart } = useSelector((state) => state.cart);
   //const dispatch = useDispatch();
 
@@ -24,10 +24,11 @@ const EventCard = () => {
     }
   }*/
   return (
-   <div className="w-3/5 block bg-white rounded-lg p-2 lg:flex ">
- <div className="w-full lg:w-[50%] m-auto relative overflow-hidden">
-  <img src={One} alt="Event" className="w-[95%] h-[95%] object-cover m-auto" />
-</div>
+   <div
+      className={`w-full block bg-white rounded-lg ${
+        active ? "unset" : "mb-12"
+      } lg:flex p-2`}
+    >
       <div className="w-full lg:w-[50%] flex flex-col justify-center">
         <h2 className="text-lg font-bold">I phone max</h2>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur, sint deleniti voluptatum fugit error eius repudiandae assumenda qui voluptas ipsum quaerat adipisci sit consectetur ipsam sunt non molestias ea praesentium?</p>
