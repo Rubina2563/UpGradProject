@@ -1,23 +1,22 @@
 const styles = {
-  customContainer: "hidden w-11/12 sm:block",
-  title:
-    "font-[600] text-center text-[27px] pb-[20px] font-Roboto md:text-start",
-  sectionWrapper: "mx-auto w-11/12",
-  productHeading: "font-Roboto text-[#333] text-[25px] font-[600]",
-  discountPrice: "text-[18px] font-bold text-[#333] font-Roboto",
-  originalPrice:
-    "text-[16px] line-through mt-[-4px] pl-3 text-[#d55b45] font-[500]",
-  shopName: "pb-3 pt-3 text-blue-400 text-[15px]",
-  indicator: "absolute left-0 bottom-[-27%] bg-[crimson] h-[3px] w-full",
-  primaryButton:
-    "my-3 flex h-[50px] w-[150px] items-center justify-center rounded-xl bg-black cursor-pointer",
-  cartBtn:
-    "cursor-pointer flex h-[38px] items-center justify-center rounded-[20px] bg-[#f63b60] px-[20px]",
-  cartBtnText: "text-[16px] text-[#fff] font-[600]",
-  inputField: "rounded-[5px] border p-1 w-full",
-  statusActive:
-    "absolute top-0 right-1 h-[10px] w-[10px] rounded-full bg-[#40d132]",
-  flexCenter: "flex items-center",
+  custom_container: "w-11/12 hidden sm:block",
+  heading:
+    "text-[27px] text-center md:text-start font-[600] font-Roboto pb-[20px]",
+  section: "w-11/12 mx-auto",
+  productTitle: "text-[25px] font-[600] font-Roboto text-[#333]",
+  productDiscountPrice: "font-bold text-[18px] text-[#333] font-Roboto",
+  price: "font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through",
+  shop_name: "pt-3 text-[15px] text-blue-400 pb-3",
+  active_indicator: "absolute bottom-[-27%] left-0 h-[3px] w-full bg-[crimson]",
+  button:
+    "w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer",
+  cart_button:
+    "px-[20px] h-[38px] rounded-[20px] bg-[#f63b60] flex items-center justify-center cursor-pointer",
+  cart_button_text: "text-[#fff] text-[16px] font-[600]",
+  input: "w-full border p-1 rounded-[5px]",
+  activeStatus:
+    "w-[10px] h-[10px] rounded-full absolute top-0 right-1 bg-[#40d132]",
+  noramlFlex: "flex items-center",
 };
 
 export default styles;
