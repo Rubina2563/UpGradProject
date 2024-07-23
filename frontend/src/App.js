@@ -1,27 +1,30 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import React, { useEffect } from "react";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import {
   LoginPage,
   SignUpPage,
   UserActivationPage,
   HomePage,
-//  ProductPage,
-//  BestSellingPage,
- // EventsPage,
-  FAQPage
-} from "./Routes.js";
+  //  ProductPage,
+  //  BestSellingPage,
+  // EventsPage,
+  FAQPage,
+  CheckoutPage,
+  PaymentPage,
+  OrderSuccessPage,
+} from "./Routes/Routes.js";
 import Store from "./redux/store";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 //import axios from 'axios';
 //import { server } from './server.js';
 
-import { userLoading } from './redux/actions/user.js';
+import { userLoading } from "./redux/actions/user.js";
 
 const App = () => {
-const {loading } = useSelector((state) => state.user);
+  const { loading } = useSelector((state) => state.user);
   useEffect(() => {
-    Store.dispatch(userLoading())
+    Store.dispatch(userLoading());
   }, []);
 
   return (
@@ -40,6 +43,9 @@ const {loading } = useSelector((state) => state.user);
             {/* <Route path='/best-selling' element={<BestSellingPage />} />*/}
             {/*   <Route path='/events' element={<EventsPage />} />*/}
             <Route path='/faq' element={<FAQPage />} />
+            <Route path='/checkout' element={<CheckoutPage />} />
+            <Route path='/payment' element={<PaymentPage />} />
+            <Route path='/order/success:id' element={<OrderSuccessPage />} />
           </Routes>
         </BrowserRouter>
       )}
@@ -47,4 +53,4 @@ const {loading } = useSelector((state) => state.user);
   );
 };
 
-export default App
+export default App;
