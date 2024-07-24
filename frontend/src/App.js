@@ -6,14 +6,49 @@ import {
   SignUpPage,
   UserActivationPage,
   HomePage,
-  //  ProductPage,
-  //  BestSellingPage,
-  // EventsPage,
+  ProductPage,
+  BestSellingPage,
+  EventsPage,
   FAQPage,
   CheckoutPage,
   PaymentPage,
   OrderSuccessPage,
+  ProductDetailsPage,
+  ProfilePage,
+  ShopCreatePage,
+  SellerActivationPage,
+  ShopLoginPage,
+  OrderDetailsPage,
+  TrackOrderPage,
+  UserInbox,
 } from "./Routes/Routes.js";
+
+import {
+  ShopDashboardPage,
+  ShopCreateProduct,
+  ShopAllProducts,
+  ShopCreateEvents,
+  ShopAllEvents,
+  ShopAllCoupouns,
+  ShopPreviewPage,
+  ShopAllOrders,
+  ShopOrderDetails,
+  ShopAllRefunds,
+  ShopSettingsPage,
+  ShopWithDrawMoneyPage,
+  ShopInboxPage,
+} from "./Routes/ShopRoutes";
+
+import {
+  AdminDashboardPage,
+  AdminDashboardUsers,
+  AdminDashboardSellers,
+  AdminDashboardOrders,
+  AdminDashboardProducts,
+  AdminDashboardEvents,
+  AdminDashboardWithdraw,
+} from "./Routes/Shopkeeper";
+
 import Store from "./redux/store";
 import { useSelector } from "react-redux";
 //import axios from 'axios';

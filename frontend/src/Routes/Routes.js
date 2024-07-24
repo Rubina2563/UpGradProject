@@ -9,7 +9,14 @@ import FAQPage from "../Pages/FAQPage.jsx";
 import CheckoutPage from "../Pages/CheckoutPage";
 import PaymentPage from "../Pages/PaymentPage";
 import OrderSuccessPage from "../Pages/OrderSuccessPage";
-
+import ProductDetailsPage from "../Pages/ProductDetailsPage";
+import ProfilePage from "../Pages/ProfilePage";
+import ShopCreatePage from "../Pages/ShopCreate";
+import SellerActivationPage from "../Pages/SellerActivationPage";
+import ShopLoginPage from "../Pages/ShopLoginPage";
+import OrderDetailsPage from "../Pages/OrderDetailsPage";
+import TrackOrderPage from "../Pages/TrackOrderPage";
+import UserInbox from "../Pages/UserInbox.jsx";
 export {
   LoginPage,
   SignUpPage,
@@ -22,4 +29,12 @@ export {
   CheckoutPage,
   PaymentPage,
   OrderSuccessPage,
+  ProductDetailsPage,
+  ProfilePage,
+  ShopCreatePage,
+  SellerActivationPage,
+  ShopLoginPage,
+  OrderDetailsPage,
+  TrackOrderPage,
+  UserInbox,
 };
