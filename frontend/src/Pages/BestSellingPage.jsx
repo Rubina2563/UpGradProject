@@ -25,7 +25,7 @@ const BestSellingPage = () => {
           <Header heading={2} />
           <br />
           <br />
-          <div className="py-8 px-4 md:px-8 lg:px-12 xl:px-16">
+          <div className="w-11/12 mx-auto">
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-8 mb-12">
               {data && data.map((i, index) => (
                 <ProductCard data={i} key={index} />

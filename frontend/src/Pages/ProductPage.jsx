@@ -32,7 +32,7 @@ const ProductsPage = () => {
       <Loader />
     ) : (
       <div>
-      <Header activeHeading={3} />
+      <Header heading={3} />
       <br />
       <br />
       <div className={`w-11/12 mx-auto`}>

@@ -17,7 +17,7 @@ import {
 } from "../../../redux/actions/wishlist";
 import { useEffect } from "react";
 import { addTocart } from "../../../redux/actions/cart";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 import Ratings from "../../Products/Ratings";
 
 const ProductCard = ({ data,isEvent }) => {
@@ -48,14 +48,14 @@ const ProductCard = ({ data,isEvent }) => {
   const addToCartHandler = (id) => {
     const isItemExists = cart && cart.find((i) => i._id === id);
     if (isItemExists) {
-      toast.error("Item already in cart!");
+      enqueueSnackbar("Item already in cart!", { variant: 'error' });
     } else {
       if (data.stock < 1) {
-        toast.error("Product stock limited!");
+       enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: 1 };
         dispatch(addTocart(cartData));
-        toast.success("Item added to cart successfully!");
+        enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }
   };
