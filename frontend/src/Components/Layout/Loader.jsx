@@ -1,3 +1,4 @@
+//corrected
 import React from "react";
 import Lottie from "react-lottie";
 import animationData from "../../Assests/Animations/ecommerce-animation.json";
