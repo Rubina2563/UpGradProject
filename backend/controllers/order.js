@@ -1,10 +1,10 @@
 import express from "express";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import Order from "../model/order.js";
 import Shop from "../model/shop.js";
 import Product from "../model/product.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import { isAuthenticated, isSeller, isAdmin } from "../middleware/auth.js";
+import { isAuthenticated, isSeller, isAdmin } from "../middlewares/auth.js";
 
 const router = express.Router();
 

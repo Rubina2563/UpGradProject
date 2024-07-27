@@ -1,9 +1,9 @@
 import express from "express";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import Shop from "../model/shop.js";
 import Event from "../model/event.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import { isSeller, isAdmin, isAuthenticated } from "../middleware/auth.js";
+import { isSeller, isAdmin, isAuthenticated } from "../middlewares/auth.js";
 import cloudinary from "cloudinary";
 
 const router = express.Router();

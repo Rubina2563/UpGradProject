@@ -1,8 +1,8 @@
 import express from "express";
 import Shop from "../model/shop.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
-import { isSeller, isAuthenticated, isAdmin } from "../middleware/auth.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
+import { isSeller, isAuthenticated, isAdmin } from "../middlewares/auth.js";
 import Withdraw from "../model/withdraw.js";
 import sendMail from "../utils/sendMail.js";
 

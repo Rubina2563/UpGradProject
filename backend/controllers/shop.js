@@ -1,13 +1,14 @@
 // Import required modules
 import express from "express";
-import path, { fileURLToPath } from "path";
+import path from "path";
+import { fileURLToPath } from "url";
 import jwt from "jsonwebtoken";
 import cloudinary from "cloudinary";
 import dotenv from "dotenv";
 import sendMail from "../utils/sendMail.js";
 import Shop from "../model/shop.js";
-import { isAuthenticated, isSeller, isAdmin } from "../middleware/auth.js";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
+import { isAuthenticated, isSeller, isAdmin } from "../middlewares/auth.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import sendShopToken from "../utils/shopToken.js";
 

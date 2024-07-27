@@ -1,8 +1,8 @@
 import express from "express";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import Shop from "../model/shop.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import { isSeller } from "../middleware/auth.js";
+import { isSeller } from "../middlewares/auth.js";
 import CoupounCode from "../model/couponCode.js";
 
 const router = express.Router();

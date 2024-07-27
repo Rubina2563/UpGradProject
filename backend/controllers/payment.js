@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { fileURLToPath } from "url";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import stripePackage from "stripe";
 import dotenv from "dotenv";
 

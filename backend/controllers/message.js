@@ -1,5 +1,5 @@
 import express from "express";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import Messages from "../model/messages.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import cloudinary from "cloudinary";

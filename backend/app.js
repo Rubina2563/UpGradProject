@@ -1,5 +1,5 @@
 import express from "express";
-import ErrorHandler from "./middleware/error.js";
+import errorMiddleware from "./middlewares/error.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -37,16 +37,16 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
 }
 
 // import routes
-import user from "./controller/user.js";
-import shop from "./controller/shop.js";
-import product from "./controller/product.js";
-import event from "./controller/event.js";
-import coupon from "./controller/coupounCode.js";
-import payment from "./controller/payment.js";
-import order from "./controller/order.js";
-import conversation from "./controller/conversation.js";
-//import message from "./controller/message.js";
-import withdraw from "./controller/withdraw.js";
+import user from "./controllers/user.js";
+import shop from "./controllers/shop.js";
+import product from "./controllers/product.js";
+import event from "./controllers/event.js";
+import coupon from "./controllers/couponCode.js";
+import payment from "./controllers/payment.js";
+import order from "./controllers/order.js";
+import conversation from "./controllers/conversation.js";
+//import message from "./controllers/message.js";
+import withdraw from "./controllers/withdraw.js";
 
 app.use("/api/v2/user", user);
 app.use("/api/v2/conversation", conversation);
@@ -59,6 +59,6 @@ app.use("/api/v2/coupon", coupon);
 app.use("/api/v2/payment", payment);
 app.use("/api/v2/withdraw", withdraw);
 
-app.use(ErrorHandler);
+app.use(errorMiddleware);
 
 export default app;

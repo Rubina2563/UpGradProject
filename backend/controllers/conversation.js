@@ -1,8 +1,8 @@
 import express from "express";
 import Conversation from "../model/conversation.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import AsyncErrorHandler from "../middleware/AsyncErrorHandler.js";
-import { isSeller, isAuthenticated } from "../middleware/auth.js";
+import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
+import { isSeller, isAuthenticated } from "../middlewares/auth.js";
 
 const router = express.Router();
 
