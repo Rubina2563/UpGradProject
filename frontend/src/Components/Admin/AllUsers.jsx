@@ -8,9 +8,10 @@ import { Button } from "@material-ui/core";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 
 const AllUsers = () => {
+    const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
@@ -24,7 +25,7 @@ const AllUsers = () => {
     await axios
     .delete(`${server}/user/delete-user/${id}`, { withCredentials: true })
     .then((res) => {
-      toast.success(res.data.message);
+      enqueueSnackbar(res.data.message, { variant: 'success' });
     });
 
   dispatch(getAllUsers());

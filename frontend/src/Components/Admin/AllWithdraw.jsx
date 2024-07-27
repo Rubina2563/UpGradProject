@@ -5,7 +5,7 @@ import { server } from "../../server";
 import { DataGrid } from "@material-ui/data-grid";
 import { BsPencil } from "react-icons/bs";
 import { RxCross1 } from "react-icons/rx";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 
 const AllWithdraw = () => {
   const [data, setData] = useState([]);
@@ -85,7 +85,7 @@ const AllWithdraw = () => {
         sellerId: withdrawData.shopId,
       },{withCredentials: true})
       .then((res) => {
-        toast.success("Withdraw request updated successfully!");
+       enqueueSnackbar("withdrawal status updated  successfully", { variant: 'success' });
         setData(res.data.withdraws);
         setOpen(false);
       });

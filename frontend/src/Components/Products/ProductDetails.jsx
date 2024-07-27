@@ -90,7 +90,7 @@ const ProductDetails = ({ data }) => {
   const averageRating = avg.toFixed(2);
 
 
-  const handleMessageSubmit = async () => {
+  /*const handleMessageSubmit = async () => {
     if (isAuthenticated) {
       const groupTitle = data._id + user._id;
       const userId = user._id;
@@ -114,7 +114,7 @@ const ProductDetails = ({ data }) => {
     } else {
       enqueueSnackbar("Please login to create a conversation", { variant: 'error' });
     }
-  };
+  };*/
 
   return (
     <div className="bg-white">
@@ -229,7 +229,7 @@ const ProductDetails = ({ data }) => {
                   </div>
                   <div
                     className={`w-[150px]  my-3 flex items-center justify-center  cursor-pointer bg-[#6443d1] mt-4 !rounded !h-11`}
-                    onClick={handleMessageSubmit}
+                    onClick={()=>{}}
                   >
                     <span className="text-white flex items-center">
                       Send Message <AiOutlineMessage className="ml-1" />

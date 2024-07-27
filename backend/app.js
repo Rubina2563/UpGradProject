@@ -1,23 +1,17 @@
 import express from "express";
-import dotenv from "dotenv";
-import ErrorHandler from "./middlewares/error.js";
+import ErrorHandler from "./middleware/error.js";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
-import user from "./controllers/user.js";
 import cors from "cors";
+import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-// Initialize the express app
-const app = express();
-
-// Get the directory name
+// Get the filename and dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use(express.json());
-app.use(cookieParser());
+const app = express();
 
 app.use(
   cors({
@@ -27,6 +21,14 @@ app.use(
 );
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
+app.use(express.json());
+app.use(cookieParser());
+app.use("/test", (req, res) => {
+  res.send("Hello world!");
+});
+
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
+
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
   dotenv.config({
@@ -34,7 +36,28 @@ if (process.env.NODE_ENV !== "PRODUCTION") {
   });
 }
 
+// import routes
+import user from "./controller/user.js";
+import shop from "./controller/shop.js";
+import product from "./controller/product.js";
+import event from "./controller/event.js";
+import coupon from "./controller/coupounCode.js";
+import payment from "./controller/payment.js";
+import order from "./controller/order.js";
+import conversation from "./controller/conversation.js";
+//import message from "./controller/message.js";
+import withdraw from "./controller/withdraw.js";
+
 app.use("/api/v2/user", user);
+app.use("/api/v2/conversation", conversation);
+//app.use("/api/v2/message", message);
+app.use("/api/v2/order", order);
+app.use("/api/v2/shop", shop);
+app.use("/api/v2/product", product);
+app.use("/api/v2/event", event);
+app.use("/api/v2/coupon", coupon);
+app.use("/api/v2/payment", payment);
+app.use("/api/v2/withdraw", withdraw);
 
 app.use(ErrorHandler);
 

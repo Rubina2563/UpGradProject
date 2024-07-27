@@ -35,7 +35,7 @@ const Login = () => {
   return (
     <div className='flex items-center justify-center h-screen bg-blue-100'>
 
-      <div className='flex flex-col gap-2 items-center rounded h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
+      <div className='flex flex-col gap-2 items-center  h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
         
         <h2 className='h-auto p-3 text-center text-orange-800 sm:text-2xl md:text-3xl lg:text-4xl font-extrabold'>
           Login your account
