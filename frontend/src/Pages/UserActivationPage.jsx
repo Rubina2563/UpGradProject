@@ -5,15 +5,15 @@ import { useParams } from "react-router-dom";
 import { server } from "../server";
 
 const UserActivationPage = () => {
-  const { activation_token } = useParams();
+  const { activation_string } = useParams();
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (activation_token) {
+    if (activation_string) {
       const sendRequest = async () => {
         await axios
           .post(`${server}/user/activation`, {
-            activation_token,
+            activation_string,
           })
           .then((res) => {
             console.log(res);

@@ -1,8 +1,7 @@
-//corrected
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { categoriesData } from "../../Static/data";
-import shopPlusPlusImage from '../../Static/ShopPlusPlus.svg';
+import ShopPlusPusLogo from "../../Static/ShopPlusPlus.svg"
+import { categoriesData, productData } from "../../Static/data";
 import {
   AiOutlineHeart,
   AiOutlineSearch,
@@ -11,17 +10,15 @@ import {
 import { IoIosArrowDown, IoIosArrowForward } from "react-icons/io";
 import { BiMenuAltLeft } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
-import DropDown from "./Dropdown";
+import Dropdown from "./Dropdown";
 import Navbar from "./Navbar";
 import { useSelector } from "react-redux";
-//import { backend_url } from "../../server";
 import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
-
 import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ heading }) => {
- const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const { isSeller } = useSelector((state) => state.seller);
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
@@ -57,15 +54,21 @@ const Header = ({ heading }) => {
   return (
     <>
       <div className={`w-11/12 mx-auto`}>
-        <div className="hidden 800px:h-[50px] 800px:my-[20px] 800px:flex items-center justify-between">
+        <div className="hidden md:h-[50px] md:my-[20px] md:flex items-center justify-between">
           <div>
             <Link to="/">
               <img
-                src={shopPlusPlusImage}
+                 style={{ width: '160px', height: '36px' }}
+                src={ShopPlusPusLogo}
                 alt=""
               />
+              
             </Link>
+                   <h2 className="font-bold text-3xl text-red-500">
+  ShopPlusPlus
+</h2>
           </div>
+   
           {/* search box */}
           <div className="w-[50%] relative">
             <input
@@ -113,14 +116,14 @@ const Header = ({ heading }) => {
       <div
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
+        } transition hidden md:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
       >
         <div
           className={`w-11/12 mx-auto relative flex items-center justify-between`}
         >
           {/* categories */}
           <div onClick={() => setDropDown(!dropDown)}>
-            <div className="relative h-[60px] mt-[10px] w-[270px] hidden 1000px:block">
+            <div className="relative h-[60px] mt-[10px] w-[270px]  1000px:block">
               <BiMenuAltLeft size={30} className="absolute top-3 left-2" />
               <button
                 className={`h-[100%] w-full flex justify-between items-center pl-10 bg-white font-sans text-lg font-[500] select-none rounded-t-md`}
@@ -133,7 +136,7 @@ const Header = ({ heading }) => {
                 onClick={() => setDropDown(!dropDown)}
               />
               {dropDown ? (
-                <DropDown
+                <Dropdown
                   categoriesData={categoriesData}
                   setDropDown={setDropDown}
                 />
@@ -207,9 +210,9 @@ const Header = ({ heading }) => {
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
         }
-      w-full h-[60px] bg-[#fff] z-50 top-0 left-0 shadow-sm 800px:hidden`}
+      w-full h-[80px] bg-[#fff] z-50 top-0 left-0 shadow-sm md:hidden`}
       >
-        <div className="w-full flex items-center justify-between">
+        <div className="w-full flex items-center p-2 justify-between">
           <div>
             <BiMenuAltLeft
               size={40}
@@ -218,13 +221,17 @@ const Header = ({ heading }) => {
             />
           </div>
           <div>
-            <Link to="/">
+          <Link to="/">
               <img
-              src= {shopPlusPlusImage}
+                 style={{ width: '190px', height: '30px',}}
+                src={ShopPlusPusLogo}
                 alt=""
-                className="mt-3 cursor-pointer"
               />
+              
             </Link>
+                   <h2 className="font-bold text-3xl text-red-500">
+  ShopPlusPlus
+</h2>
           </div>
           <div>
             <div
@@ -249,7 +256,7 @@ const Header = ({ heading }) => {
           <div
             className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}
           >
-            <div className="fixed w-[70%] bg-[#fff] h-screen top-0 left-0 z-10 overflow-y-scroll">
+            <div className="fixed w-[70%] bg-[#f6d4d4] h-screen top-0 left-0 z-10 overflow-y-scroll">
               <div className="w-full justify-between flex pr-3">
                 <div>
                   <div
@@ -278,7 +285,7 @@ const Header = ({ heading }) => {
                   onChange={handleSearchChange}
                 />
                 {searchData && (
-                  <div className="absolute bg-[#fff] z-10 shadow w-full left-0 p-3">
+                  <div className="absolute bg-[#f7d4d4] z-10 shadow w-full left-0 p-3">
                     {searchData.map((i) => {
                       const d = i.name;
 
@@ -327,13 +334,13 @@ const Header = ({ heading }) => {
                   <>
                     <Link
                       to="/login"
-                      className="text-[18px] pr-[10px] text-[#000000b7]"
+                      className="text-2xl pr-[10px] text-[#000000b7]"
                     >
                       Login /
                     </Link>
                     <Link
                       to="/sign-up"
-                      className="text-[18px] text-[#000000b7]"
+                      className="text-2xl text-[#000000b7]"
                     >
                       Sign up
                     </Link>

@@ -16,42 +16,34 @@ const SignUp = () => {
  // const navigate = useNavigate();
  
  const { enqueueSnackbar } = useSnackbar();
-    const handleFileInput = (e) => {
-        console.log(e.target.value);
-    const file = e.target.files[0];
-    setAvatar(file);
+ const handleFileInputChange = (e) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (reader.readyState === 2) {
+        setAvatar(reader.result);
+      }
+    };
+
+    reader.readAsDataURL(e.target.files[0]);
   };
 
- const handleSubmitAction = async (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
-    const formData = new FormData();
 
-    formData.append("file", avatar);
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("password", password);
-
-   try {
-  const response = await axios.post(`${server}/user/create-user`, formData, config);
-  console.log(response.data);
-
-  // Handle success response here if needed, e.g., navigate to a different page, show success message, etc.
-     enqueueSnackbar(' Please check your mail box to activate your  account', { variant: 'success' });
+    axios
+      .post(`${server}/user/create-user`, { name, email, password, avatar })
+      .then((res) => {
+        enqueueSnackbar(res.data.message, { variant: 'success' });
         setName("");
         setEmail("");
         setPassword("");
         setAvatar();
-} catch (error) {
-  // Check if the error response exists and has a data property with a message
-  if (error.response && error.response.data && error.response.data.message) {
-    enqueueSnackbar(`Error: ${error.response.data.message}`, { variant: 'error' });
-  } else {
-    // Fallback message if error.response.data.message is not available
-    enqueueSnackbar('An unexpected error occurred', { variant: 'error' });
-  }
-  console.error("Error creating user:", error.response ? error.response.data : error.message);
-}
+      })
+      .catch((error) => {
+         enqueueSnackbar(`Error: ${error.response.data.message}`, { variant: 'error' });
+      });
   };
 
 
@@ -63,7 +55,7 @@ const SignUp = () => {
         </h2>
 
         <div className='lg:w-2/3 md:w-full sm:w-full h-full'>
-          <form className='flex flex-col p-4 gap-3' onSubmit={ handleSubmitAction}>
+          <form className='flex flex-col p-4 gap-3' onSubmit={ handleSubmit }>
             <div className='flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
                 htmlFor='name'
@@ -133,7 +125,7 @@ const SignUp = () => {
             <div className='flex justify-between h- auto p-3 bg-slate-200 rounded-lg'>
                           <span className="w-8 h-8 rounded-full  ">
                               {
-                                  avatar ? (<img src={URL.createObjectURL(avatar)} alt="avatar" className="w-full h-full overflow-hidden rounded-full object-cover"/>) : ( <RxAvatar className="h-8 w-8" />)
+                                  avatar ? (<img src={avatar} alt="avatar" className="w-full h-full overflow-hidden rounded-full object-cover"/>) : ( <RxAvatar className="h-8 w-8" />)
                               }
               </span>
               <label>
@@ -143,7 +135,7 @@ const SignUp = () => {
                   name='avatar'
                   id='file-input'
                   accept='.jpg,.jpeg,.png'
-                  onChange={handleFileInput}
+                  onChange={handleFileInputChange}
                   className='sr-only'
                 />
               </label>
