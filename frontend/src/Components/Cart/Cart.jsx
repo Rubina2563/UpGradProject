@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi";
-import styles from "../../styles/styles";
+
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { addTocart, removeFromCart } from "../../redux/actions/cart";
@@ -51,7 +51,7 @@ const Cart = ({ setOpenCart }) => {
                 />
               </div>
               {/* Item length */}
-              <div className={`${styles.noramlFlex} p-4`}>
+              <div className={`flex items-center p-4`}>
                 <IoBagHandleOutline size={25} />
                 <h5 className="pl-2 text-[20px] font-[500]">
                   {cart && cart.length} items
@@ -68,6 +68,7 @@ const Cart = ({ setOpenCart }) => {
                       data={i}
                       quantityChangeHandler={quantityChangeHandler}
                       removeFromCartHandler={removeFromCartHandler}
+                      enqueueSnackbar={enqueueSnackbar}
                     />
                   ))}
               </div>
@@ -92,7 +93,7 @@ const Cart = ({ setOpenCart }) => {
   );
 };
 
-const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
+const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler,enqueueSnackbar }) => {
   const [value, setValue] = useState(data.qty);
   const totalPrice = data.discountPrice * value;
 
@@ -117,7 +118,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler }) => {
       <div className="w-full flex items-center">
         <div>
           <div
-            className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] ${styles.noramlFlex} justify-center cursor-pointer`}
+            className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer`}
             onClick={() => increment(data)}
           >
             <HiPlus size={18} color="#fff" />

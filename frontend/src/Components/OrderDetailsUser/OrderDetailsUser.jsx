@@ -3,8 +3,8 @@ import { BsFillBagFill } from "react-icons/bs";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getAllOrdersOfUser } from "../redux/actions/order";
-import { server } from "../server";
+import { getAllOrdersOfUser } from "../../redux/actions/order";
+import { server } from "../../server";
 import { RxCross1 } from "react-icons/rx";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import axios from "axios";
@@ -49,7 +49,7 @@ const UserOrderDetails = () => {
         setOpen(false);
       })
       .catch((error) => {
-        enqueueSnackbar(err.response.data.message, { variant: 'error' });
+        enqueueSnackbar(error.response.data.message, { variant: 'error' });
       });
   };
   
@@ -60,7 +60,7 @@ const UserOrderDetails = () => {
        enqueueSnackbar(res.data.message, { variant: 'success' });
     dispatch(getAllOrdersOfUser(user._id));
     }).catch((error) => {
-      enqueueSnackbar(err.response.data.message, { variant: 'error' });
+      enqueueSnackbar(error.response.data.message, { variant: 'error' });
     })
   };
 

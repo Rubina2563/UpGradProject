@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 //import { backend_url } from "../../server";
 import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
-import Wishlist from "../Wishlist/Wishlist";
+
 import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ heading }) => {

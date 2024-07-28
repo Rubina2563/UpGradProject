@@ -6,9 +6,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllOrdersOfShop } from "../../redux/actions/order";
 import { server } from "../../server";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 
 const OrderDetails = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const { orders, isLoading } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
   const dispatch = useDispatch();
@@ -33,11 +34,13 @@ const OrderDetails = () => {
         { withCredentials: true }
       )
       .then((res) => {
-        toast.success("Order updated!");
+        enqueueSnackbar("order updated", { variant: 'success' });
+        enqueueSnackbar("order updated!", { variant: 'success' });
         navigate("/dashboard-orders");
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+        
+         enqueueSnackbar(error.response.data.message, { variant: 'error' });
       });
   };
 
@@ -51,11 +54,12 @@ const OrderDetails = () => {
       { withCredentials: true }
     )
     .then((res) => {
-      toast.success("Order updated!");
+       enqueueSnackbar("order updated", { variant: 'success' });
       dispatch(getAllOrdersOfShop(seller._id));
     })
     .catch((error) => {
-      toast.error(error.response.data.message);
+      
+       enqueueSnackbar(error.response.data.message, { variant: 'error' });
     });
   }
 

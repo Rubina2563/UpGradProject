@@ -2,7 +2,7 @@ import React from "react";
 import Footer from "../Components/Layout/Footer";
 import Header from "../Components/Layout/Header";
 import Lottie from "react-lottie";
-import animationData from "../Assests/Animations/success.json";
+import animationData from "../Assets/Animations/success.json";
 
 const OrderSuccessPage = () => {
   return (

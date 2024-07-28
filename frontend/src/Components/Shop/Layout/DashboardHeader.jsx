@@ -6,7 +6,7 @@ import { FiPackage, FiShoppingBag } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BiMessageSquareDetail } from "react-icons/bi";
-import shopPlusPlusImage from '../../Static/ShopPlusPlus.svg';
+import shopPlusPlusImage from '../../../Static/ShopPlusPlus.svg';
 
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);

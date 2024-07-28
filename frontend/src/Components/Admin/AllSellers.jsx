@@ -7,11 +7,12 @@ import { Button } from "@material-ui/core";
 import { RxCross1 } from "react-icons/rx";
 import axios from "axios";
 import { server } from "../../server";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 import { getAllSellers } from "../../redux/actions/sellers";
 import { Link } from "react-router-dom";
 
 const AllSellers = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { sellers } = useSelector((state) => state.seller);
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ const AllSellers = () => {
     await axios
     .delete(`${server}/shop/delete-seller/${id}`, { withCredentials: true })
     .then((res) => {
-      toast.success(res.data.message);
+      enqueueSnackbar(res.data.message, { variant: 'success' });
     });
 
   dispatch(getAllSellers());

@@ -9,9 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Loader from "../Layout/Loader";
 import { server } from "../../server";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 
 const AllCoupons = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -42,7 +43,7 @@ const AllCoupons = () => {
 
   const handleDelete = async (id) => {
     axios.delete(`${server}/coupon/delete-coupon/${id}`,{withCredentials: true}).then((res) => {
-      toast.success("Coupon code deleted succesfully!")
+      enqueueSnackbar("coupob code deleted", { variant: 'success' });
     })
     window.location.reload();
   };
@@ -64,12 +65,13 @@ const AllCoupons = () => {
         { withCredentials: true }
       )
       .then((res) => {
-       toast.success("Coupon code created successfully!");
+       enqueueSnackbar("code created successfully", { variant: 'success' });
        setOpen(false);
        window.location.reload();
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+       
+        enqueueSnackbar(error.response.data.message, { variant: 'error' });
       });
   };
 

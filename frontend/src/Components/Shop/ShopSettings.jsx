@@ -5,9 +5,10 @@ import {  server } from "../../server";
 import { AiOutlineCamera } from "react-icons/ai";
 import axios from "axios";
 import { loadSeller } from "../../redux/actions/user";
-import { toast } from "react-toastify";
+import { useSnackbar } from 'notistack';
 
 const ShopSettings = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const { seller } = useSelector((state) => state.seller);
   const [avatar, setAvatar] = useState();
   const [name, setName] = useState(seller && seller.name);
@@ -36,10 +37,12 @@ const ShopSettings = () => {
           )
           .then((res) => {
             dispatch(loadSeller());
-            toast.success("Avatar updated successfully!");
+            
+            enqueueSnackbar("Avatar updated successfully!", { variant: 'success' });
           })
           .catch((error) => {
-            toast.error(error.response.data.message);
+            
+            enqueueSnackbar(error.response.data.message, { variant: 'error' });
           });
       }
     };
@@ -63,11 +66,12 @@ const ShopSettings = () => {
         { withCredentials: true }
       )
       .then((res) => {
-        toast.success("Shop info updated succesfully!");
+          enqueueSnackbar("shop info updated", { variant: 'success' });
         dispatch(loadSeller());
       })
       .catch((error) => {
-        toast.error(error.response.data.message);
+       
+         enqueueSnackbar(error.response.data.message, { variant: 'error' });
       });
   };
 

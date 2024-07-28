@@ -6,7 +6,6 @@ import {
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { server } from "../../server";
-//import styles from "../../styles/styles";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -14,7 +13,7 @@ import { MdTrackChanges } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
 import {
   deleteUserAddress,
-  loadUser,
+  userLoading,
   updatUserAddress,
   updateUserInformation,
 } from "../../redux/actions/user";
@@ -34,24 +33,21 @@ const ProfileContent = ({ active }) => {
   const [avatar, setAvatar] = useState(null);
   const dispatch = useDispatch();
 
-  useEffect(() => {
+    useEffect(() => {
     if (error) {
-         // Extracting the error message from the response
-    const errorMessage = err.response?.data?.message || "An error occurred";
+      // Extracting the error message from the response
+      const errorMessage = error.response?.data?.message || "An error occurred";
 
-    // Using enqueueSnackbar to show the error message
-    enqueueSnackbar(errorMessage, { variant: 'error' });
+      // Using enqueueSnackbar to show the error message
+      enqueueSnackbar(errorMessage, { variant: 'error' });
       dispatch({ type: "clearErrors" });
     }
     if (successMessage) {
-       // Extracting the success message from the response
-    const successMessage = res.data?.message || "Operation successful";
-
-    // Using enqueueSnackbar to show the success message
-    enqueueSnackbar(successMessage, { variant: 'success' });
+      // Using enqueueSnackbar to show the success message
+      enqueueSnackbar(successMessage, { variant: 'success' });
       dispatch({ type: "clearMessages" });
     }
-  }, [error, successMessage]);
+  }, [error, successMessage, enqueueSnackbar, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,7 +69,7 @@ const ProfileContent = ({ active }) => {
             }
           )
           .then((response) => {
-            dispatch(loadUser());
+            dispatch(userLoading());
            enqueueSnackbar("avatar updated successfully", { variant: 'success' });
           })
           .catch((error) => {
@@ -472,6 +468,7 @@ const TrackOrder = () => {
 };
 
 const ChangePassword = () => {
+   const { enqueueSnackbar } = useSnackbar();
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -557,6 +554,7 @@ const ChangePassword = () => {
 };
 
 const Address = () => {
+   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
   const [country, setCountry] = useState("");
   const [city, setCity] = useState("");
@@ -580,9 +578,11 @@ const Address = () => {
   ];
 
   const handleSubmit = async (e) => {
+    
     e.preventDefault();
 
     if (addressType === "" || country === "" || city === "") {
+      
       enqueueSnackbar("Please fill all the fields", { variant: 'error' });
     } else {
       dispatch(

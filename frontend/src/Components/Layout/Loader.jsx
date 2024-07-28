@@ -1,7 +1,7 @@
 //corrected
 import React from "react";
 import Lottie from "react-lottie";
-import animationData from "../../Assests/Animations/ecommerce-animation.json";
+import animationData from "../../Assets/Animations/ecommerce-animation.json";
 
 const Loader = () => {
   const defaultOptions = {
