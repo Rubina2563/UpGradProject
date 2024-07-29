@@ -5,7 +5,7 @@ import Categories from "../Components/Route/Categories/Categories";
 import BestDeals from "../Components/Route/BestDeals/BestDeals";
 import FeatureProduct from "../Components/Route/FeatureProduct/FeatureProduct";
 import Events from "../Components/Events/Events.jsx";
-import Sponsored from "../Components/Route/Sponsored.jsx";
+
 import Footer from "../Components/Layout/Footer"
 const HomePage = () => {
     return (<div>
@@ -15,7 +15,7 @@ const HomePage = () => {
       <BestDeals />
       <Events/>
       <FeatureProduct />
-      <Sponsored />
+      
       <Footer/>
       </div>
   )

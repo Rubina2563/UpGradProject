@@ -11,7 +11,7 @@ const SignUpPage = () => {
     if(isAuthenticated === true){
       navigate("/");
     }
-  }, [])
+  },  [isAuthenticated, navigate])
   return (
    <SignUp/>
   )

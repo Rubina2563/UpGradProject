@@ -6,12 +6,14 @@ import { addTocart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 
 const EventCard = ({ active, data }) => {
-    const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
- if (!data) {
+
+  if (!data) {
     return null; // Return null if data is not available
   }
+
   const addToCartHandler = (data) => {
     const isItemExists = cart && cart.find((i) => i._id === data._id);
     if (isItemExists) {
@@ -25,18 +27,15 @@ const EventCard = ({ active, data }) => {
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }
-  }
+  };
+
   return (
-    <div
-      className={`w-full block bg-white rounded-lg ${
-        active ? "unset" : "mb-12"
-      } lg:flex p-2`}
-    >
-      <div className="w-full lg:-w[50%] m-auto">
+    <div className={`w-full block bg-white rounded-lg ${active ? "unset" : "mb-12"} lg:flex p-2`}>
+      <div className="w-full lg:w-[50%] m-auto">
         <img src={`${data.images[0]?.url}`} alt="" />
       </div>
-      <div className="w-full lg:[w-50%] flex flex-col justify-center">
-        <h2 className={`text-[25px] font-[600] font-Roboto text-[#333]`}>{data.name}</h2>
+      <div className="w-full lg:w-[50%] flex flex-col justify-center">
+        <h2 className="text-[25px] font-[600] font-Roboto text-[#333]">{data.name}</h2>
         <p>{data.description}</p>
         <div className="flex py-2 justify-between">
           <div className="flex">
@@ -55,9 +54,9 @@ const EventCard = ({ active, data }) => {
         <br />
         <div className="flex items-center">
           <Link to={`/product/${data._id}?isEvent=true`}>
-            <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]`}>See Details</div>
+            <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]">See Details</div>
           </Link>
-          <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] ml-5`} onClick={() => addToCartHandler(data)}>Add to cart</div>
+          <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] ml-5" onClick={() => addToCartHandler(data)}>Add to cart</div>
         </div>
       </div>
     </div>
