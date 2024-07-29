@@ -9,7 +9,9 @@ const EventCard = ({ active, data }) => {
     const { enqueueSnackbar } = useSnackbar();
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-
+ if (!data) {
+    return null; // Return null if data is not available
+  }
   const addToCartHandler = (data) => {
     const isItemExists = cart && cart.find((i) => i._id === data._id);
     if (isItemExists) {

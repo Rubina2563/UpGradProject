@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import EventCard from "./EventCard";
 
 const Events = () => {
-  const {allEvents,isLoading} = useSelector((state) => state.events);  
+  const { allEvents, isLoading } = useSelector((state) => state.events);  
+  console.log(allEvents)
    
   return (
     <div>
