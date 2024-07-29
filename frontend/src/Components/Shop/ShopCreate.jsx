@@ -48,7 +48,7 @@ const ShopCreate = () => {
       })
       .catch((error) => {
        // Extracting the error message from the response
-    const errorMessage = err.response?.data?.message || "An error occurred";
+    const errorMessage = error.response?.data?.message || "An error occurred";
 
     // Using enqueueSnackbar to show the error message
     enqueueSnackbar(errorMessage, { variant: 'error' });

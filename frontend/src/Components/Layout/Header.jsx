@@ -76,7 +76,7 @@ const Header = ({ heading }) => {
               placeholder="Search Product..."
               value={searchTerm}
               onChange={handleSearchChange}
-              className="h-[40px] w-full px-2 border-[#3957db] border-[2px] rounded-md"
+              className="h-[40px] w-full px-2 border-[#39c3db] border-[2px] rounded-md"
             />
             <AiOutlineSearch
               size={30}
@@ -106,7 +106,7 @@ const Header = ({ heading }) => {
           <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer`}>
             <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
               <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Go Dashboard" : "Become Seller"}{" "}
+                {isSeller ? "Go Dashboard" : "Seller ?"}{" "}
                 <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
@@ -116,7 +116,7 @@ const Header = ({ heading }) => {
       <div
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden md:flex items-center justify-between w-full bg-[#3321c8] h-[70px]`}
+        } transition hidden md:flex items-center justify-between w-full bg-[#19525d]  h-[70px]`}
       >
         <div
           className={`w-11/12 mx-auto relative flex items-center justify-between`}
@@ -311,7 +311,7 @@ const Header = ({ heading }) => {
               <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center  cursor-pointer ml-4 !rounded-[4px]`}>
                 <Link to="/shop-create">
                   <h1 className="text-[#fff] flex items-center">
-                    Become Seller <IoIosArrowForward className="ml-1" />
+                   Seller ? <IoIosArrowForward className="ml-1" />
                   </h1>
                 </Link>
               </div>

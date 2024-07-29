@@ -1,5 +1,6 @@
 //corrected
 import React from "react";
+import ShopPlusPusLogo from "../../Static/ShopPlusPlus.svg"
 import {
   AiFillFacebook,
   AiFillInstagram,
@@ -12,12 +13,12 @@ import {
   footerProductLinks,
   footerSupportLinks,
 } from "../../Static/data";
-import shopPlusPlusImage from '../../Static/ShopPlusPlus.svg';
+
 
 const Footer = () => {
   return (
     <div className="bg-[#000] text-white">
-      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#342ac8] py-7">
+      <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#19525d] py-7">
         <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold md:w-2/5">
           <span className="text-[#56d879]">Subscribe</span> us for get news{" "}
           <br />
@@ -38,11 +39,19 @@ const Footer = () => {
       </div>
       <div className="grid grid-cols-1 sm:gird-cols-3 lg:grid-cols-4 gap-6 sm:px-8 px-5 py-16 sm:text-center">
         <ul className="px-5 text-center sm:text-start flex sm:block flex-col items-center">
-          <img
-            src={shopPlusPlusImage}
-            alt=""
-            style={{ filter: "brightness(0) invert(1)" }}
-          />
+            <div>
+          <Link to="/">
+              <img
+                 style={{ width: '190px', height: '30px',}}
+                src={ShopPlusPusLogo}
+                alt=""
+              />
+              
+            </Link>
+                   <h2 className="font-bold text-3xl text-red-500">
+  ShopPlusPlus
+</h2>
+          </div>
           <br />
           <p>Your one shop for everything thing.</p>
           <div className="flex items-center mt-[15px]">

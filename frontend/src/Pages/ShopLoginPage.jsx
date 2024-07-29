@@ -13,7 +13,7 @@ const ShopLoginPage = () => {
     }
   }, [isLoading,isSeller])
   return (
-    <div>
+    <div >
         <ShopLogin />
     </div>
   )
