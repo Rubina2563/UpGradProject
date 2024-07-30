@@ -40,105 +40,107 @@ const ShopLogin = () => {
       });
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+   return (
+    <div className='flex items-center justify-center h-screen bg-blue-100'>
+
+      <div className='flex flex-col gap-2 items-center  h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
+        
+        <h2 className='h-auto p-3 text-center text-orange-800 sm:text-2xl md:text-3xl lg:text-4xl font-extrabold'>
           Login to your shop
         </h2>
-      </div>
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <div>
+
+        <div className='lg:w-2/3 md:w-full sm:w-full h-full'>
+          
+          <form className='flex flex-col p-4 gap-3' onSubmit={handleSubmit}>
+
+            <div className='flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
-                htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Email address
+                htmlFor='email'
+                className='block md:text-lg lg:text-2xl font-medium  '>
+                Email Address
               </label>
-              <div className="mt-1">
-                <input
-                  type="email"
-                  name="email"
-                  autoComplete="email"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-                />
-              </div>
+              <input
+                type='email'
+                name='email'
+                autoComplete='email'
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className='block text-xl font-medium lg:w-3/4 md:w-full sm:w-full h-8 shadow-xl rounded'
+              />
             </div>
-            <div>
+
+            <div className='relative flex flex-col p-4 gap-2 h-auto bg-slate-400 w-full m-1 shadow-slate-600 shadow-lg rounded-2xl'>
               <label
-                htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
-              >
+                htmlFor='password'
+                className='block md:text-lg lg:text-2xl font-medium '>
                 Password
               </label>
-              <div className="mt-1 relative">
+              <div className='relative w-full lg:w-3/4 md:w-full sm:w-full'>
                 <input
                   type={visible ? "text" : "password"}
-                  name="password"
-                  autoComplete="current-password"
+                  name='password'
+                  autoComplete='password'
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  className='block text-xl font-medium w-full h-8 shadow-xl rounded pr-10'
                 />
                 {visible ? (
                   <AiOutlineEye
-                    className="absolute right-2 top-2 cursor-pointer"
+                    className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer'
                     size={25}
                     onClick={() => setVisible(false)}
                   />
                 ) : (
                   <AiOutlineEyeInvisible
-                    className="absolute right-2 top-2 cursor-pointer"
+                    className='absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer'
                     size={25}
                     onClick={() => setVisible(true)}
                   />
                 )}
               </div>
             </div>
-            <div className={`flex items-center justify-between`}>
-              <div className={`flex items-center`}>
-                <input
-                  type="checkbox"
-                  name="remember-me"
-                  id="remember-me"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label
-                  htmlFor="remember-me"
-                  className="ml-2 block text-sm text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-              <div className="text-sm">
-                <a
-                  href=".forgot-password"
-                  className="font-medium text-blue-600 hover:text-blue-500"
-                >
-                  Forgot your password?
-                </a>
-              </div>
+
+            <div className='flex justify-between p-3 bg-slate-200 rounded-lg'>
+              <input
+                type='checkbox'
+                name='remember me'
+                id='remember me'
+                className='w-5 h-5 '
+              />
+              <label
+                htmlFor='remember-me'
+                className='text-xl font-medium text-blue-600'>
+                Remember me
+              </label>
             </div>
-            <div>
-              <button
-                type="submit"
-                className="group relative w-full h-[40px] flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-              >
+
+            <div className='text-sm text-center'>
+              <a
+                href='.forgot-password'
+                className='font-medium text-xl  text-blue-900 hover:text-blue-500'>
+                Forgot your password?
+              </a>
+            </div>
+
+            <div className='space-y-6'>
+              <button className='bg-slate-600 rounded-md text-white sm:text-xl p-3 lg:text-2xl w-full hover:bg-slate-400'>
                 Submit
               </button>
             </div>
-            <div className={`flex items-center w-full`}>
-              <h4>Not have any account?</h4>
-              <Link to="/shop-create" className="text-blue-600 pl-2">
+
+            <div className='flex justify-between p-3'>
+              <h2 className='sm:text-base text-red-500 font-semibold lg:text-xl'>
+                Don't have an account ?
+              </h2>{" "}
+              <Link
+                to='/sign-up'
+                className='text-blue-800 pl-2 font-semibold sm:text-base lg:text-xl hover:text-blue-500'>
                 Sign Up
               </Link>
             </div>
+
           </form>
         </div>
       </div>
