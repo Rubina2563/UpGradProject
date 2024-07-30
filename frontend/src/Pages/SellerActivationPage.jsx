@@ -34,6 +34,7 @@ const SellerActivationPage = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        color:"black"
       }}
     >
       {error ? (

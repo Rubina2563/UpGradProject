@@ -22,7 +22,7 @@ const shopSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please enter your password"],
-    minLength: [6, "Password should be greater than 6 characters"],
+    minLength: [4, "Password should be greater than 4 characters"],
     select: false,
   },
   description: {
@@ -105,8 +105,8 @@ shopSchema.methods.getJwtToken = function () {
 
 // compare password
 shopSchema.methods.comparePassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  return await bcrypt.compare(enteredPassword, this.password); 
 };
 
-const Shop = mongoose.model("Shop", shopSchema);
+const Shop = mongoose.model("Shop", shopSchema );
 export default Shop;

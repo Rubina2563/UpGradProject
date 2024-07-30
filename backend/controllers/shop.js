@@ -1,6 +1,6 @@
 // Import required modules
 import express from "express";
-import path from "path";
+import { dirname } from "path";
 import { fileURLToPath } from "url";
 import jwt from "jsonwebtoken";
 import cloudinary from "cloudinary";
@@ -12,19 +12,14 @@ import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import sendShopToken from "../utils/shopToken.js";
 
-// Resolve the directory name of the current module
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Load environment variables
+dotenv.config();
 
-// Configure dotenv to load environment variables from .env file
-dotenv.config({ path: path.join(__dirname, "../.env") });
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Configure cloudinary using environment variables
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+
 
 const router = express.Router();
 
@@ -58,7 +53,7 @@ router.post(
 
       const activationToken = createActivationToken(seller);
       const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
-
+console.log(activationUrl)
       try {
         await sendMail({
           email: seller.email,
@@ -81,7 +76,7 @@ router.post(
 // Create activation token
 const createActivationToken = (seller) => {
   return jwt.sign(seller, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
+    expiresIn: "20m",
   });
 };
 
@@ -99,10 +94,13 @@ router.post(
       if (!newSeller) {
         return next(new ErrorHandler("Invalid token", 400));
       }
-      const { name, email, password, avatar, zipCode, address, phoneNumber } =
-        newSeller;
+
+      const { name, email, password, avatar, zipCode, address, phoneNumber } = newSeller;
+
+      console.log(newSeller);
 
       let seller = await Shop.findOne({ email });
+      console.log(seller)
 
       if (seller) {
         return next(new ErrorHandler("User already exists", 400));
@@ -117,9 +115,11 @@ router.post(
         address,
         phoneNumber,
       });
-
+      
+console.log(seller)
       sendShopToken(seller, 201, res);
     } catch (error) {
+      console.log(error);
       return next(new ErrorHandler(error.message, 500));
     }
   })
