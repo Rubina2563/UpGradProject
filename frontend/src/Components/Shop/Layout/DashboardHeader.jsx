@@ -5,7 +5,7 @@ import { MdOutlineLocalOffer } from "react-icons/md";
 import { FiPackage, FiShoppingBag } from "react-icons/fi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { BiMessageSquareDetail } from "react-icons/bi";
+
 import shopPlusPlusImage from '../../../Static/ShopPlusPlus.svg';
 
 const DashboardHeader = () => {
@@ -46,13 +46,7 @@ const DashboardHeader = () => {
           <Link to="/dashboard-orders" className="md:block hidden">
             <FiPackage color="#555" size={30} className="mx-5 cursor-pointer" />
           </Link>
-          <Link to="/dashboard-messages" className="md:block hidden">
-            <BiMessageSquareDetail
-              color="#555"
-              size={30}
-              className="mx-5 cursor-pointer"
-            />
-          </Link>
+         
           <Link to={`/shop/${seller._id}`}>
             <img
               src={`${seller.avatar?.url}`}
