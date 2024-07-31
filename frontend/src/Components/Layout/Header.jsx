@@ -54,7 +54,7 @@ const Header = ({ heading }) => {
   return (
     <>
       <div className={`w-11/12 mx-auto`}>
-        <div className="hidden md:h-[50px] md:my-[20px] md:flex items-center justify-between">
+        <div className="hidden md:h-[50px] md:my-[20px] lg:flex items-center justify-between">
           <div>
             <Link to="/">
               <img
@@ -106,7 +106,7 @@ const Header = ({ heading }) => {
           <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer`}>
             <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
               <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Go Dashboard" : "Seller ?"}{" "}
+                {isSeller ? "Your Shop" : "Shopkeeper ?"}{" "}
                 <IoIosArrowForward className="ml-1" />
               </h1>
             </Link>
@@ -116,7 +116,7 @@ const Header = ({ heading }) => {
       <div
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
-        } transition hidden md:flex items-center justify-between w-full bg-[#19525d]  h-[70px]`}
+        } transition hidden lg:flex items-center justify-between w-full bg-[#19525d]  h-[70px]`}
       >
         <div
           className={`w-11/12 mx-auto relative flex items-center justify-between`}
@@ -210,7 +210,7 @@ const Header = ({ heading }) => {
         className={`${
           active === true ? "shadow-sm fixed top-0 left-0 z-10" : null
         }
-      w-full h-[80px] bg-[#fff] z-50 top-0 left-0 shadow-sm md:hidden`}
+      w-full h-[80px] bg-[#fff] z-50 top-0 left-0 shadow-sm lg:hidden`}
       >
         <div className="w-full flex items-center p-2 justify-between">
           <div>
@@ -311,7 +311,8 @@ const Header = ({ heading }) => {
               <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center  cursor-pointer ml-4 !rounded-[4px]`}>
                 <Link to="/shop-create">
                   <h1 className="text-[#fff] flex items-center">
-                   Seller ? <IoIosArrowForward className="ml-1" />
+                    {isSeller ? "Your Shop" : "Shopkeeper ?"}{" "}
+                   <IoIosArrowForward className="ml-1" />
                   </h1>
                 </Link>
               </div>

@@ -20,9 +20,9 @@ const Footer = () => {
     <div className="bg-[#000] text-white">
       <div className="md:flex md:justify-between md:items-center sm:px-12 px-4 bg-[#19525d] py-7">
         <h1 className="lg:text-4xl text-3xl md:mb-0 mb-6 lg:leading-normal font-semibold md:w-2/5">
-          <span className="text-[#56d879]">Subscribe</span> us for get news{" "}
+          <span className="text-[#56d879]">Get offers and events details</span> 
           <br />
-          events and offers
+          directly on your mail...
         </h1>
         <div>
           <input
@@ -53,7 +53,7 @@ const Footer = () => {
 </h2>
           </div>
           <br />
-          <p>Your one shop for everything thing.</p>
+          <p>Your one shop for everything.</p>
           <div className="flex items-center mt-[15px]">
             <AiFillFacebook size={25} className="cursor-pointer" />
             <AiOutlineTwitter
