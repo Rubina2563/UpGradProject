@@ -14,6 +14,7 @@ module.exports = {
         lg: "1050px", // Large screens (small laptops)
         xl: "1110px", // Extra large screens (large laptops/desktops)
         "2xl": "1300px", // Double extra large screens (large desktops)
+        "3xl": "1450px",
       },
     },
   },

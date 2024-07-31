@@ -66,7 +66,7 @@ const Faq = () => {
 
   return (
     <div className="container mx-auto my-8 p-4">
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">FAQ</h2>
+      <h2 className="text-3xl font-bold text-yellow-900  mb-8">FAQ</h2>
       <div className="mx-auto space-y-4">
         {faqData.map((faq, index) => (
           <div key={index} className="border-b border-gray-200 pb-4">
@@ -74,7 +74,7 @@ const Faq = () => {
               className="flex items-center justify-between w-full"
               onClick={() => toggleTab(index + 1)}
             >
-              <span className="text-lg font-medium text-gray-900">
+              <span className="text-lg font-bold text-yellow-900 ">
                 {faq.question}
               </span>
               {activeTab === index + 1 ? (
@@ -109,7 +109,7 @@ const Faq = () => {
             </button>
             {activeTab === index + 1 && (
               <div className="mt-4">
-                <p className="text-base text-gray-500">{faq.answer}</p>
+                <p className="text-base font-semibold text-yellow-900 ">{faq.answer}</p>
               </div>
             )}
           </div>
