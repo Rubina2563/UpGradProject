@@ -97,7 +97,7 @@ const ProfileContent = ({ active }) => {
                 className="w-[150px] h-[150px] rounded-full object-cover border-[3px] border-[#3ad132]"
                 alt=""
               />
-              <div className="w-[30px] h-[30px] bg-[#E3E9EE] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
+              <div className="w-[30px] h-[30px] bg-[rgb(195,216,234)] rounded-full flex items-center justify-center cursor-pointer absolute bottom-[5px] right-[5px]">
                 <input
                   type="file"
                   id="image"
@@ -114,22 +114,22 @@ const ProfileContent = ({ active }) => {
           <br />
           <div className="w-full px-5">
             <form onSubmit={handleSubmit} aria-required={true}>
-              <div className="w-full 800px:flex block pb-3">
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Full Name</label>
+              <div className="w-full md:flex block pb-3">
+                <div className=" w-[100%] md:w-[50%]">
+                  <label className="block pb-2 font-medium">Full Name</label>
                   <input
                     type="text"
-                    className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+                    className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Email Address</label>
+                <div className=" w-[100%] md:w-[50%]">
+                  <label className="block pb-2 font-medium">Email Address</label>
                   <input
                     type="text"
-                    className={`border p-1 rounded-[5px] !w-[95%] mb-1 800px:mb-0`}
+                    className={`border p-1 rounded-[5px] !w-[95%] mb-1 md:mb-0`}
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
@@ -137,23 +137,23 @@ const ProfileContent = ({ active }) => {
                 </div>
               </div>
 
-              <div className="w-full 800px:flex block pb-3">
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Phone Number</label>
+              <div className="w-full md:flex block pb-3">
+                <div className=" w-[100%] md:w-[50%]">
+                  <label className="block pb-2 font-medium">Phone Number</label>
                   <input
                     type="number"
-                    className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+                    className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
                     required
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
 
-                <div className=" w-[100%] 800px:w-[50%]">
-                  <label className="block pb-2">Enter your password</label>
+                <div className=" w-[100%] md:w-[50%]">
+                  <label className="block pb-2 font-medium">Enter your password</label>
                   <input
                     type="password"
-                    className={` border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+                    className={` border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -161,7 +161,7 @@ const ProfileContent = ({ active }) => {
                 </div>
               </div>
               <input
-                className={`w-[250px] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
+                className={`w-[150px] sm:w-[200px] h-[40px] border border-[#d93788] text-center text-[#d93788] font-semibold bg-white rounded-[3px] mt-8 cursor-pointer`}
                 required
                 value="Update"
                 type="submit"
@@ -502,7 +502,7 @@ const ChangePassword = () => {
   };
   return (
     <div className="w-full px-5">
-      <h1 className="block text-[25px] text-center font-[600] text-[#000000ba] pb-2">
+      <h1 className="block text-[25px] text-center font-[600]  text-[#000000ba] pb-2">
         Change Password
       </h1>
       <div className="w-full">
@@ -511,37 +511,37 @@ const ChangePassword = () => {
           onSubmit={passwordChangeHandler}
           className="flex flex-col items-center"
         >
-          <div className=" w-[100%] 800px:w-[50%] mt-5">
+          <div className=" w-[100%] md:w-[50%]  font-medium mt-5">
             <label className="block pb-2">Enter your old password</label>
             <input
               type="password"
-              className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px] !w-[95%] font-medium mb-4 md:mb-0`}
               required
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
             />
           </div>
-          <div className=" w-[100%] 800px:w-[50%] mt-2">
+          <div className=" w-[100%] md:w-[50%] font-medium mt-2">
             <label className="block pb-2">Enter your new password</label>
             <input
               type="password"
-              className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
               required
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
           </div>
-          <div className=" w-[100%] 800px:w-[50%] mt-2">
+          <div className=" w-[100%] md:w-[50%] font-medium mt-2">
             <label className="block pb-2">Enter your confirm password</label>
             <input
               type="password"
-              className={`border p-1 rounded-[5px]} !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px]} !w-[95%] mb-4 md:mb-0`}
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
             <input
-              className={`w-[95%] h-[40px] border border-[#3a24db] text-center text-[#3a24db] rounded-[3px] mt-8 cursor-pointer`}
+              className={`w-[150px] sm:w-[200px] h-[40px] border border-[#d93788] text-center text-[#d93788] font-semibold bg-white rounded-[3px] mt-8 cursor-pointer`}
               required
               value="Update"
               type="submit"
@@ -764,19 +764,19 @@ const Address = () => {
       {user &&
         user.addresses.map((item, index) => (
           <div
-            className="w-full bg-white h-min 800px:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
+            className="w-full bg-white h-min md:h-[70px] rounded-[4px] flex items-center px-3 shadow justify-between pr-10 mb-5"
             key={index}
           >
             <div className="flex items-center">
               <h5 className="pl-5 font-[600]">{item.addressType}</h5>
             </div>
             <div className="pl-8 flex items-center">
-              <h6 className="text-[12px] 800px:text-[unset]">
+              <h6 className="text-[12px] md:text-[unset]">
                 {item.address1} {item.address2}
               </h6>
             </div>
             <div className="pl-8 flex items-center">
-              <h6 className="text-[12px] 800px:text-[unset]">
+              <h6 className="text-[12px] md:text-[unset]">
                 {user && user.phoneNumber}
               </h6>
             </div>
