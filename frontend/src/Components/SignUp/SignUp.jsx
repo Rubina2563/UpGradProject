@@ -48,8 +48,8 @@ const SignUp = () => {
 
 
   return (
-    <div className='flex items-center justify-center h-screen bg-blue-100'>
-      <div className='flex flex-col gap-2 items-center  h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
+    <div className='flex items-center justify-center h-screen '>
+      <div className='flex flex-col gap-2 items-center sm:w-[90%] md:w-[70%] lg:w-2/3 h-auto   bg-slate-300 shadow-2xl rounded-3xl'>
         <h2 className='h-auto p-3 text-orange-800 text-center sm:text-2xl md:text-3xl lg:text-4xl font-extrabold'>
           SignUp Account
         </h2>
