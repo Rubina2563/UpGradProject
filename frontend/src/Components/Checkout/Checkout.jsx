@@ -75,7 +75,8 @@ const Checkout = () => {
           cart && cart.filter((item) => item.shopId === shopId);
 
         if (isCouponValid.length === 0) {
-          toast.error("Coupon code is not valid for this shop");
+          
+          enqueueSnackbar("Coupon code is not valid for this shop", { variant: 'error' });
           setCouponCode("");
         } else {
           const eligiblePrice = isCouponValid.reduce(
@@ -89,7 +90,8 @@ const Checkout = () => {
         }
       }
       if (res.data.couponCode === null) {
-        toast.error("Coupon code doesn't exists!");
+        
+        enqueueSnackbar("Coupon code doesn't exists!", { variant: 'error' });
         setCouponCode("");
       }
     });

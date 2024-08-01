@@ -8,6 +8,7 @@ import { RxCross1 } from "react-icons/rx";
 import { useSnackbar } from 'notistack';
 
 const AllWithdraw = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const [data, setData] = useState([]);
   const [open, setOpen] = useState(false);
   const [withdrawData, setWithdrawData] = useState();

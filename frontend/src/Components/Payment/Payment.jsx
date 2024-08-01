@@ -125,7 +125,8 @@ const Payment = () => {
       });
 
       if (result.error) {
-        toast.error(result.error.message);
+        
+         enqueueSnackbar(result.error.message, { variant: 'error' });
       } else {
         if (result.paymentIntent.status === "succeeded") {
           order.paymnentInfo = {
@@ -147,7 +148,8 @@ const Payment = () => {
         }
       }
     } catch (error) {
-      toast.error(error);
+     enqueueSnackbar(error.message, { variant: 'error' });
+    
     }
   };
 

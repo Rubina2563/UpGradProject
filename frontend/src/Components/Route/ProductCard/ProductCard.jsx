@@ -20,7 +20,8 @@ import { addTocart } from "../../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "../../Products/Ratings";
 
-const ProductCard = ({ data,isEvent }) => {
+const ProductCard = ({ data, isEvent }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
   const [click, setClick] = useState(false);

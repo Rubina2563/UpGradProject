@@ -77,7 +77,7 @@ const ShopSettings = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col items-center">
-      <div className="flex w-full 800px:w-[80%] flex-col justify-center my-5">
+      <div className="flex w-full md:w-[80%] flex-col justify-center my-5">
         <div className="w-full flex items-center justify-center">
           <div className="relative">
             <img
@@ -105,22 +105,22 @@ const ShopSettings = () => {
           className="flex flex-col items-center"
           onSubmit={updateHandler}
         >
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-[100%] flex items-center flex-col md:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
-              <label className="block pb-2">Shop Name</label>
+              <label className="block pb-2 font-semibold">Shop Name</label>
             </div>
             <input
               type="name"
               placeholder={`${seller.name}`}
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
               required
             />
           </div>
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-[100%] flex items-center flex-col md:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
-              <label className="block pb-2">Shop description</label>
+              <label className="block pb-2 font-semibold">Shop description</label>
             </div>
             <input
               type="name"
@@ -131,56 +131,56 @@ const ShopSettings = () => {
               }`}
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
             />
           </div>
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-[100%] flex items-center flex-col md:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
-              <label className="block pb-2">Shop Address</label>
+              <label className="block pb-2 font-semibold">Shop Address</label>
             </div>
             <input
               type="name"
               placeholder={seller?.address}
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
               required
             />
           </div>
 
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-[100%] flex items-center flex-col md:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
-              <label className="block pb-2">Shop Phone Number</label>
+              <label className="block pb-2 font-semibold">Shop Phone Number</label>
             </div>
             <input
               type="number"
               placeholder={seller?.phoneNumber}
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
-              className={`border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={`border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
               required
             />
           </div>
 
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-[100%] flex items-center flex-col md:w-[50%] mt-5">
             <div className="w-full pl-[3%]">
-              <label className="block pb-2">Shop Zip Code</label>
+              <label className="block pb-2 font-semibold">Shop Zip Code</label>
             </div>
             <input
               type="number"
               placeholder={seller?.zipCode}
               value={zipCode}
               onChange={(e) => setZipcode(e.target.value)}
-              className={` border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={` border p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
               required
             />
           </div>
 
-          <div className="w-[100%] flex items-center flex-col 800px:w-[50%] mt-5">
+          <div className="w-[100%] flex items-center flex-col md:w-[50%] mt-5">
             <input
               type="submit"
               value="Update Shop"
-              className={` border p-1 rounded-[5px] !w-[95%] mb-4 800px:mb-0`}
+              className={` border bg-white text-red-700 font-semibold p-1 rounded-[5px] !w-[95%] mb-4 md:mb-0`}
               required
               readOnly
             />
