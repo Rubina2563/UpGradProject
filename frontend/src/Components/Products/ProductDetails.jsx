@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import {
   AiFillHeart,
   AiOutlineHeart,
-  AiOutlineMessage,
+ 
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProductsShop } from "../../redux/actions/product";
-import { server } from "../../server";
+
 import {
   addToWishlist,
   removeFromWishlist,
@@ -16,7 +16,7 @@ import {
 import { addTocart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "./Ratings";
-import axios from "axios";
+
 
 const ProductDetails = ({ data }) => {
      const { enqueueSnackbar } = useSnackbar();
@@ -90,39 +90,15 @@ const ProductDetails = ({ data }) => {
   const averageRating = avg.toFixed(2);
 
 
-  /*const handleMessageSubmit = async () => {
-    if (isAuthenticated) {
-      const groupTitle = data._id + user._id;
-      const userId = user._id;
-      const sellerId = data.shop._id;
-      await axios
-        .post(`${server}/conversation/create-new-conversation`, {
-          groupTitle,
-          userId,
-          sellerId,
-        })
-        .then((res) => {
-          navigate(`/inbox?${res.data.conversation._id}`);
-        })
-        .catch((error) => {
-           // Extracting the error message from the response
-    const errorMessage = error.response?.data?.message || "An error occurred";
-
-    // Using enqueueSnackbar to show the error message
-    enqueueSnackbar(errorMessage, { variant: 'error' });
-        });
-    } else {
-      enqueueSnackbar("Please login to create a conversation", { variant: 'error' });
-    }
-  };*/
+ 
 
   return (
     <div className="bg-white">
       {data ? (
-        <div className={`mx-auto w-[90%] 800px:w-[80%]`}>
+        <div className={`mx-auto w-[90%] md:w-[80%]`}>
           <div className="w-full py-5">
-            <div className="block w-full 800px:flex">
-              <div className="w-full 800px:w-[50%]">
+            <div className="block w-full md:flex">
+              <div className="w-full md:w-[50%]">
                 <img
                   src={`${data && data.images[select]?.url}`}
                   alt=""
@@ -151,7 +127,7 @@ const ProductDetails = ({ data }) => {
                   ></div>
                 </div>
               </div>
-              <div className="w-full 800px:w-[50%] pt-5">
+              <div className="w-full md:w-[50%] pt-5">
                 <h1 className={`text-[25px] font-[600] font-Roboto text-[#333]`}>{data.name}</h1>
                 <p>{data.description}</p>
                 <div className="flex pt-3">
@@ -227,14 +203,7 @@ const ProductDetails = ({ data }) => {
                       ({averageRating}/5) Ratings
                     </h5>
                   </div>
-                  <div
-                    className={`w-[150px]  my-3 flex items-center justify-center  cursor-pointer bg-[#6443d1] mt-4 !rounded !h-11`}
-                    onClick={()=>{}}
-                  >
-                    <span className="text-white flex items-center">
-                      Send Message <AiOutlineMessage className="ml-1" />
-                    </span>
-                  </div>
+               
                 </div>
               </div>
             </div>
@@ -262,12 +231,12 @@ const ProductDetailsInfo = ({
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-[#f5f6fb] px-3 800px:px-10 py-2 rounded">
+    <div className="bg-[#f5f6fb] px-3 md:px-10 py-2 rounded">
       <div className="w-full flex justify-between border-b pt-10 pb-2">
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer md:text-[20px]"
             }
             onClick={() => setActive(1)}
           >
@@ -280,7 +249,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer md:text-[20px]"
             }
             onClick={() => setActive(2)}
           >
@@ -293,7 +262,7 @@ const ProductDetailsInfo = ({
         <div className="relative">
           <h5
             className={
-              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer 800px:text-[20px]"
+              "text-[#000] text-[18px] px-1 leading-5 font-[600] cursor-pointer md:text-[20px]"
             }
             onClick={() => setActive(3)}
           >
@@ -341,8 +310,8 @@ const ProductDetailsInfo = ({
       ) : null}
 
       {active === 3 && (
-        <div className="w-full block 800px:flex p-5">
-          <div className="w-full 800px:w-[50%]">
+        <div className="w-full block md:flex p-5">
+          <div className="w-full md:w-[50%]">
             <Link to={`/shop/preview/${data.shop._id}`}>
               <div className="flex items-center">
                 <img
@@ -360,7 +329,7 @@ const ProductDetailsInfo = ({
             </Link>
             <p className="pt-2">{data.shop.description}</p>
           </div>
-          <div className="w-full 800px:w-[50%] mt-5 800px:mt-0 800px:flex flex-col items-end">
+          <div className="w-full md:w-[50%] mt-5 md:mt-0 md:flex flex-col items-end">
             <div className="text-left">
               <h5 className="font-[600]">
                 Joined on:{" "}
