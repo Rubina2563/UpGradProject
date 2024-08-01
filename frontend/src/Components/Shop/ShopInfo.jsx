@@ -89,7 +89,7 @@ const ShopInfo = ({ isOwner }) => {
             <span className="text-white">Edit Shop</span>
           </div>
            </Link>
-          <div className={` bg-black  my-3 flex items-center justify-center  cursor-pointer !w-full !h-[42px] !rounded-[5px]`}
+          <div className={` bg-black  my-3 flex items-center justify-center  cursor-pointer !w-full !h-[42px] rounded-[5px]`}
           onClick={logoutHandler}
           >
             <span className="text-white">Log Out</span>

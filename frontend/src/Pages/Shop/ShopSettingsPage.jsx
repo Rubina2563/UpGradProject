@@ -9,11 +9,11 @@ const ShopSettingsPage = () => {
     <div>
       <DashboardHeader />
       <div className="flex items-start justify-between w-full">
-      
-        <ShopSettings />
-         <div className="w-[80px] md:w-[330px]">
+       <div className="w-[80px] md:w-[330px]">
           <DashboardSideBar active={11} />
         </div>
+        <ShopSettings />
+        
       </div>
     </div>
   );

@@ -60,7 +60,7 @@ const ShopProfileData = ({ isOwner }) => {
           {isOwner && (
             <div>
               <Link to="/dashboard">
-                <div className={`w-[150px] bg-black my-3 flex items-center justify-center cursor-pointer !rounded-[4px] h-[42px]`}>
+                <div className={`w-[150px] bg-black my-3 flex items-center justify-center cursor-pointer rounded-[4px] h-[42px]`}>
                   <span className="text-[#fff]">Go Dashboard</span>
                 </div>
               </Link>

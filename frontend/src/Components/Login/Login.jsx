@@ -33,9 +33,9 @@ const Login = () => {
     });
   };
   return (
-    <div className='flex items-center justify-center h-screen bg-blue-100'>
+    <div className='flex items-center justify-center h-screen '>
 
-      <div className='flex flex-col gap-2 items-center  h-auto  w-1/2 bg-slate-300 shadow-2xl rounded-3xl'>
+      <div className='flex flex-col gap-2 items-center  h-auto  sm:w-[80%] md:w-2/3 bg-slate-300 shadow-2xl rounded-3xl'>
         
         <h2 className='h-auto p-3 text-center text-orange-800 sm:text-2xl md:text-3xl lg:text-4xl font-extrabold'>
           Login your account
@@ -94,19 +94,7 @@ const Login = () => {
               </div>
             </div>
 
-            <div className='flex justify-between p-3 bg-slate-200 rounded-lg'>
-              <input
-                type='checkbox'
-                name='remember me'
-                id='remember me'
-                className='w-5 h-5 '
-              />
-              <label
-                htmlFor='remember-me'
-                className='text-xl font-medium text-blue-600'>
-                Remember me
-              </label>
-            </div>
+          
 
             <div className='text-sm text-center'>
               <a
