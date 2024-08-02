@@ -275,8 +275,8 @@ const AllOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
+        itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
+        total: "Rs " + item.totalPrice,
         status: item.status,
       });
     });
@@ -363,8 +363,8 @@ const AllRefundOrders = () => {
     eligibleOrders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.cart.length,
-        total: "US$ " + item.totalPrice,
+        itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
+        total: "Rs " + item.totalPrice,
         status: item.status,
       });
     });

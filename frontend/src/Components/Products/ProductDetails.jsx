@@ -132,10 +132,10 @@ const ProductDetails = ({ data }) => {
                 <p>{data.description}</p>
                 <div className="flex pt-3">
                   <h4 className={`font-bold text-[18px] text-[#333] font-Roboto`}>
-                    {data.discountPrice}$
+                    {data.discountPrice} Rs
                   </h4>
                   <h3 className={`font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
+                    {data.originalPrice ? data.originalPrice + " Rs" : null}
                   </h3>
                 </div>
 
