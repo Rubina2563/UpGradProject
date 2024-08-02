@@ -178,7 +178,7 @@ const ProductDetails = ({ data }) => {
                   </div>
                 </div>
                 <div
-                  className={`w-[150px] bg-black my-3  justify-center  cursor-pointer !mt-6 !rounded !h-11 flex items-center`}
+                  className={`w-[150px] bg-black my-3  justify-center  cursor-pointer mt-6 !rounded h-11 flex items-center`}
                   onClick={() => addToCartHandler(data._id)}
                 >
                   <span className="text-white flex items-center">
@@ -231,7 +231,7 @@ const ProductDetailsInfo = ({
   const [active, setActive] = useState(1);
 
   return (
-    <div className="bg-[#f5f6fb] px-3 md:px-10 py-2 rounded">
+    <div className="bg-[#fde7e7] px-3 md:px-10 py-2 rounded">
       <div className="w-full flex justify-between border-b pt-10 pb-2">
         <div className="relative">
           <h5
@@ -351,7 +351,7 @@ const ProductDetailsInfo = ({
                 <div
                   className={`w-[150px] bg-black  my-3 flex items-center justify-center  cursor-pointer !rounded-[4px] !h-[39.5px] mt-3`}
                 >
-                  <h4 className="text-white">Visit Shop</h4>
+                  <h4 className="text-white">Continue Shopping</h4>
                 </div>
               </Link>
             </div>

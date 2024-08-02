@@ -114,6 +114,9 @@ router.put(
         order.paymentInfo.status = "Succeeded";
         const serviceCharge = order.totalPrice * 0.1;
         await updateSellerInfo(order.totalPrice - serviceCharge);
+          order.cart.forEach(async (o) => {
+            await updateOrder(o._id, o.qty);
+          });
       }
 
       await order.save({ validateBeforeSave: false });

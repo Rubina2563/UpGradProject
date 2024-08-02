@@ -23,7 +23,7 @@ router.post(
         amount: req.body.amount,
         currency: "inr",
         metadata: {
-          company: "Becodemy",
+          company: "ShopPlusPlus",
         },
       });
       res.status(200).json({

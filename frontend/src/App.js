@@ -20,7 +20,6 @@ import {
   ShopLoginPage,
   OrderDetailsPage,
   TrackOrderPage,
- 
 } from "./Routes/Routes.js";
 
 import {
@@ -62,24 +61,38 @@ import { server } from "./server";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 
-
 const App = () => {
-   const [stripeApikey, setStripeApiKey] = useState("");
+  const [stripeApikey, setStripeApiKey] = useState("");
 
-   async function getStripeApikey() {
-     const { data } = await axios.get(`${server}/payment/stripeapikey`);
-     setStripeApiKey(data.stripeApikey);
-   }
-   useEffect(() => {
-     Store.dispatch(userLoading());
-     Store.dispatch(loadSeller());
-     Store.dispatch(getAllProducts());
-     Store.dispatch(getAllEvents());
-     getStripeApikey();
-   }, []);
+  async function getStripeApikey() {
+    const { data } = await axios.get(`${server}/payment/stripeapikey`);
+    setStripeApiKey(data.stripeApikey);
+  }
+
+  useEffect(() => {
+    Store.dispatch(userLoading());
+    Store.dispatch(loadSeller());
+    Store.dispatch(getAllProducts());
+    Store.dispatch(getAllEvents());
+    getStripeApikey();
+  }, []);
 
   return (
     <BrowserRouter>
+      {stripeApikey && (
+        <Elements stripe={loadStripe(stripeApikey)}>
+          <Routes>
+            <Route
+              path='/payment'
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Elements>
+      )}
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
@@ -106,8 +119,7 @@ const App = () => {
           }
         />
         <Route path='/order/success' element={<OrderSuccessPage />} />
-        <Route path='/payment' element={<PaymentPage />} />
-
+        {/* Removed duplicate /payment route */}
         <Route
           path='/profile'
           element={
@@ -116,7 +128,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/user/order/:id'
           element={
@@ -134,7 +145,6 @@ const App = () => {
           }
         />
         <Route path='/shop/preview/:id' element={<ShopPreviewPage />} />
-        {/* shop Routes */}
         <Route path='/shop-create' element={<ShopCreatePage />} />
         <Route path='/shop-login' element={<ShopLoginPage />} />
         <Route
@@ -185,7 +195,6 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-
         <Route
           path='/order/:id'
           element={
@@ -242,7 +251,6 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        {/* Admin Routes */}
         <Route
           path='/admin/dashboard'
           element={
