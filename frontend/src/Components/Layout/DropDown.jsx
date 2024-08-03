@@ -7,7 +7,8 @@ import { useNavigate } from "react-router-dom";
 const DropDown = ({ categoriesData, setDropDown }) => {
   const navigate = useNavigate();
   const submitHandle = (i) => {
-    navigate(`/products?category=${i.title}`);
+    const encodedTitle = encodeURIComponent(i.title);
+    navigate(`/products?category=${encodedTitle}`);
     setDropDown(false);
     window.location.reload();
   };

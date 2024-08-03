@@ -13,17 +13,18 @@ const ProductsPage = () => {
   const {allProducts,isLoading} = useSelector((state) => state.products);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+   useEffect(() => {
     if (categoryData === null) {
-      const d = allProducts;
-      setData(d);
+      setData(allProducts);
     } else {
-      const d =
-      allProducts && allProducts.filter((i) => i.category === categoryData);
-      setData(d);
+       const decodedCategory = decodeURIComponent(categoryData);
+      const filteredProducts =
+        allProducts && allProducts.filter((i) => i.category === decodedCategory);
+      setData(filteredProducts);
     }
-    //    window.scrollTo(0,0);
-  }, [allProducts]);
+    // Scroll to top
+    window.scrollTo(0, 0);
+  }, [allProducts, categoryData]);
 
   return (
   <>
