@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { BsCartPlus } from "react-icons/bs";
-
 import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
@@ -16,10 +15,10 @@ const Wishlist = ({ setOpenWishlist }) => {
   };
 
   const addToCartHandler = (data) => {
-    const newData = {...data, qty:1};
+    const newData = { ...data, qty: 1 };
     dispatch(addTocart(newData));
     setOpenWishlist(false);
-  }
+  };
 
   return (
     <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
@@ -58,7 +57,12 @@ const Wishlist = ({ setOpenWishlist }) => {
               <div className="w-full border-t">
                 {wishlist &&
                   wishlist.map((i, index) => (
-                    <CartSingle key={index} data={i} removeFromWishlistHandler={removeFromWishlistHandler} addToCartHandler={addToCartHandler} />
+                    <CartSingle
+                      key={index}
+                      data={i}
+                      removeFromWishlistHandler={removeFromWishlistHandler}
+                      addToCartHandler={addToCartHandler}
+                    />
                   ))}
               </div>
             </div>
@@ -69,15 +73,16 @@ const Wishlist = ({ setOpenWishlist }) => {
   );
 };
 
-const CartSingle = ({ data,removeFromWishlistHandler,addToCartHandler }) => {
+const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
   const [value, setValue] = useState(1);
   const totalPrice = data.discountPrice * value;
 
   return (
     <div className="border-b p-4">
       <div className="w-full md:flex items-center">
-        <RxCross1 className="cursor-pointer md:mb-['unset'] md:ml-['unset'] mb-2 ml-2"
-        onClick={() => removeFromWishlistHandler(data)}
+        <RxCross1
+          className="cursor-pointer md:mb-['unset'] md:ml-['unset'] mb-2 ml-2"
+          onClick={() => removeFromWishlistHandler(data)}
         />
         <img
           src={`${data?.images[0]?.url}`}
@@ -91,9 +96,14 @@ const CartSingle = ({ data,removeFromWishlistHandler,addToCartHandler }) => {
             Rs {totalPrice}
           </h4>
         </div>
-        <div  className="pl-[15px]">
-          <BsCartPlus size={20} className="cursor-pointer" title="Add to cart"
-           onClick={() => addToCartHandler(data)}
+        <div className="pl-[15px]">
+          <BsCartPlus
+            size={20}
+            className={`cursor-pointer ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            title={data.stock < 1 ? "Out of stock" : "Add to cart"}
+            onClick={() => {
+              if (data.stock > 0) addToCartHandler(data);
+            }}
           />
         </div>
       </div>

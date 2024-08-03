@@ -1,21 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   AiFillHeart,
   AiFillStar,
   AiOutlineEye,
   AiOutlineHeart,
   AiOutlineShoppingCart,
-  AiOutlineStar,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard";
 import {
   addToWishlist,
   removeFromWishlist,
 } from "../../../redux/actions/wishlist";
-import { useEffect } from "react";
 import { addTocart } from "../../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "../../Products/Ratings";
@@ -52,7 +49,7 @@ const ProductCard = ({ data, isEvent }) => {
       enqueueSnackbar("Item already in cart!", { variant: 'error' });
     } else {
       if (data.stock < 1) {
-       enqueueSnackbar("Product stock limited", { variant: 'error' });
+        enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: 1 };
         dispatch(addTocart(cartData));
@@ -81,7 +78,7 @@ const ProductCard = ({ data, isEvent }) => {
           </h4>
 
           <div className="flex">
-          <Ratings rating={data?.ratings} />
+            <Ratings rating={data?.ratings} />
           </div>
 
           <div className="py-2 flex items-center justify-between">
@@ -128,13 +125,14 @@ const ProductCard = ({ data, isEvent }) => {
             color="#333"
             title="Quick view"
           />
-          <AiOutlineShoppingCart
-            size={25}
-            className="cursor-pointer absolute right-2 top-24"
+           <button
             onClick={() => addToCartHandler(data._id)}
-            color="#444"
-            title="Add to cart"
-          />
+            disabled={data.stock < 1}
+            className={`cursor-pointer absolute right-2 top-24 ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+            title={data.stock < 1 ? "Out of stock" : "Add to cart"}
+          >
+            <AiOutlineShoppingCart size={25} color="#444" />
+          </button>
           {open ? <ProductDetailsCard setOpen={setOpen} data={data} /> : null}
         </div>
       </div>
