@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import {
   AiFillHeart,
   AiOutlineHeart,
- 
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllProductsShop } from "../../redux/actions/product";
-
 import {
   addToWishlist,
   removeFromWishlist,
@@ -17,9 +15,8 @@ import { addTocart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "./Ratings";
 
-
 const ProductDetails = ({ data }) => {
-     const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
   const { user, isAuthenticated } = useSelector((state) => state.user);
@@ -29,6 +26,7 @@ const ProductDetails = ({ data }) => {
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getAllProductsShop(data && data?.shop._id));
     if (wishlist && wishlist.find((i) => i._id === data?._id)) {
@@ -39,7 +37,9 @@ const ProductDetails = ({ data }) => {
   }, [data, wishlist]);
 
   const incrementCount = () => {
-    setCount(count + 1);
+    if (count < data.stock) {
+      setCount(count + 1);
+    }
   };
 
   const decrementCount = () => {
@@ -63,7 +63,7 @@ const ProductDetails = ({ data }) => {
     if (isItemExists) {
       enqueueSnackbar("Item already in cart!", { variant: 'error' });
     } else {
-      if (data.stock < 1) {
+      if (data.stock < count) {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: count };
@@ -85,12 +85,8 @@ const ProductDetails = ({ data }) => {
       0
     );
 
-  const avg =  totalRatings / totalReviewsLength || 0;
-
+  const avg = totalRatings / totalReviewsLength || 0;
   const averageRating = avg.toFixed(2);
-
-
- 
 
   return (
     <div className="bg-white">
@@ -111,6 +107,7 @@ const ProductDetails = ({ data }) => {
                         className={`${
                           select === 0 ? "border" : "null"
                         } cursor-pointer`}
+                        key={index}
                       >
                         <img
                           src={`${i?.url}`}
@@ -120,11 +117,6 @@ const ProductDetails = ({ data }) => {
                         />
                       </div>
                     ))}
-                  <div
-                    className={`${
-                      select === 1 ? "border" : "null"
-                    } cursor-pointer`}
-                  ></div>
                 </div>
               </div>
               <div className="w-full md:w-[50%] pt-5">
@@ -138,23 +130,26 @@ const ProductDetails = ({ data }) => {
                     {data.originalPrice ? data.originalPrice + " Rs" : null}
                   </h3>
                 </div>
-
                 <div className="flex items-center mt-12 justify-between pr-3">
                   <div>
-                    <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                      onClick={decrementCount}
-                    >
-                      -
-                    </button>
+                  <button
+  className={`bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out ${
+    count >= data.stock ? 'cursor-not-allowed opacity-50' : ''
+  }`}
+  onClick={incrementCount}
+  disabled={count >= data.stock}
+  title={count >= data.stock ? "Stock exceeding limit" : ""}
+>
+  +
+</button>
                     <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
                       {count}
                     </span>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
-                      onClick={incrementCount}
+                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-r px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out"
+                      onClick={decrementCount}
                     >
-                      +
+                      -
                     </button>
                   </div>
                   <div>
@@ -177,14 +172,15 @@ const ProductDetails = ({ data }) => {
                     )}
                   </div>
                 </div>
-                <div
-                  className={`w-[150px] bg-black my-3  justify-center  cursor-pointer mt-6 !rounded h-11 flex items-center`}
-                  onClick={() => addToCartHandler(data._id)}
-                >
-                  <span className="text-white flex items-center">
-                    Add to cart <AiOutlineShoppingCart className="ml-1" />
-                  </span>
-                </div>
+              <div
+  className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${data.stock <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
+  onClick={() => data.stock > 0 && addToCartHandler(data._id)}
+  title={data.stock <= 0 ? 'Out of stock' : ''}
+>
+  <span className="text-white flex items-center">
+    Add to cart <AiOutlineShoppingCart className="ml-1" />
+  </span>
+</div>
                 <div className="flex items-center pt-8">
                   <Link to={`/shop/preview/${data?.shop._id}`}>
                     <img
@@ -195,7 +191,7 @@ const ProductDetails = ({ data }) => {
                   </Link>
                   <div className="pr-8">
                     <Link to={`/shop/preview/${data?.shop._id}`}>
-                      <h3 className={`$pt-3 text-[15px] text-blue-400  pb-1 pt-1`}>
+                      <h3 className={`pt-3 text-[15px] text-blue-400 pb-1 pt-1`}>
                         {data.shop.name}
                       </h3>
                     </Link>
@@ -203,7 +199,6 @@ const ProductDetails = ({ data }) => {
                       ({averageRating}/5) Ratings
                     </h5>
                   </div>
-               
                 </div>
               </div>
             </div>
@@ -285,16 +280,16 @@ const ProductDetailsInfo = ({
         <div className="w-full min-h-[40vh] flex flex-col items-center py-3 overflow-y-scroll">
           {data &&
             data.reviews.map((item, index) => (
-              <div className="w-full flex my-2">
+              <div className="w-full flex my-2" key={index}>
                 <img
                   src={`${item.user.avatar?.url}`}
                   alt=""
                   className="w-[50px] h-[50px] rounded-full"
                 />
-                <div className="pl-2 ">
+                <div className="pl-2">
                   <div className="w-full flex items-center">
                     <h1 className="font-[500] mr-3">{item.user.name}</h1>
-                    <Ratings rating={data?.ratings} />
+                    <Ratings rating={item.rating} />
                   </div>
                   <p>{item.comment}</p>
                 </div>
@@ -349,7 +344,7 @@ const ProductDetailsInfo = ({
               </h5>
               <Link to="/">
                 <div
-                  className={`w-[150px] bg-black  my-3 flex items-center justify-center  cursor-pointer !rounded-[4px] !h-[39.5px] mt-3`}
+                  className={`w-[150px] bg-black my-3 flex items-center justify-center cursor-pointer rounded-[4px] h-[39.5px] mt-3`}
                 >
                   <h4 className="text-white">Continue Shopping</h4>
                 </div>

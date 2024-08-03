@@ -7,7 +7,6 @@ import {
 } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
 import { addTocart } from "../../../redux/actions/cart";
@@ -22,10 +21,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
-   const { enqueueSnackbar } = useSnackbar();
-  //   const [select, setSelect] = useState(false);
-
-
+  const { enqueueSnackbar } = useSnackbar();
 
   const decrementCount = () => {
     if (count > 1) {
@@ -43,11 +39,11 @@ const ProductDetailsCard = ({ setOpen, data }) => {
       enqueueSnackbar("Item already in cart!", { variant: 'error' });
     } else {
       if (data.stock < count) {
-        enqueueSnackbar("Productstock limited", { variant: 'error' });
+        enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: count };
         dispatch(addTocart(cartData));
-       enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
+        enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }
   };
@@ -99,22 +95,22 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                     </div>
                   </Link>
                 </div>
-               
+
                 <h5 className="text-[16px] text-[red] mt-5">(50) Sold out</h5>
               </div>
 
               <div className="w-full md:w-[50%] pt-5 pl-[5px] pr-[5px]">
-                <h1 className={`font-[600] font-Roboto  text-[20px]`}>
+                <h1 className={`font-[600] font-Roboto text-[20px]`}>
                   {data.name}
                 </h1>
                 <p>{data.description}</p>
 
                 <div className="flex pt-3">
                   <h4 className={`font-bold text-[18px] text-[#333] font-Roboto`}>
-                    {data.discountPrice}$
+                    {data.discountPrice} Rs
                   </h4>
                   <h3 className={`font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through`}>
-                    {data.originalPrice ? data.originalPrice + "$" : null}
+                    {data.originalPrice ? data.originalPrice + " Rs" : null}
                   </h3>
                 </div>
                 <div className="flex items-center mt-12 justify-between pr-3">
@@ -155,8 +151,13 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   </div>
                 </div>
                 <div
-                  className={`w-[150px] bg-black  my-3  justify-center  cursor-pointer mt-6 rounded-[4px] h-11 flex items-center`}
-                  onClick={() => addToCartHandler(data._id)}
+                  className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded-[4px] h-11 flex items-center ${
+                    data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  onClick={() => {
+                    if (data.stock > 0) addToCartHandler(data._id);
+                  }}
+                  title={data.stock < 1 ? "Out of stock" : "Add to cart"}
                 >
                   <span className="text-[#fff] flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />

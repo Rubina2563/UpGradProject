@@ -93,24 +93,28 @@ const Cart = ({ setOpenCart }) => {
   );
 };
 
-const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler,enqueueSnackbar }) => {
+const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler, enqueueSnackbar }) => {
   const [value, setValue] = useState(data.qty);
   const totalPrice = data.discountPrice * value;
 
-  const increment = (data) => {
-    if (data.stock < value) {
-      enqueueSnackbar('stock limited.', { variant: 'error' });
+  const increment = () => {
+    if (value >= data.stock) {
+      enqueueSnackbar('Quantity exceeds available stock.', { variant: 'error' });
     } else {
-      setValue(value + 1);
-      const updateCartData = { ...data, qty: value + 1 };
+      const newValue = value + 1;
+      setValue(newValue);
+      const updateCartData = { ...data, qty: newValue };
       quantityChangeHandler(updateCartData);
     }
   };
 
-  const decrement = (data) => {
-    setValue(value === 1 ? 1 : value - 1);
-    const updateCartData = { ...data, qty: value === 1 ? 1 : value - 1 };
-    quantityChangeHandler(updateCartData);
+  const decrement = () => {
+    if (value > 1) {
+      const newValue = value - 1;
+      setValue(newValue);
+      const updateCartData = { ...data, qty: newValue };
+      quantityChangeHandler(updateCartData);
+    }
   };
 
   return (
@@ -119,14 +123,14 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler,enqueue
         <div>
           <div
             className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer`}
-            onClick={() => increment(data)}
+            onClick={increment}
           >
             <HiPlus size={18} color="#fff" />
           </div>
-          <span className="pl-[10px]">{data.qty}</span>
+          <span className="pl-[10px]">{value}</span>
           <div
             className="bg-[#a7abb14f] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer"
-            onClick={() => decrement(data)}
+            onClick={decrement}
           >
             <HiOutlineMinus size={16} color="#7d879c" />
           </div>
