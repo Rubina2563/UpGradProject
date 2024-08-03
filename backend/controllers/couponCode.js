@@ -13,16 +13,18 @@ router.post(
   isSeller,
   AsyncErrorHandler(async (req, res, next) => {
     try {
+      console.log(req.body)
       const isCoupounCodeExists = await CoupounCode.find({
         name: req.body.name,
       });
+      
 
       if (isCoupounCodeExists.length !== 0) {
         return next(new ErrorHandler("Coupoun code already exists!", 400));
       }
 
       const coupounCode = await CoupounCode.create(req.body);
-
+console.log(coupounCode);
       res.status(201).json({
         success: true,
         coupounCode,

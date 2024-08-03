@@ -107,8 +107,8 @@ const Checkout = () => {
 
   return (
     <div className="w-full flex flex-col items-center py-8">
-      <div className="w-[90%] 1000px:w-[70%] block 800px:flex">
-        <div className="w-full 800px:w-[65%]">
+      <div className="w-[90%] 1000px:w-[70%] block md:flex">
+        <div className="w-full md:w-[65%]">
           <ShippingInfo
             user={user}
             country={country}
@@ -125,7 +125,7 @@ const Checkout = () => {
             setZipCode={setZipCode}
           />
         </div>
-        <div className="w-full 800px:w-[35%] 800px:mt-0 mt-8">
+        <div className="w-full md:w-[35%] md:mt-0 mt-8">
           <CartData
             handleSubmit={handleSubmit}
             totalPrice={totalPrice}
@@ -138,7 +138,7 @@ const Checkout = () => {
         </div>
       </div>
       <div
-        className={` bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer w-[150px] 800px:w-[280px] mt-10`}
+        className={` bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer w-[150px] md:w-[280px] mt-10`}
         onClick={paymentSubmit}
       >
         <h5 className="text-white">Go to Payment</h5>
@@ -163,7 +163,7 @@ const ShippingInfo = ({
   setZipCode,
 }) => {
   return (
-    <div className="w-full 800px:w-[95%] bg-white rounded-md p-5 pb-8">
+    <div className="w-full md:w-[95%] bg-white rounded-md p-5 pb-8">
       <h5 className="text-[18px] font-[500]">Shipping Address</h5>
       <br />
       <form>
@@ -230,14 +230,14 @@ const ShippingInfo = ({
             </select>
           </div>
           <div className="w-[50%]">
-            <label className="block pb-2">City</label>
+            <label className="block pb-2">State</label>
             <select
               className="w-[95%] border h-[40px] rounded-[5px]"
               value={city}
               onChange={(e) => setCity(e.target.value)}
             >
               <option className="block pb-2" value="">
-                Choose your City
+                Choose your state
               </option>
               {State &&
                 State.getStatesOfCountry(country).map((item) => (
@@ -319,21 +319,21 @@ const CartData = ({
     <div className="w-full bg-[#fff] rounded-md p-5 pb-8">
       <div className="flex justify-between">
         <h3 className="text-[16px] font-[400] text-[#000000a4]">subtotal:</h3>
-        <h5 className="text-[18px] font-[600]">${subTotalPrice}</h5>
+        <h5 className="text-[18px] font-[600]">Rs {subTotalPrice}</h5>
       </div>
       <br />
       <div className="flex justify-between">
         <h3 className="text-[16px] font-[400] text-[#000000a4]">shipping:</h3>
-        <h5 className="text-[18px] font-[600]">${shipping.toFixed(2)}</h5>
+        <h5 className="text-[18px] font-[600]">Rs {shipping.toFixed(2)}</h5>
       </div>
       <br />
       <div className="flex justify-between border-b pb-3">
         <h3 className="text-[16px] font-[400] text-[#000000a4]">Discount:</h3>
         <h5 className="text-[18px] font-[600]">
-          - {discountPercentenge ? "$" + discountPercentenge.toString() : null}
+          - {discountPercentenge ? "Rs " + discountPercentenge.toString() : null}
         </h5>
       </div>
-      <h5 className="text-[18px] font-[600] text-end pt-3">${totalPrice}</h5>
+      <h5 className="text-[18px] font-[600] text-end pt-3">Rs {totalPrice}</h5>
       <br />
       <form onSubmit={handleSubmit}>
         <input
@@ -345,7 +345,7 @@ const CartData = ({
           required
         />
         <input
-          className={`w-full h-[40px] border border-[#f63b60] text-center text-[#f63b60] rounded-[3px] mt-8 cursor-pointer`}
+          className={`w-full h-[40px] border bg-red-400 text-white font-bold border-[#f63b60] text-center  rounded-[3px] mt-8 cursor-pointer`}
           required
           value="Apply code"
           type="submit"
