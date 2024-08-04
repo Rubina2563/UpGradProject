@@ -148,51 +148,52 @@ const Header = ({ heading }) => {
             <Navbar active={heading} />
           </div>
 
-          <div className="flex">
-            <div className={`flex items-center`}>
-              <div
-                className="relative cursor-pointer mr-[15px]"
-                onClick={() => setOpenWishlist(true)}
-              >
-                <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  {wishlist && wishlist.length}
-                </span>
-              </div>
-            </div>
+         <div className="flex">
+      <div className={`flex items-center`}>
+        <div
+          className="relative cursor-pointer mr-[15px]"
+          onClick={() => setOpenWishlist(true)}
+        >
+          <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
+          {isAuthenticated && wishlist && wishlist.length > 0 && (
+            <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+              {wishlist.length}
+            </span>
+          )}
+        </div>
+      </div>
 
-            <div className={`flex items-center`}>
-              <div
-                className="relative cursor-pointer mr-[15px]"
-                onClick={() => setOpenCart(true)}
-              >
-                <AiOutlineShoppingCart
-                  size={30}
-                  color="rgb(255 255 255 / 83%)"
-                />
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 top right p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  {cart && cart.length}
-                </span>
-              </div>
-            </div>
+      <div className={`flex items-center`}>
+        <div
+          className="relative cursor-pointer mr-[15px]"
+          onClick={() => setOpenCart(true)}
+        >
+          <AiOutlineShoppingCart size={30} color="rgb(255 255 255 / 83%)" />
+          {isAuthenticated && cart && cart.length > 0 && (
+            <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+              {cart.length}
+            </span>
+          )}
+        </div>
+      </div>
 
-            <div className={`flex items-center`}>
-              <div className="relative cursor-pointer mr-[15px]">
-                {isAuthenticated ? (
-                  <Link to="/profile">
-                    <img
-                      src={`${user?.avatar?.url}`}
-                      className="w-[35px] h-[35px] rounded-full"
-                      alt=""
-                    />
-                  </Link>
-                ) : (
-                  <Link to="/login">
-                    <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
-                  </Link>
-                )}
-              </div>
-            </div>
+      <div className={`flex items-center`}>
+        <div className="relative cursor-pointer mr-[15px]">
+          {isAuthenticated ? (
+            <Link to="/profile">
+              <img
+                src={`${user?.avatar?.url}`}
+                className="w-[35px] h-[35px] rounded-full"
+                alt=""
+              />
+            </Link>
+          ) : (
+            <Link to="/login">
+              <CgProfile size={30} color="rgb(255 255 255 / 83%)" />
+            </Link>
+          )}
+        </div>
+      </div>
 
             {/* cart popup */}
             {openCart ? <Cart setOpenCart={setOpenCart} /> : null}

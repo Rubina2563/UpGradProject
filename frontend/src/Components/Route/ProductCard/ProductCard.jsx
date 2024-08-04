@@ -17,7 +17,7 @@ import { addTocart } from "../../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "../../Products/Ratings";
 
-const ProductCard = ({ data, isEvent }) => {
+const ProductCard = ({ data, isEvent, isAuthenticated }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
@@ -57,8 +57,7 @@ const ProductCard = ({ data, isEvent }) => {
       }
     }
   };
-  console.log(data?.sold_out);
-   console.log(data?.stock);
+
   return (
     <>
       <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
@@ -96,28 +95,36 @@ const ProductCard = ({ data, isEvent }) => {
             </div>
             <span className="font-[400] text-[17px] text-[#68d284]">
               {data?.sold_out} sold
-
             </span>
           </div>
         </Link>
 
         {/* side options */}
         <div>
-          {click ? (
-            <AiFillHeart
-              size={22}
-              className="cursor-pointer absolute right-2 top-5"
-              onClick={() => removeFromWishlistHandler(data)}
-              color={click ? "red" : "#333"}
-              title="Remove from wishlist"
-            />
+          {isAuthenticated ? (
+            click ? (
+              <AiFillHeart
+                size={22}
+                className="cursor-pointer absolute right-2 top-5"
+                onClick={() => removeFromWishlistHandler(data)}
+                color="red"
+                title="Remove from wishlist"
+              />
+            ) : (
+              <AiOutlineHeart
+                size={22}
+                className="cursor-pointer absolute right-2 top-5"
+                onClick={() => addToWishlistHandler(data)}
+                color="#333"
+                title="Add to wishlist"
+              />
+            )
           ) : (
             <AiOutlineHeart
               size={22}
-              className="cursor-pointer absolute right-2 top-5"
-              onClick={() => addToWishlistHandler(data)}
-              color={click ? "red" : "#333"}
-              title="Add to wishlist"
+              className="cursor-not-allowed absolute right-2 top-5"
+              color="#333"
+              title="Login please"
             />
           )}
           <AiOutlineEye
@@ -127,15 +134,24 @@ const ProductCard = ({ data, isEvent }) => {
             color="#333"
             title="Quick view"
           />
-           <button
-            onClick={() => addToCartHandler(data._id)}
-            disabled={data.stock < 1}
-            className={`cursor-pointer absolute right-2 top-24 ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-            title={data.stock < 1 ? "Out of stock" : "Add to cart"}
-          >
-            <AiOutlineShoppingCart size={25} color="#444" />
-          </button>
-          {open ? <ProductDetailsCard setOpen={setOpen} data={data} /> : null}
+          {isAuthenticated ? (
+            <button
+              onClick={() => addToCartHandler(data._id)}
+              disabled={data.stock < 1}
+              className={`cursor-pointer absolute right-2 top-24 ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              title={data.stock < 1 ? "Out of stock" : "Add to cart"}
+            >
+              <AiOutlineShoppingCart size={25} color="#444" />
+            </button>
+          ) : (
+            <button
+              className="cursor-not-allowed absolute right-2 top-24"
+              title="Login please"
+            >
+              <AiOutlineShoppingCart size={25} color="#444" />
+            </button>
+          )}
+          {open && <ProductDetailsCard setOpen={setOpen} data={data} />}
         </div>
       </div>
     </>

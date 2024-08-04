@@ -38,20 +38,12 @@ import {
   ShopInboxPage,
 } from "./Routes/ShopRoutes";
 
-import {
-  AdminDashboardPage,
-  AdminDashboardUsers,
-  AdminDashboardSellers,
-  AdminDashboardOrders,
-  AdminDashboardProducts,
-  AdminDashboardEvents,
-  AdminDashboardWithdraw,
-} from "./Routes/AdminRoutes";
+
 
 import Store from "./redux/store";
 import { loadSeller, userLoading } from "./redux/actions/user";
 import ProtectedRoute from "./Routes/ProtectedRoute";
-import ProtectedAdminRoute from "./Routes/ProtectedAdminRoute";
+
 import { ShopHomePage } from "./Routes/ShopRoutes.js";
 import SellerProtectedRoute from "./Routes/SellerProtectedRoute";
 import { getAllProducts } from "./redux/actions/product";
@@ -251,62 +243,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        <Route
-          path='/admin/dashboard'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardPage />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path='/admin-users'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardUsers />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path='/admin-sellers'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardSellers />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path='/admin-orders'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardOrders />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path='/admin-products'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardProducts />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path='/admin-events'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardEvents />
-            </ProtectedAdminRoute>
-          }
-        />
-        <Route
-          path='/admin-withdraw-request'
-          element={
-            <ProtectedAdminRoute>
-              <AdminDashboardWithdraw />
-            </ProtectedAdminRoute>
-          }
-        />
+      
       </Routes>
     </BrowserRouter>
   );
