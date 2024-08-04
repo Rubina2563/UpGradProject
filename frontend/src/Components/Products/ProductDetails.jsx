@@ -132,16 +132,16 @@ const ProductDetails = ({ data }) => {
                 </div>
                 <div className="flex items-center mt-12 justify-between pr-3">
                   <div>
-                  <button
-  className={`bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out ${
-    count >= data.stock ? 'cursor-not-allowed opacity-50' : ''
-  }`}
-  onClick={incrementCount}
-  disabled={count >= data.stock}
-  title={count >= data.stock ? "Stock exceeding limit" : ""}
->
-  +
-</button>
+                    <button
+                      className={`bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out ${
+                        count >= data.stock ? 'cursor-not-allowed opacity-50' : ''
+                      }`}
+                      onClick={incrementCount}
+                      disabled={count >= data.stock}
+                      title={count >= data.stock ? "Stock exceeding limit" : ""}
+                    >
+                      +
+                    </button>
                     <span className="bg-gray-200 text-gray-800 font-medium px-4 py-[11px]">
                       {count}
                     </span>
@@ -153,34 +153,43 @@ const ProductDetails = ({ data }) => {
                     </button>
                   </div>
                   <div>
-                    {click ? (
-                      <AiFillHeart
-                        size={30}
-                        className="cursor-pointer"
-                        onClick={() => removeFromWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
-                        title="Remove from wishlist"
-                      />
+                    {isAuthenticated ? (
+                      click ? (
+                        <AiFillHeart
+                          size={30}
+                          className="cursor-pointer"
+                          onClick={() => removeFromWishlistHandler(data)}
+                          color="red"
+                          title="Remove from wishlist"
+                        />
+                      ) : (
+                        <AiOutlineHeart
+                          size={30}
+                          className="cursor-pointer"
+                          onClick={() => addToWishlistHandler(data)}
+                          title="Add to wishlist"
+                        />
+                      )
                     ) : (
                       <AiOutlineHeart
                         size={30}
-                        className="cursor-pointer"
-                        onClick={() => addToWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
-                        title="Add to wishlist"
+                        className="cursor-not-allowed"
+                        title="Login please"
                       />
                     )}
                   </div>
                 </div>
-              <div
-  className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${data.stock <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-  onClick={() => data.stock > 0 && addToCartHandler(data._id)}
-  title={data.stock <= 0 ? 'Out of stock' : ''}
->
-  <span className="text-white flex items-center">
-    Add to cart <AiOutlineShoppingCart className="ml-1" />
-  </span>
-</div>
+                <div
+                  className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${
+                    data.stock <= 0 || !isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  onClick={() => data.stock > 0 && isAuthenticated && addToCartHandler(data._id)}
+                  title={data.stock <= 0 ? 'Out of stock' : isAuthenticated ? "Add to cart" : "Login please"}
+                >
+                  <span className="text-white flex items-center">
+                    Add to cart <AiOutlineShoppingCart className="ml-1" />
+                  </span>
+                </div>
                 <div className="flex items-center pt-8">
                   <Link to={`/shop/preview/${data?.shop._id}`}>
                     <img
@@ -216,6 +225,7 @@ const ProductDetails = ({ data }) => {
     </div>
   );
 };
+
 
 const ProductDetailsInfo = ({
   data,

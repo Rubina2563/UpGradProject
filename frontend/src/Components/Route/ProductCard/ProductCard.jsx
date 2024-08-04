@@ -1,37 +1,35 @@
 import React, { useState, useEffect } from "react";
 import {
   AiFillHeart,
-  AiFillStar,
-  AiOutlineEye,
   AiOutlineHeart,
+  AiOutlineEye,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard";
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../../../redux/actions/wishlist";
+import { addToWishlist, removeFromWishlist } from "../../../redux/actions/wishlist";
 import { addTocart } from "../../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "../../Products/Ratings";
 
-const ProductCard = ({ data, isEvent, isAuthenticated }) => {
+const ProductCard = ({ data, isEvent }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
+  const { isAuthenticated } = useSelector((state) => state.user);
+
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (wishlist && wishlist.find((i) => i._id === data._id)) {
+    if (wishlist && wishlist.find((item) => item._id === data._id)) {
       setClick(true);
     } else {
       setClick(false);
     }
-  }, [wishlist]);
+  }, [wishlist, data._id]);
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
@@ -44,7 +42,7 @@ const ProductCard = ({ data, isEvent, isAuthenticated }) => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
+    const isItemExists = cart && cart.find((item) => item._id === id);
     if (isItemExists) {
       enqueueSnackbar("Item already in cart!", { variant: 'error' });
     } else {
@@ -84,10 +82,7 @@ const ProductCard = ({ data, isEvent, isAuthenticated }) => {
           <div className="py-2 flex items-center justify-between">
             <div className="flex">
               <h5 className={`font-bold text-[18px] text-[#333] font-Roboto`}>
-                {data.originalPrice === 0
-                  ? data.originalPrice
-                  : data.discountPrice}
-                 Rs
+                {data.originalPrice === 0 ? data.originalPrice : data.discountPrice} Rs
               </h5>
               <h4 className={`font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through`}>
                 {data.originalPrice ? data.originalPrice + " Rs" : null}

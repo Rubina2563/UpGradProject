@@ -56,7 +56,7 @@ const EventCard = ({ active, data }) => {
           <Link to={`/product/${data._id}?isEvent=true`}>
             <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]">See Details</div>
           </Link>
-          <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff] ml-5" onClick={() => addToCartHandler(data)}>Add to cart</div>
+          
         </div>
       </div>
     </div>

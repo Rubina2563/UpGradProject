@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   AiFillHeart,
   AiOutlineHeart,
-  AiOutlineMessage,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { RxCross1 } from "react-icons/rx";
@@ -10,14 +9,12 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
 import { addTocart } from "../../../redux/actions/cart";
-import {
-  addToWishlist,
-  removeFromWishlist,
-} from "../../../redux/actions/wishlist";
+import { addToWishlist, removeFromWishlist } from "../../../redux/actions/wishlist";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
+  const { isAuthenticated } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
@@ -54,7 +51,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     } else {
       setClick(false);
     }
-  }, [wishlist]);
+  }, [wishlist, data._id]);
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
@@ -132,32 +129,40 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                     </button>
                   </div>
                   <div>
-                    {click ? (
-                      <AiFillHeart
-                        size={30}
-                        className="cursor-pointer"
-                        onClick={() => removeFromWishlistHandler(data)}
-                        color={click ? "red" : "#333"}
-                        title="Remove from wishlist"
-                      />
+                    {isAuthenticated ? (
+                      click ? (
+                        <AiFillHeart
+                          size={30}
+                          className="cursor-pointer"
+                          onClick={() => removeFromWishlistHandler(data)}
+                          color="red"
+                          title="Remove from wishlist"
+                        />
+                      ) : (
+                        <AiOutlineHeart
+                          size={30}
+                          className="cursor-pointer"
+                          onClick={() => addToWishlistHandler(data)}
+                          title="Add to wishlist"
+                        />
+                      )
                     ) : (
                       <AiOutlineHeart
                         size={30}
-                        className="cursor-pointer"
-                        onClick={() => addToWishlistHandler(data)}
-                        title="Add to wishlist"
+                        className="cursor-not-allowed"
+                        title="Login please"
                       />
                     )}
                   </div>
                 </div>
                 <div
                   className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded-[4px] h-11 flex items-center ${
-                    data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''
+                    data.stock < 1 || !isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   onClick={() => {
-                    if (data.stock > 0) addToCartHandler(data._id);
+                    if (data.stock > 0 && isAuthenticated) addToCartHandler(data._id);
                   }}
-                  title={data.stock < 1 ? "Out of stock" : "Add to cart"}
+                  title={data.stock < 1 ? "Out of stock" : isAuthenticated ? "Add to cart" : "Login please"}
                 >
                   <span className="text-[#fff] flex items-center">
                     Add to cart <AiOutlineShoppingCart className="ml-1" />
