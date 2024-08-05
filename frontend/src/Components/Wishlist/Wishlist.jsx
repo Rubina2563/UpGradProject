@@ -1,35 +1,43 @@
-// components/Wishlist.js
 import React, { useEffect } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { BsCartPlus } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  removeFromWishlist,
-  fetchWishlist,
-} from "../../redux/actions/wishlist";
+import { removeFromWishlist, fetchWishlist } from "../../redux/actions/wishlist";
 import { addToCart } from "../../redux/actions/cart";
+import { useSnackbar } from 'notistack';
 
 const Wishlist = ({ setOpenWishlist }) => {
   const dispatch = useDispatch();
   const { wishlist, isLoading } = useSelector((state) => state.wishlist);
   const { user } = useSelector((state) => state.user);
+  const { cart } = useSelector((state) => state.cart);
+  const { enqueueSnackbar } = useSnackbar();
 
-  // Fetch wishlist items when the component mounts
   useEffect(() => {
     if (user) {
       dispatch(fetchWishlist(user._id));
     }
-  }, [dispatch, user, wishlist]);
+  }, [dispatch, user]);
 
-  const removeFromWishlistHandler = (data) => {
-    dispatch(removeFromWishlist(data._id));
+  const removeFromWishlistHandler = (productId) => {
+    dispatch(removeFromWishlist(productId));
   };
 
   const addToCartHandler = (data) => {
-    const newData = { ...data, qty: 1 };
-    dispatch(addToCart(newData));
-    setOpenWishlist(false);
+    const isItemExists = cart && cart.find((item) => item._id === data._id);
+    if (isItemExists) {
+      enqueueSnackbar("Item already in cart!", { variant: 'error' });
+    } else {
+      if (data.stock < 1) {
+        enqueueSnackbar("Product out of stock", { variant: 'error' });
+      } else {
+        const newData = { ...data, qty: 1 };
+        dispatch(addToCart(newData));
+        setOpenWishlist(false);
+        enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
+      }
+    }
   };
 
   return (
@@ -39,7 +47,7 @@ const Wishlist = ({ setOpenWishlist }) => {
           <div className="w-full h-screen flex items-center justify-center">
             <h5>Loading...</h5>
           </div>
-        ) : wishlist && wishlist.length === 0 ? (
+        ) : wishlist.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
               <RxCross1
@@ -63,20 +71,18 @@ const Wishlist = ({ setOpenWishlist }) => {
               <div className={`flex items-center p-4`}>
                 <AiOutlineHeart size={25} />
                 <h5 className="pl-2 text-[20px] font-[500]">
-                  {wishlist && wishlist.length} items
+                  {wishlist.length} items
                 </h5>
               </div>
-              <br />
               <div className="w-full border-t">
-                {wishlist &&
-                  wishlist.map((i, index) => (
-                    <CartSingle
-                      key={index}
-                      data={i}
-                      removeFromWishlistHandler={removeFromWishlistHandler}
-                      addToCartHandler={addToCartHandler}
-                    />
-                  ))}
+                {wishlist.map((item) => (
+                  <CartSingle
+                    key={item._id}
+                    data={item}
+                    removeFromWishlistHandler={removeFromWishlistHandler}
+                    addToCartHandler={addToCartHandler}
+                  />
+                ))}
               </div>
             </div>
           </>
@@ -94,7 +100,7 @@ const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
       <div className="w-full md:flex items-center">
         <RxCross1
           className="cursor-pointer md:mb-['unset'] md:ml-['unset'] mb-2 ml-2"
-          onClick={() => removeFromWishlistHandler(data)}
+          onClick={() => removeFromWishlistHandler(data._id)}
         />
         <img
           src={`${data?.images[0]?.url}`}
@@ -110,9 +116,7 @@ const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
         <div className="pl-[15px]">
           <BsCartPlus
             size={20}
-            className={`cursor-pointer ${
-              data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''
-            }`}
+            className={`cursor-pointer ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
             title={data.stock < 1 ? "Out of stock" : "Add to cart"}
             onClick={() => {
               if (data.stock > 0) addToCartHandler(data);

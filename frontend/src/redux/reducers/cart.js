@@ -1,17 +1,17 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  cart: [],
-  loading: false,
+  cart: [], // Ensure it's an array
+  loading: true,
   error: null,
 };
 
 export const cartReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase("addToCartRequest", (state) => {
+    .addCase("AddToCartRequest", (state) => {
       state.loading = true;
     })
-    .addCase("addToCartSuccess", (state, action) => {
+    .addCase("AddToCartSuccess", (state, action) => {
       state.loading = false;
       const item = action.payload;
       const isItemExist = state.cart.find((i) => i._id === item._id);
@@ -23,18 +23,29 @@ export const cartReducer = createReducer(initialState, (builder) => {
         state.cart.push(item);
       }
     })
-    .addCase("addToCartFail", (state, action) => {
+    .addCase("AddToCartFail", (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })
-    .addCase("removeFromCartRequest", (state) => {
+    .addCase("RemoveFromCartRequest", (state) => {
       state.loading = true;
     })
-    .addCase("removeFromCartSuccess", (state, action) => {
+    .addCase("RemoveFromCartSuccess", (state, action) => {
       state.loading = false;
       state.cart = state.cart.filter((i) => i._id !== action.payload);
     })
-    .addCase("removeFromCartFail", (state, action) => {
+    .addCase("RemoveFromCartFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("fetchCartItemsRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("fetchCartItemsSuccess", (state, action) => {
+      state.loading = false;
+      state.cart = action.payload;
+    })
+    .addCase("fetchCartItemsFail", (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })

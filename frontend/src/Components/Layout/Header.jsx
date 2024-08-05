@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ShopPlusPusLogo from "../../Static/ShopPlusPlus.svg";
 import { categoriesData, productData } from "../../Static/data";
@@ -12,12 +12,14 @@ import { BiMenuAltLeft } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import Dropdown from "./Dropdown";
 import Navbar from "./Navbar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
+import { fetchWishlist } from "../../redux/actions/wishlist"; // Import the fetchWishlist action
 
 const Header = ({ heading }) => {
+  const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const { isSeller } = useSelector((state) => state.seller);
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -30,6 +32,20 @@ const Header = ({ heading }) => {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
+  const [wishlistCount, setWishlistCount] = useState(0); // Define wishlistCount state
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      dispatch(fetchWishlist(user._id)); // Fetch wishlist when user is authenticated
+    }
+  }, [dispatch, isAuthenticated, user]);
+
+  useEffect(() => {
+    // Update wishlist count whenever the wishlist state changes
+    if (wishlist) {
+      setWishlistCount(wishlist.length);
+    }
+  }, [wishlist]);
 
   const handleSearchChange = (e) => {
     const term = e.target.value;
@@ -58,7 +74,7 @@ const Header = ({ heading }) => {
           <div>
             <Link to="/">
               <img
-                 style={{ width: '160px', height: '36px' }}
+                style={{ width: '160px', height: '36px' }}
                 src={ShopPlusPusLogo}
                 alt=""
               />
@@ -102,7 +118,7 @@ const Header = ({ heading }) => {
             ) : null}
           </div>
 
-          <div className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer`}>
+          <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer">
             <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
               <h1 className="text-[#fff] flex items-center">
                 {isSeller ? "Your Shop" : "Shopkeeper ?"}{" "}
@@ -155,9 +171,9 @@ const Header = ({ heading }) => {
                 title={isAuthenticated ? "" : "Please login"}
               >
                 <AiOutlineHeart size={30} color="rgb(255 255 255 / 83%)" />
-                {isAuthenticated && wishlist && wishlist.length > 0 && (
+                {isAuthenticated && wishlistCount > 0 && (
                   <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                    {wishlist.length}
+                    {wishlistCount}
                   </span>
                 )}
               </div>

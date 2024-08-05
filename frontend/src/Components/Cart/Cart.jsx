@@ -1,35 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
 import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi";
-
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../../redux/actions/cart";
+import { addToCart, removeFromCart, fetchCartItems } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 
 const Cart = ({ setOpenCart }) => {
-   const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { cart } = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  const removeFromCartHandler = (data) => {
-    dispatch(removeFromCart(data));
+  useEffect(() => {
+    if (user && user._id) {
+      dispatch(fetchCartItems(user._id));
+    }
+  }, [dispatch, user]);
+
+  // Ensure cart is always an array
+  const cartItems = Array.isArray(cart) ? cart : [];
+
+  const removeFromCartHandler = (productId) => {
+    dispatch(removeFromCart(productId));
   };
 
-  const totalPrice = cart.reduce(
+  const totalPrice = cartItems.reduce(
     (acc, item) => acc + item.qty * item.discountPrice,
     0
   );
 
   const quantityChangeHandler = (data) => {
-    dispatch(addToCart(data));
+    dispatch(addToCart(data._id, data.qty));
   };
 
   return (
     <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
       <div className="fixed top-0 right-0 h-full w-[80%] md:w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm">
-        {cart && cart.length === 0 ? (
+        {cartItems.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
               <RxCross1
@@ -38,7 +47,7 @@ const Cart = ({ setOpenCart }) => {
                 onClick={() => setOpenCart(false)}
               />
             </div>
-            <h5>Cart Items is empty!</h5>
+            <h5>Cart Items are empty!</h5>
           </div>
         ) : (
           <>
@@ -54,28 +63,27 @@ const Cart = ({ setOpenCart }) => {
               <div className={`flex items-center p-4`}>
                 <IoBagHandleOutline size={25} />
                 <h5 className="pl-2 text-[20px] font-[500]">
-                  {cart && cart.length} items
+                  {cartItems.length} items
                 </h5>
               </div>
 
-              {/* cart Single Items */}
+              {/* Cart Single Items */}
               <br />
               <div className="w-full border-t">
-                {cart &&
-                  cart.map((i, index) => (
-                    <CartSingle
-                      key={index}
-                      data={i}
-                      quantityChangeHandler={quantityChangeHandler}
-                      removeFromCartHandler={removeFromCartHandler}
-                      enqueueSnackbar={enqueueSnackbar}
-                    />
-                  ))}
+                {cartItems.map((item, index) => (
+                  <CartSingle
+                    key={index}
+                    data={item}
+                    quantityChangeHandler={quantityChangeHandler}
+                    removeFromCartHandler={removeFromCartHandler}
+                    enqueueSnackbar={enqueueSnackbar}
+                  />
+                ))}
               </div>
             </div>
 
             <div className="px-5 mb-3">
-              {/* checkout buttons */}
+              {/* Checkout buttons */}
               <Link to="/checkout">
                 <div
                   className={`h-[45px] flex items-center justify-center w-[100%] bg-[#e44343] rounded-[5px]`}
@@ -136,14 +144,14 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler, enqueu
           </div>
         </div>
         <img
-          src={`${data?.images[0]?.url}`}
-          alt=""
+          src={data?.images[0]?.url || ''}
+          alt={data.name}
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
         <div className="pl-[5px]">
           <h1>{data.name}</h1>
           <h4 className="font-[400] text-[15px] text-[#00000082]">
-            ${data.discountPrice} * {value}
+            Rs {data.discountPrice} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
             Rs {totalPrice}
@@ -151,7 +159,7 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler, enqueu
         </div>
         <RxCross1
           className="cursor-pointer"
-          onClick={() => removeFromCartHandler(data)}
+          onClick={() => removeFromCartHandler(data._id)}
         />
       </div>
     </div>

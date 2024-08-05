@@ -28,14 +28,12 @@ router.post(
     );
 
     if (cartProduct) {
-      cartProduct.quantity += req.body.quantity;
+      return res.status(400).json({ message: "Item already present in cart" });
     } else {
       user.cart.push({ product: product._id, quantity: req.body.quantity });
+      await user.save();
+      res.status(200).json({ message: "Product added to cart" });
     }
-
-    await user.save();
-
-    res.status(200).json({ message: "Product added to cart" });
   })
 );
 
@@ -61,18 +59,30 @@ router.post(
 );
 
 // Get user's cart
-router.get(
-  "/",
-  isAuthenticated,
-  AsyncErrorHandler(async (req, res) => {
-    const user = await User.findById(req.user.id).populate("cart.product");
+router.get("/", isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).populate({
+      path: "cart.product", // The path to the product reference in the cart
+      model: "Product", // Ensure this matches the name of your Product model
+    });
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(user.cart);
-  })
-);
+    // Format the cart items to include product details
+    const cart = user.cart.map((item) => ({
+      _id: item._id,
+      product: item.product,
+      qty: item.quantity,
+      // Add any other fields you need from the cart
+    }));
+console.log("cart",cart)
+    res.status(200).json({ cart });
+  } catch (error) {
+    console.error("Error fetching cart:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 export default router;

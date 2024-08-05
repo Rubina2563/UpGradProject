@@ -1,9 +1,8 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
+  isLoading: true,
   wishlist: [],
-  isLoading: false,
-  error: null,
 };
 
 export const wishlistReducer = createReducer(initialState, (builder) => {
@@ -19,17 +18,6 @@ export const wishlistReducer = createReducer(initialState, (builder) => {
       state.isLoading = false;
       state.error = action.payload;
     })
-    .addCase("AddToWishlistRequest", (state) => {
-      state.isLoading = true;
-    })
-    .addCase("AddToWishlistSuccess", (state, action) => {
-      state.isLoading = false;
-      state.wishlist.push(action.payload);
-    })
-    .addCase("AddToWishlistFail", (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    })
     .addCase("RemoveFromWishlistRequest", (state) => {
       state.isLoading = true;
     })
@@ -42,10 +30,5 @@ export const wishlistReducer = createReducer(initialState, (builder) => {
     .addCase("RemoveFromWishlistFail", (state, action) => {
       state.isLoading = false;
       state.error = action.payload;
-    })
-    .addCase("clearErrors", (state) => {
-      state.error = null;
     });
 });
-
-export default wishlistReducer;

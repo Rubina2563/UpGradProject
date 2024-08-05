@@ -1,20 +1,8 @@
 import axios from "axios";
 import { server } from "../../server";
 
-export const fetchWishlist = (userId) => async (dispatch) => {
-  try {
-    dispatch({ type: "FetchWishlistRequest" });
-    const { data } = await axios.get(`${server}/wishlist?userId=${userId}`, {
-      withCredentials: true,
-    });
-    dispatch({ type: "FetchWishlistSuccess", payload: data });
-  } catch (error) {
-    dispatch({
-      type: "FetchWishlistFail",
-      payload: error.response.data.message,
-    });
-  }
-};
+
+
 
 export const addToWishlist = (productId) => async (dispatch) => {
   try {
@@ -33,13 +21,31 @@ export const addToWishlist = (productId) => async (dispatch) => {
   }
 };
 
+export const fetchWishlist = (userId) => async (dispatch) => {
+ 
+  try {
+    dispatch({ type: "FetchWishlistRequest" });
+    const { data } = await axios.get(`${server}/wishlist?userId=${userId}`, {
+      withCredentials: true,
+    });
+    dispatch({ type: "FetchWishlistSuccess", payload: data });
+  } catch (error) {
+    dispatch({
+      type: "FetchWishlistFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
 export const removeFromWishlist = (productId) => async (dispatch) => {
   try {
     dispatch({ type: "RemoveFromWishlistRequest" });
     await axios.post(
       `${server}/wishlist/remove`,
       { productId },
-      { withCredentials: true }
+      {
+        withCredentials: true,
+      }
     );
     dispatch({ type: "RemoveFromWishlistSuccess", payload: productId });
   } catch (error) {
