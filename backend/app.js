@@ -45,12 +45,12 @@ import coupon from "./controllers/couponCode.js";
 import payment from "./controllers/payment.js";
 import order from "./controllers/order.js";
 import conversation from "./controllers/conversation.js";
-//import message from "./controllers/message.js";
 import withdraw from "./controllers/withdraw.js";
+import wishlist from "./controllers/wishlist.js";
+import cart from "./controllers/cart.js";
 
 app.use("/api/v2/user", user);
 app.use("/api/v2/conversation", conversation);
-//app.use("/api/v2/message", message);
 app.use("/api/v2/order", order);
 app.use("/api/v2/shop", shop);
 app.use("/api/v2/product", product);
@@ -58,6 +58,8 @@ app.use("/api/v2/event", event);
 app.use("/api/v2/coupon", coupon);
 app.use("/api/v2/payment", payment);
 app.use("/api/v2/withdraw", withdraw);
+app.use("/api/v2/wishlist", wishlist);
+app.use("/api/v2/cart", cart);
 
 app.use(errorMiddleware);
 

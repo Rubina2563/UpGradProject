@@ -2,7 +2,7 @@ import React from "react";
 import CountDown from "./CountDown";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTocart } from "../../redux/actions/cart";
+import { addToCart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 
 const EventCard = ({ active, data }) => {
@@ -23,7 +23,7 @@ const EventCard = ({ active, data }) => {
        enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: 1 };
-        dispatch(addTocart(cartData));
+        dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }

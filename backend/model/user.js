@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -7,7 +6,9 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 // Configure environment variables
-dotenv.config({ path: path.resolve(fileURLToPath(import.meta.url), "../../.env") });
+dotenv.config({
+  path: path.resolve(fileURLToPath(import.meta.url), "../../.env"),
+});
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -63,6 +64,24 @@ const userSchema = new mongoose.Schema({
       required: true,
     },
   },
+  wishlist: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
+  cart: [
+    {
+      product: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Product",
+      },
+      quantity: {
+        type: Number,
+        default: 1,
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -92,6 +111,6 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-const User = mongoose.model("User", userSchema );
+const User = mongoose.model("User", userSchema);
 
 export default User;

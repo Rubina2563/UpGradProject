@@ -1,32 +1,44 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  cart: localStorage.getItem("cartItems")
-    ? JSON.parse(localStorage.getItem("cartItems"))
-    : [],
+  cart: [],
+  loading: false,
+  error: null,
 };
 
 export const cartReducer = createReducer(initialState, (builder) => {
   builder
-    .addCase("addToCart", (state, action) => {
+    .addCase("addToCartRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("addToCartSuccess", (state, action) => {
+      state.loading = false;
       const item = action.payload;
       const isItemExist = state.cart.find((i) => i._id === item._id);
       if (isItemExist) {
-        return {
-          ...state,
-          cart: state.cart.map((i) => (i._id === isItemExist._id ? item : i)),
-        };
+        state.cart = state.cart.map((i) =>
+          i._id === isItemExist._id ? item : i
+        );
       } else {
-        return {
-          ...state,
-          cart: [...state.cart, item],
-        };
+        state.cart.push(item);
       }
     })
-    .addCase("removeFromCart", (state, action) => {
-      return {
-        ...state,
-        cart: state.cart.filter((i) => i._id !== action.payload),
-      };
+    .addCase("addToCartFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("removeFromCartRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("removeFromCartSuccess", (state, action) => {
+      state.loading = false;
+      state.cart = state.cart.filter((i) => i._id !== action.payload);
+    })
+    .addCase("removeFromCartFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("clearErrors", (state) => {
+      state.error = null;
     });
 });

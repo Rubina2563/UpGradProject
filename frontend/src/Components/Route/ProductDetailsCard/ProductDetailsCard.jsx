@@ -8,7 +8,7 @@ import { RxCross1 } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
-import { addTocart } from "../../../redux/actions/cart";
+import { addToCart } from "../../../redux/actions/cart";
 import { addToWishlist, removeFromWishlist } from "../../../redux/actions/wishlist";
 
 const ProductDetailsCard = ({ setOpen, data }) => {
@@ -39,7 +39,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData));
+        dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }

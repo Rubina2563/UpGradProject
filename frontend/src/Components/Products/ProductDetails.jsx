@@ -11,7 +11,7 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../redux/actions/wishlist";
-import { addTocart } from "../../redux/actions/cart";
+import { addToCart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "./Ratings";
 
@@ -67,7 +67,7 @@ const ProductDetails = ({ data }) => {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: count };
-        dispatch(addTocart(cartData));
+        dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }
@@ -200,7 +200,7 @@ const ProductDetails = ({ data }) => {
                   </Link>
                   <div className="pr-8">
                     <Link to={`/shop/preview/${data?.shop._id}`}>
-                      <h3 className={`pt-3 text-[15px] text-blue-400 pb-1 pt-1`}>
+                      <h3 className={`text-[15px] text-blue-400 pb-1 pt-1`}>
                         {data.shop.name}
                       </h3>
                     </Link>

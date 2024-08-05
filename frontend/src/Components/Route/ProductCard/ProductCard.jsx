@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard";
 import { addToWishlist, removeFromWishlist } from "../../../redux/actions/wishlist";
-import { addTocart } from "../../../redux/actions/cart";
+import { addToCart } from "../../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "../../Products/Ratings";
 
@@ -17,7 +17,7 @@ const ProductCard = ({ data, isEvent }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
@@ -33,12 +33,12 @@ const ProductCard = ({ data, isEvent }) => {
 
   const removeFromWishlistHandler = (data) => {
     setClick(!click);
-    dispatch(removeFromWishlist(data));
+    dispatch(removeFromWishlist({ ...data, userId: user._id }));
   };
 
   const addToWishlistHandler = (data) => {
     setClick(!click);
-    dispatch(addToWishlist(data));
+    dispatch(addToWishlist({ ...data, userId: user._id }));
   };
 
   const addToCartHandler = (id) => {
@@ -50,7 +50,7 @@ const ProductCard = ({ data, isEvent }) => {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, qty: 1 };
-        dispatch(addTocart(cartData));
+        dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
     }

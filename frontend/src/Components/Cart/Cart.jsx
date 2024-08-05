@@ -5,7 +5,7 @@ import { HiOutlineMinus, HiPlus } from "react-icons/hi";
 
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addTocart, removeFromCart } from "../../redux/actions/cart";
+import { addToCart, removeFromCart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 
 const Cart = ({ setOpenCart }) => {
@@ -23,7 +23,7 @@ const Cart = ({ setOpenCart }) => {
   );
 
   const quantityChangeHandler = (data) => {
-    dispatch(addTocart(data));
+    dispatch(addToCart(data));
   };
 
   return (

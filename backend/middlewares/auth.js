@@ -8,6 +8,7 @@ import Shop from "../model/shop.js";
 
 export const isAuthenticated = AsyncErrorHandler(async (req, res, next) => {
   const { token } = req.cookies;
+  console.log(token)
 
   if (!token) {
     return next(new ErrorHandler("Please login to continue", 401));
@@ -16,7 +17,11 @@ export const isAuthenticated = AsyncErrorHandler(async (req, res, next) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
   req.user = await User.findById(decoded.id);
+  if (!req.user) {
+    return next(new ErrorHandler("User not found", 404));
+  }
 
+  console.log("User from middleware:", req.user); // Debugging line
   next();
 });
 
