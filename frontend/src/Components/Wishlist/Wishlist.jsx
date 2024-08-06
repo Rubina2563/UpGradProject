@@ -20,6 +20,8 @@ const Wishlist = ({ setOpenWishlist }) => {
     }
   }, [dispatch, user]);
 
+  
+
   const removeFromWishlistHandler = (productId) => {
     dispatch(removeFromWishlist(productId));
   };
