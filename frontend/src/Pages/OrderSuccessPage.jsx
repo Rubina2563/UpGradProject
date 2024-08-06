@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../Components/Layout/Footer";
 import Header from "../Components/Layout/Header";
 import Lottie from "react-lottie";
 import animationData from "../Assets/Animations/success.json";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../redux/actions/cart"; // Adjust path as needed
 
 const OrderSuccessPage = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Clear the cart on order success
+    dispatch(clearCart());
+  }, [dispatch]);
+
   return (
     <div>
       <Header />
@@ -23,6 +32,7 @@ const Success = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
   return (
     <div>
       <Lottie options={defaultOptions} width={300} height={300} />

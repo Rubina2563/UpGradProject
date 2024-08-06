@@ -85,6 +85,17 @@ export const cartReducer = createReducer(initialState, (builder) => {
       state.loading = false;
       state.error = action.payload;
     })
+    .addCase("ClearCartRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("ClearCartSuccess", (state) => {
+      state.loading = false;
+      state.cart = [];
+    })
+    .addCase("ClearCartFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
     .addCase("clearErrors", (state) => {
       state.error = null;
     });

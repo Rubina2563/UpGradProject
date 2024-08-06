@@ -153,4 +153,22 @@ router.post(
   })
 );
 
+// Clear user's cart
+router.post(
+  "/clear",
+  isAuthenticated,
+  AsyncErrorHandler(async (req, res) => {
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.cart = [];
+    await user.save();
+
+    res.status(200).json({ message: "Cart cleared successfully" });
+  })
+);
+
 export default router;

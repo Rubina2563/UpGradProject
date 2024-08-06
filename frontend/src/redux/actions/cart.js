@@ -79,7 +79,7 @@ export const increaseQuantity = (productId) => async (dispatch, getState) => {
       { productId },
       { withCredentials: true }
     );
-console.log("increasing",data)
+    console.log("increasing", data);
     dispatch({
       type: "IncreaseQuantitySuccess",
       payload: data.cart,
@@ -110,6 +110,29 @@ export const decreaseQuantity = (productId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: "DecreaseQuantityFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// Clear cart
+export const clearCart = () => async (dispatch) => {
+  try {
+    dispatch({ type: "ClearCartRequest" });
+
+    const { data } = await axios.post(
+      `${server}/cart/clear`,
+      {},
+      { withCredentials: true }
+    );
+
+    dispatch({
+      type: "ClearCartSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ClearCartFail",
       payload: error.response.data.message,
     });
   }
