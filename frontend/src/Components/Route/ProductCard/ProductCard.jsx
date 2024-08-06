@@ -15,16 +15,15 @@ import Ratings from "../../Products/Ratings";
 
 const ProductCard = ({ data, isEvent }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { wishlist = [] } = useSelector((state) => state.wishlist);
-  const { cart = [] } = useSelector((state) => state.cart);
+  const { wishlist  } = useSelector((state) => state.wishlist);
+  const { cart  } = useSelector((state) => state.cart);
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  console.log(wishlist)
-console.log(cart)
+ 
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
   }, [wishlist, data._id]);

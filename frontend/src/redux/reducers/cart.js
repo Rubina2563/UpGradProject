@@ -14,10 +14,12 @@ export const cartReducer = createReducer(initialState, (builder) => {
     .addCase("AddToCartSuccess", (state, action) => {
       state.loading = false;
       const item = action.payload;
-      const isItemExist = state.cart.find((i) => i._id === item._id);
+      const isItemExist = state.cart.find(
+        (i) => i.product._id === item.product._id
+      );
       if (isItemExist) {
         state.cart = state.cart.map((i) =>
-          i._id === isItemExist._id ? item : i
+          i.product._id === isItemExist.product._id ? item : i
         );
       } else {
         state.cart.push(item);
@@ -32,7 +34,7 @@ export const cartReducer = createReducer(initialState, (builder) => {
     })
     .addCase("RemoveFromCartSuccess", (state, action) => {
       state.loading = false;
-      state.cart = state.cart.filter((i) => i._id !== action.payload);
+      state.cart = state.cart.filter((i) => i.product._id !== action.payload);
     })
     .addCase("RemoveFromCartFail", (state, action) => {
       state.loading = false;
@@ -46,6 +48,40 @@ export const cartReducer = createReducer(initialState, (builder) => {
       state.cart = action.payload;
     })
     .addCase("fetchCartItemsFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("IncreaseQuantityRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("IncreaseQuantitySuccess", (state, action) => {
+      state.loading = false;
+      const updatedCart = state.cart.map((item) => {
+        if (item.product._id === action.payload.product._id) {
+          return { ...item, quantity: action.payload.quantity };
+        }
+        return item;
+      });
+      state.cart = updatedCart;
+    })
+    .addCase("IncreaseQuantityFail", (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    })
+    .addCase("DecreaseQuantityRequest", (state) => {
+      state.loading = true;
+    })
+    .addCase("DecreaseQuantitySuccess", (state, action) => {
+      state.loading = false;
+      const updatedCart = state.cart.map((item) => {
+        if (item.product._id === action.payload.product._id) {
+          return { ...item, quantity: action.payload.quantity };
+        }
+        return item;
+      });
+      state.cart = updatedCart;
+    })
+    .addCase("DecreaseQuantityFail", (state, action) => {
       state.loading = false;
       state.error = action.payload;
     })

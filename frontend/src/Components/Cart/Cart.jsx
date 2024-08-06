@@ -4,7 +4,7 @@ import { IoBagHandleOutline } from "react-icons/io5";
 import { HiOutlineMinus, HiPlus } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart, fetchCartItems } from "../../redux/actions/cart";
+import { removeFromCart, fetchCartItems, increaseQuantity, decreaseQuantity } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 
 const Cart = ({ setOpenCart }) => {
@@ -12,33 +12,89 @@ const Cart = ({ setOpenCart }) => {
   const { cart } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (user && user._id) {
-      dispatch(fetchCartItems(user._id));
+      setLoading(true);
+      dispatch(fetchCartItems(user._id))
+        .then(() => setLoading(false))
+        .catch((error) => {
+          console.error("Error fetching cart items:", error);
+          enqueueSnackbar('Error fetching cart items. Please try again later.', { variant: 'error' });
+          setLoading(false);
+        });
     }
   }, [dispatch, user]);
 
-  // Ensure cart is always an array
-  const cartItems = Array.isArray(cart) ? cart : [];
+  useEffect(() => {
+    if (Array.isArray(cart)) {
+      const calculatedTotal = cart.reduce(
+        (acc, item) => (item.quantity && item.product.discountPrice
+          ? acc + item.quantity * item.product.discountPrice
+          : acc),
+        0
+      );
+      setTotalPrice(calculatedTotal);
+    }
+  }, [cart]);
 
-  const removeFromCartHandler = (productId) => {
-    dispatch(removeFromCart(productId));
+  const handleAPIError = (error) => {
+    console.error(error);
+    enqueueSnackbar('An error occurred. Please try again later.', { variant: 'error' });
+    setLoading(false);
   };
 
-  const totalPrice = cartItems.reduce(
-    (acc, item) => acc + item.qty * item.discountPrice,
-    0
-  );
+  const removeFromCartHandler = async (productId) => {
+    setLoading(true);
+    try {
+      await dispatch(removeFromCart(productId));
+      await dispatch(fetchCartItems(user._id));
+    } catch (error) {
+      handleAPIError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const quantityChangeHandler = (data) => {
-    dispatch(addToCart(data._id, data.qty));
+  const increaseQuantityHandler = async (productId, currentQuantity, stock) => {
+    if (currentQuantity >= stock) {
+      enqueueSnackbar('Quantity exceeds available stock.', { variant: 'error' });
+      return;
+    }
+    setLoading(true);
+    try {
+      await dispatch(increaseQuantity(productId));
+      await dispatch(fetchCartItems(user._id));
+    } catch (error) {
+      handleAPIError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const decreaseQuantityHandler = async (productId, currentQuantity) => {
+    if (currentQuantity <= 1) return;
+    setLoading(true);
+    try {
+      await dispatch(decreaseQuantity(productId));
+      await dispatch(fetchCartItems(user._id));
+    } catch (error) {
+      handleAPIError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="fixed top-0 left-0 w-full bg-[#0000004b] h-screen z-10">
       <div className="fixed top-0 right-0 h-full w-[80%] md:w-[25%] bg-white flex flex-col overflow-y-scroll justify-between shadow-sm">
-        {cartItems.length === 0 ? (
+        {loading ? (
+          <div className="w-full h-screen flex items-center justify-center">
+            <h5>Loading...</h5>
+          </div>
+        ) : cart && cart.length === 0 ? (
           <div className="w-full h-screen flex items-center justify-center">
             <div className="flex w-full justify-end pt-5 pr-5 fixed top-3 right-3">
               <RxCross1
@@ -63,20 +119,20 @@ const Cart = ({ setOpenCart }) => {
               <div className={`flex items-center p-4`}>
                 <IoBagHandleOutline size={25} />
                 <h5 className="pl-2 text-[20px] font-[500]">
-                  {cartItems.length} items
+                  {cart.length} items
                 </h5>
               </div>
 
               {/* Cart Single Items */}
               <br />
               <div className="w-full border-t">
-                {cartItems.map((item, index) => (
+                {cart.map((item, index) => (
                   <CartSingle
                     key={index}
                     data={item}
-                    quantityChangeHandler={quantityChangeHandler}
+                    increaseQuantityHandler={increaseQuantityHandler}
+                    decreaseQuantityHandler={decreaseQuantityHandler}
                     removeFromCartHandler={removeFromCartHandler}
-                    enqueueSnackbar={enqueueSnackbar}
                   />
                 ))}
               </div>
@@ -101,29 +157,16 @@ const Cart = ({ setOpenCart }) => {
   );
 };
 
-const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler, enqueueSnackbar }) => {
-  const [value, setValue] = useState(data.qty);
-  const totalPrice = data.discountPrice * value;
+const CartSingle = ({ data, increaseQuantityHandler, decreaseQuantityHandler, removeFromCartHandler }) => {
+  const [value, setValue] = useState(data.quantity);
 
-  const increment = () => {
-    if (value >= data.stock) {
-      enqueueSnackbar('Quantity exceeds available stock.', { variant: 'error' });
-    } else {
-      const newValue = value + 1;
-      setValue(newValue);
-      const updateCartData = { ...data, qty: newValue };
-      quantityChangeHandler(updateCartData);
-    }
-  };
+  useEffect(() => {
+    setValue(data.quantity);
+  }, [data.quantity]);
 
-  const decrement = () => {
-    if (value > 1) {
-      const newValue = value - 1;
-      setValue(newValue);
-      const updateCartData = { ...data, qty: newValue };
-      quantityChangeHandler(updateCartData);
-    }
-  };
+  if (!data || !data.product) {
+    return null;
+  }
 
   return (
     <div className="border-b p-4">
@@ -131,35 +174,35 @@ const CartSingle = ({ data, quantityChangeHandler, removeFromCartHandler, enqueu
         <div>
           <div
             className={`bg-[#e44343] border border-[#e4434373] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer`}
-            onClick={increment}
+            onClick={() => increaseQuantityHandler(data.product._id, value, data.product.stock)}
           >
             <HiPlus size={18} color="#fff" />
           </div>
           <span className="pl-[10px]">{value}</span>
           <div
             className="bg-[#a7abb14f] rounded-full w-[25px] h-[25px] flex items-center justify-center cursor-pointer"
-            onClick={decrement}
+            onClick={() => decreaseQuantityHandler(data.product._id, value)}
           >
             <HiOutlineMinus size={16} color="#7d879c" />
           </div>
         </div>
         <img
-          src={data?.images[0]?.url || ''}
-          alt={data.name}
+          src={data.product.images[0]?.url || ''}
+          alt={data.product.name}
           className="w-[130px] h-min ml-2 mr-2 rounded-[5px]"
         />
         <div className="pl-[5px]">
-          <h1>{data.name}</h1>
+          <h1>{data.product.name}</h1>
           <h4 className="font-[400] text-[15px] text-[#00000082]">
-            Rs {data.discountPrice} * {value}
+            Rs {data.product.discountPrice} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            Rs {totalPrice}
+            Rs {data.product.discountPrice * value}
           </h4>
         </div>
         <RxCross1
           className="cursor-pointer"
-          onClick={() => removeFromCartHandler(data._id)}
+          onClick={() => removeFromCartHandler(data.product._id)}
         />
       </div>
     </div>

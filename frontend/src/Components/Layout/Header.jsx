@@ -16,8 +16,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Cart from "../Cart/Cart";
 import Wishlist from "../Wishlist/Wishlist";
 import { RxCross1 } from "react-icons/rx";
-import { fetchWishlist } from "../../redux/actions/wishlist"; // Import the fetchWishlist action
-
+import { fetchWishlist } from "../../redux/actions/wishlist"; 
+import { fetchCartItems } from "../../redux/actions/cart";
 const Header = ({ heading }) => {
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -36,7 +36,8 @@ const Header = ({ heading }) => {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      dispatch(fetchWishlist(user._id)); // Fetch wishlist when user is authenticated
+      dispatch(fetchWishlist(user._id));
+      dispatch(fetchCartItems(user._id));
     }
   }, [dispatch, isAuthenticated, user]);
 
