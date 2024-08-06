@@ -126,7 +126,8 @@ const Cart = ({ setOpenCart }) => {
               {/* Cart Single Items */}
               <br />
               <div className="w-full border-t">
-                {cart.map((item, index) => (
+                    {cart && cart.length > 0 ?
+                      cart.map((item, index) => (
                   <CartSingle
                     key={index}
                     data={item}
@@ -134,7 +135,7 @@ const Cart = ({ setOpenCart }) => {
                     decreaseQuantityHandler={decreaseQuantityHandler}
                     removeFromCartHandler={removeFromCartHandler}
                   />
-                ))}
+                )): "Loading ....."}
               </div>
             </div>
 

@@ -95,6 +95,7 @@ export const increaseQuantity = (productId) => async (dispatch, getState) => {
 // Decrease quantity
 export const decreaseQuantity = (productId) => async (dispatch, getState) => {
   try {
+    
     dispatch({ type: "DecreaseQuantityRequest" });
 
     const { data } = await axios.post(
@@ -102,7 +103,7 @@ export const decreaseQuantity = (productId) => async (dispatch, getState) => {
       { productId },
       { withCredentials: true }
     );
-
+    
     dispatch({
       type: "DecreaseQuantitySuccess",
       payload: data.cart,
@@ -110,7 +111,7 @@ export const decreaseQuantity = (productId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: "DecreaseQuantityFail",
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };

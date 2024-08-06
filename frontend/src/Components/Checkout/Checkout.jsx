@@ -199,7 +199,7 @@ const ShippingInfo = ({
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               required
-              className={`w-full border p-1 rounded-[5px] !w-[95%]`}
+              className={`border p-1 rounded-[5px] w-[95%]`}
             />
           </div>
           <div className="w-[50%]">
