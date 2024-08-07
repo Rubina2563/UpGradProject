@@ -23,13 +23,13 @@ const ProductCard = ({ data, isEvent }) => {
   const [isInCart, setIsInCart] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-
+ 
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
   }, [wishlist, data._id]);
 
   useEffect(() => {
-    setIsInCart(cart.some((item) => item._id === data._id));
+    setIsInCart(cart.some((item) => item.product._id === data._id));
   }, [cart, data._id]);
 
   const addToWishlistHandler = () => {

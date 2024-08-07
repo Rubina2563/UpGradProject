@@ -13,7 +13,7 @@ const Wishlist = ({ setOpenWishlist }) => {
   const { user } = useSelector((state) => state.user);
   const { cart } = useSelector((state) => state.cart);
   const { enqueueSnackbar } = useSnackbar();
-
+  
   useEffect(() => {
     if (user) {
       dispatch(fetchWishlist(user._id));
@@ -27,9 +27,11 @@ const Wishlist = ({ setOpenWishlist }) => {
   };
 
   const addToCartHandler = (data) => {
-    const isItemExists = cart && cart.find((item) => item._id === data._id);
+   
+    const isItemExists = cart && cart.find((item) => item.product._id === data._id);
+    
     if (isItemExists) {
-      enqueueSnackbar("Item already in cart!", { variant: 'error' });
+      enqueueSnackbar("Item already in cart!", { variant: 'info' });
     } else {
       if (data.stock < 1) {
         enqueueSnackbar("Product out of stock", { variant: 'error' });

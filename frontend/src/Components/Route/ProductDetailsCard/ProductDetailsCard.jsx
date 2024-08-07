@@ -30,14 +30,12 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     setCount(count + 1);
   };
 
-  const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => console.log(i.cart._id));
-    console.log(cart)
-    console.log(id);
 
+  const addToCartHandler = (id) => {
+    const isItemExists = cart && cart.find((i) => i.product._id === id);
     
     if (isItemExists) {
-      enqueueSnackbar("Item already in cart!", { variant: 'error' });
+      enqueueSnackbar("Item already in cart!", {variant: 'info'});
     } else {
       if (data.stock < count) {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
