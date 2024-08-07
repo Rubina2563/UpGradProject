@@ -96,7 +96,7 @@ const Wishlist = ({ setOpenWishlist }) => {
 
 const CartSingle = ({ data, removeFromWishlistHandler, addToCartHandler }) => {
   const totalPrice = data.discountPrice;
-
+console.log("data",data)
   return (
     <div className="border-b p-4">
       <div className="w-full md:flex items-center">

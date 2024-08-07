@@ -31,14 +31,19 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
 
   const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i._id === id);
+    const isItemExists = cart && cart.find((i) => console.log(i.cart._id));
+    console.log(cart)
+    console.log(id);
+
+    
     if (isItemExists) {
       enqueueSnackbar("Item already in cart!", { variant: 'error' });
     } else {
       if (data.stock < count) {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
-        const cartData = { ...data, qty: count };
+        const cartData = { ...data, quantity: count };
+      
         dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
@@ -93,7 +98,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   </Link>
                 </div>
 
-                <h5 className="text-[16px] text-[red] mt-5">(50) Sold out</h5>
+               
               </div>
 
               <div className="w-full md:w-[50%] pt-5 pl-[5px] pr-[5px]">

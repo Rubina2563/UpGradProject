@@ -11,6 +11,7 @@ router.post(
   "/add",
   isAuthenticated,
   AsyncErrorHandler(async (req, res) => {
+   
     const user = await User.findById(req.user.id);
 
     if (!user) {
@@ -30,9 +31,15 @@ router.post(
     if (cartProduct) {
       return res.status(400).json({ message: "Item already present in cart" });
     } else {
-      user.cart.push({ product: product._id, quantity: req.body.quantity });
+      user.cart.push({
+        product: product._id,
+        quantity: req.body.productId.quantity,
+      });
       await user.save();
-      res.status(200).json({ message: "Product added to cart" });
+      res.status(200).json({
+        message: "Product added to cart",
+        cart: user.cart.product,
+      });
     }
   })
 );

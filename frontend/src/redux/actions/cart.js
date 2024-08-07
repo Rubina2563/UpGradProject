@@ -87,7 +87,7 @@ export const increaseQuantity = (productId) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: "IncreaseQuantityFail",
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };

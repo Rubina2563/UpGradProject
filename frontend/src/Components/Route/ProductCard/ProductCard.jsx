@@ -15,15 +15,15 @@ import Ratings from "../../Products/Ratings";
 
 const ProductCard = ({ data, isEvent }) => {
   const { enqueueSnackbar } = useSnackbar();
-  const { wishlist  } = useSelector((state) => state.wishlist);
-  const { cart  } = useSelector((state) => state.cart);
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { cart } = useSelector((state) => state.cart);
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
- 
+
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
   }, [wishlist, data._id]);
@@ -32,26 +32,30 @@ const ProductCard = ({ data, isEvent }) => {
     setIsInCart(cart.some((item) => item._id === data._id));
   }, [cart, data._id]);
 
-  const handleWishlistToggle = () => {
+  const addToWishlistHandler = () => {
     if (isAuthenticated) {
-      if (isInWishlist) {
-        dispatch(removeFromWishlist(data._id));
-        setIsInWishlist(false);
-      } else {
-        dispatch(addToWishlist(data._id));
-        setIsInWishlist(true);
-      }
+      dispatch(addToWishlist(data._id));
+      setIsInWishlist(true);
+      enqueueSnackbar("Added to wishlist", { variant: 'success' });
     } else {
-      enqueueSnackbar("Please log in to add/remove from wishlist", { variant: 'warning' });
+      enqueueSnackbar("Please log in to add to wishlist", { variant: 'warning' });
+    }
+  };
+
+  const removeFromWishlistHandler = () => {
+    if (isAuthenticated) {
+      dispatch(removeFromWishlist(data._id));
+      setIsInWishlist(false);
+      enqueueSnackbar("Removed from wishlist", { variant: 'success' });
+    } else {
+      enqueueSnackbar("Please log in to remove from wishlist", { variant: 'warning' });
     }
   };
 
   const handleCartToggle = () => {
     if (isAuthenticated) {
       if (isInCart) {
-        dispatch(removeFromCart(data._id));
-        setIsInCart(false);
-        enqueueSnackbar("Item removed from cart", { variant: 'success' });
+        enqueueSnackbar("Item already in the cart", { variant: 'info' }); // Display a message if already in cart
       } else {
         if (data.stock < 1) {
           enqueueSnackbar("Product out of stock", { variant: 'error' });
@@ -111,7 +115,7 @@ const ProductCard = ({ data, isEvent }) => {
               <AiFillHeart
                 size={22}
                 className="cursor-pointer absolute right-2 top-5"
-                onClick={handleWishlistToggle}
+                onClick={removeFromWishlistHandler}
                 color="red"
                 title="Remove from wishlist"
               />
@@ -119,7 +123,7 @@ const ProductCard = ({ data, isEvent }) => {
               <AiOutlineHeart
                 size={22}
                 className="cursor-pointer absolute right-2 top-5"
-                onClick={handleWishlistToggle}
+                onClick={addToWishlistHandler}
                 color="#333"
                 title="Add to wishlist"
               />

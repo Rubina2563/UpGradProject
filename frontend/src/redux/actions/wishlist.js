@@ -1,9 +1,6 @@
 import axios from "axios";
 import { server } from "../../server";
 
-
-
-
 export const addToWishlist = (productId) => async (dispatch) => {
   try {
     dispatch({ type: "AddToWishlistRequest" });
@@ -12,17 +9,16 @@ export const addToWishlist = (productId) => async (dispatch) => {
       { productId },
       { withCredentials: true }
     );
-    dispatch({ type: "AddToWishlistSuccess", payload: data });
+    dispatch({ type: "AddToWishlistSuccess", payload: data.product });
   } catch (error) {
     dispatch({
       type: "AddToWishlistFail",
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };
 
 export const fetchWishlist = (userId) => async (dispatch) => {
- 
   try {
     dispatch({ type: "FetchWishlistRequest" });
     const { data } = await axios.get(`${server}/wishlist?userId=${userId}`, {
@@ -32,7 +28,7 @@ export const fetchWishlist = (userId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "FetchWishlistFail",
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };
@@ -51,7 +47,7 @@ export const removeFromWishlist = (productId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "RemoveFromWishlistFail",
-      payload: error.response.data.message,
+      payload: error.response,
     });
   }
 };

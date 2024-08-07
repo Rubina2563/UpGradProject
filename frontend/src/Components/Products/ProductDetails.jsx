@@ -66,7 +66,7 @@ const ProductDetails = ({ data }) => {
       if (data.stock < count) {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
-        const cartData = { ...data, qty: count };
+        const cartData = { ...data, quantity: count };
         dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
       }
