@@ -33,11 +33,9 @@ const ProductCard = ({ data, isEvent }) => {
  useEffect(() => {
   try {
     setIsInCart(cart.some((item) => item?.product._id === data._id));
+    
   } catch (error) {
-    // If an error occurs, assume it's because the cart is empty and it's the first item being added
-    console.error("Error in useEffect:", error);
-    setIsInCart(false); // Set to false initially
-    enqueueSnackbar("Added to your cart successfully!", { variant: 'success' }); // Show the message
+   console.log("added first item")
   }
 }, [cart, data._id]);
 
