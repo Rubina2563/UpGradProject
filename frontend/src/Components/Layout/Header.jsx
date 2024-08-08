@@ -82,22 +82,7 @@ const Header = ({ heading }) => {
     }
   });
 
-  const logoutHandler = () => {
-    axios
-      .get(`${server}/user/logout`, { withCredentials: true })
-      .then((res) => {
-         // Extracting the success message from the response
-    const successMessage = res.data?.message || "Operation successful";
 
-    // Using enqueueSnackbar to show the success message
-    enqueueSnackbar(successMessage, { variant: 'success' });
-        window.location.reload(true);
-        navigate("/login");
-      })
-      .catch((error) => {
-        console.log(error.response.data.message);
-      });
-  };
 
   return (
     <>
@@ -253,7 +238,7 @@ const Header = ({ heading }) => {
       {openWishlist && <Wishlist setOpenWishlist={setOpenWishlist} />}
 
       {/* mobile header */}
-      <div className={`fixed w-full bg-slate-50 h-[70px] top-0 left-0 z-10 lg:hidden`}>
+      <div className={`w-full bg-slate-50 h-[70px] top-0 left-0 z-10 lg:hidden`}>
         <div className={`w-full flex items-center justify-between`}>
           <div>
             <BiMenuAltLeft
@@ -273,17 +258,21 @@ const Header = ({ heading }) => {
             </Link>
           </div>
           <div>
-            <div className="relative mr-[20px]">
+            <div    className={`relative cursor-pointer mr-[15px] ${
+                  isAuthenticated ? "" : "pointer-events-none opacity-50"
+                }`}
+                onClick={isAuthenticated ? () => setOpenCart(true) : null}
+                title={isAuthenticated ? "" : "Please login"}>
               <AiOutlineShoppingCart
                 size={30}
                 className="cursor-pointer"
                 onClick={() => setOpenCart(true)}
               />
-              {cart && cart.length > 0 && (
-                <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                  {cart.length}
-                </span>
-              )}
+             {isAuthenticated && cart && cart.length > 0 && (
+                  <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                    {cart.length}
+                  </span>
+                )}
             </div>
           </div>
         </div>
@@ -293,7 +282,11 @@ const Header = ({ heading }) => {
           <div className={`fixed w-full bg-[#0000005f] z-20 h-full top-0 left-0`}>
             <div className={`fixed w-[60%] bg-red-200 h-screen top-0 left-0 z-10`}>
               <div className="w-full justify-between flex pr-3">
-                <div>
+                <div   className={`relative cursor-pointer mr-[15px] ${
+                  isAuthenticated ? "" : "pointer-events-none opacity-50"
+                }`}
+                onClick={isAuthenticated ? () => setOpenWishlist(true) : null}
+                title={isAuthenticated ? "" : "Please login"}>
                   <div className="relative mr-[15px]">
                     <AiOutlineHeart
                       size={30}
@@ -303,11 +296,11 @@ const Header = ({ heading }) => {
                         setOpen(false);
                       }}
                     />
-                    {wishlist && wishlist.length > 0 && (
-                      <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
-                        {wishlist.length}
-                      </span>
-                    )}
+                     {isAuthenticated && wishlist && wishlist.length > 0 && (
+                  <span className="absolute right-0 top-0 rounded-full bg-[#3bc177] w-4 h-4 p-0 m-0 text-white font-mono text-[12px] leading-tight text-center">
+                    {wishlist.length}
+                  </span>
+                )}
                   </div>
                 </div>
     <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer">
