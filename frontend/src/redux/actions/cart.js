@@ -17,10 +17,11 @@ export const addToCart =
         type: "AddToCartSuccess",
         payload: data,
       });
+      console.log("data",data)
     } catch (error) {
       dispatch({
         type: "AddToCartFail",
-        payload: error.response.data.message,
+        payload: error.response,
       });
     }
   };

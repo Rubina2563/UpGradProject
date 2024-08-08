@@ -31,23 +31,21 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
 
 
-  const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i.product._id === id);
+  const addToCartHandler = () => {
     
-    if (isItemExists) {
-      enqueueSnackbar("Item already in cart!", {variant: 'info'});
-    } else {
       if (data.stock < count) {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, quantity: count };
-      
-        dispatch(addToCart(cartData));
+      try{ dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'info' });
+        }
+       
       }
     }
-  };
-
+  
   useEffect(() => {
     if (wishlist && wishlist.find((i) => i._id === data._id)) {
       setClick(true);

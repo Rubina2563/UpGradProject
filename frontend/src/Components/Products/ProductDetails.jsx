@@ -58,20 +58,20 @@ const ProductDetails = ({ data }) => {
     dispatch(addToWishlist(data));
   };
 
-  const addToCartHandler = (id) => {
-    const isItemExists = cart && cart.find((i) => i.product._id === id);
-    if (isItemExists) {
-      enqueueSnackbar("Item already in cart!", { variant: 'info' });
-    } else {
+   const addToCartHandler = () => {
+    
       if (data.stock < count) {
         enqueueSnackbar("Product stock limited", { variant: 'error' });
       } else {
         const cartData = { ...data, quantity: count };
-        dispatch(addToCart(cartData));
+      try{ dispatch(addToCart(cartData));
         enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
+      } catch (error) {
+        enqueueSnackbar(error.message, { variant: 'info' });
+        }
+       
       }
     }
-  };
 
   const totalReviewsLength =
     products &&

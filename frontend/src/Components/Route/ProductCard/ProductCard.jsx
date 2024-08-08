@@ -24,13 +24,22 @@ const ProductCard = ({ data, isEvent }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
  
+
+  console.log("cart",cart)
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
   }, [wishlist, data._id]);
 
-  useEffect(() => {
-    setIsInCart(cart.some((item) => item.product._id === data._id));
-  }, [cart, data._id]);
+ useEffect(() => {
+  try {
+    setIsInCart(cart.some((item) => item?.product._id === data._id));
+  } catch (error) {
+    // If an error occurs, assume it's because the cart is empty and it's the first item being added
+    console.error("Error in useEffect:", error);
+    setIsInCart(false); // Set to false initially
+    enqueueSnackbar("Added to your cart successfully!", { variant: 'success' }); // Show the message
+  }
+}, [cart, data._id]);
 
   const addToWishlistHandler = () => {
     if (isAuthenticated) {
@@ -60,7 +69,7 @@ const ProductCard = ({ data, isEvent }) => {
         if (data.stock < 1) {
           enqueueSnackbar("Product out of stock", { variant: 'error' });
         } else {
-          dispatch(addToCart({ ...data, qty: 1 }));
+          dispatch(addToCart({ ...data, quantity: 1 }));
           setIsInCart(true);
           enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
         }
