@@ -152,32 +152,7 @@ const ProductDetails = ({ data }) => {
                       -
                     </button>
                   </div>
-                  <div>
-                    {isAuthenticated ? (
-                      click ? (
-                        <AiFillHeart
-                          size={30}
-                          className="cursor-pointer"
-                          onClick={() => removeFromWishlistHandler(data)}
-                          color="red"
-                          title="Remove from wishlist"
-                        />
-                      ) : (
-                        <AiOutlineHeart
-                          size={30}
-                          className="cursor-pointer"
-                          onClick={() => addToWishlistHandler(data)}
-                          title="Add to wishlist"
-                        />
-                      )
-                    ) : (
-                      <AiOutlineHeart
-                        size={30}
-                        className="cursor-not-allowed"
-                        title="Login please"
-                      />
-                    )}
-                  </div>
+                
                 </div>
                 <div
                   className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${

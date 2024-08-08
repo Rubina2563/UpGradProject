@@ -17,7 +17,7 @@ export const addToCart =
         type: "AddToCartSuccess",
         payload: data,
       });
-      console.log("data",data)
+     return data;
     } catch (error) {
       dispatch({
         type: "AddToCartFail",

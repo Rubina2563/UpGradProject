@@ -24,8 +24,8 @@ const ProductCard = ({ data, isEvent }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
  
-
-  console.log("cart",cart)
+  console.log("data", data);
+  
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
   }, [wishlist, data._id]);

@@ -19,7 +19,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-
+console.log("data outside",data)
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
@@ -31,27 +31,23 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
 
 
-  const addToCartHandler = (data) => {
-    console.log("data", data);
-    console.log("cart", cart);
-  if (cart.length === 0) {
-    const cartData = { ...data, quantity: count };
-     dispatch(addToCart(cartData));
-      enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
+  const addToCartHandler = async (data) => {
+  console.log("from ProductDetails", data);
+  
+  if (data.stock < count) {
+    enqueueSnackbar("Product stock limited", { variant: 'error' });
   } else {
-    if (cart.some((item) => item?.product === data)) {
-      enqueueSnackbar("Item already in cart", { variant: 'info' });
-    } else {
-      if (data.stock < count) {
-        enqueueSnackbar("Product stock limited", { variant: 'error' });
+    const cartData = { ...data, quantity: count };
+    
+    try {
+      const dispatchedData = await dispatch(addToCart(cartData)); // This should now hold the response data
+      console.log("dispatched", dispatchedData);
+      enqueueSnackbar("Item added to cart", { variant: 'success' });
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        enqueueSnackbar(error.response.data.message, { variant: 'info' });
       } else {
-        const cartData = { ...data, quantity: count };
-        try {
-          dispatch(addToCart(cartData));
-          enqueueSnackbar("Item added to cart successfully!", { variant: 'success' });
-        } catch (error) {
-          enqueueSnackbar(error.message, { variant: 'error' });
-        }
+        enqueueSnackbar(error.message, { variant: 'error' });
       }
     }
   }
@@ -139,39 +135,14 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       +
                     </button>
                   </div>
-                  <div>
-                    {isAuthenticated ? (
-                      click ? (
-                        <AiFillHeart
-                          size={30}
-                          className="cursor-pointer"
-                          onClick={() => removeFromWishlistHandler(data)}
-                          color="red"
-                          title="Remove from wishlist"
-                        />
-                      ) : (
-                        <AiOutlineHeart
-                          size={30}
-                          className="cursor-pointer"
-                          onClick={() => addToWishlistHandler(data)}
-                          title="Add to wishlist"
-                        />
-                      )
-                    ) : (
-                      <AiOutlineHeart
-                        size={30}
-                        className="cursor-not-allowed"
-                        title="Login please"
-                      />
-                    )}
-                  </div>
+                 
                 </div>
                 <div
                   className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded-[4px] h-11 flex items-center ${
                     data.stock < 1 || !isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
                   }`}
                   onClick={() => {
-                    if (data.stock > 0 && isAuthenticated) addToCartHandler(data._id);
+                    if (data.stock > 0 && isAuthenticated) addToCartHandler(data);
                   }}
                   title={data.stock < 1 ? "Out of stock" : isAuthenticated ? "Add to cart" : "Login please"}
                 >
