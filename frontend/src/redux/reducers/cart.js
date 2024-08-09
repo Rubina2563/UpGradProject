@@ -14,16 +14,7 @@ export const cartReducer = createReducer(initialState, (builder) => {
     .addCase("AddToCartSuccess", (state, action) => {
       state.loading = false;
       const item = action.payload;
-      const isItemExist = state.cart.find(
-        (i) => i.product._id === item.product._id
-      );
-      if (isItemExist) {
-        state.cart = state.cart.map((i) =>
-          i.product._id === isItemExist.product._id ? item : i
-        );
-      } else {
-        state.cart.push(item);
-      }
+      state.cart.push(item);
     })
     .addCase("AddToCartFail", (state, action) => {
       state.loading = false;

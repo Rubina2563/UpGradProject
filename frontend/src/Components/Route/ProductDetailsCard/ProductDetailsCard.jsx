@@ -19,7 +19,9 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const { enqueueSnackbar } = useSnackbar();
-console.log("data outside",data)
+
+  
+
   const decrementCount = () => {
     if (count > 1) {
       setCount(count - 1);
@@ -30,9 +32,34 @@ console.log("data outside",data)
     setCount(count + 1);
   };
 
+   
+const addToCartHandler = async (data) => {
+  console.log("data inside", data);
+  console.log("cart inside", cart.length);
 
-  const addToCartHandler = async (data) => {
-  console.log("from ProductDetails", data);
+  if (data.stock < count) {
+    enqueueSnackbar("Product stock limited", { variant: 'error' });
+  } else {
+    const cartData = { ...data, quantity: count };
+    
+    try {
+      const response = await dispatch(addToCart(cartData)); // Await the action to get the response
+
+      if (response && response.message) {
+        enqueueSnackbar(response.message, { variant: 'success' });
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        enqueueSnackbar(error.response.data.message, { variant: 'info' });
+      } else {
+        enqueueSnackbar("An unexpected error occurred", { variant: 'error' });
+      }
+    }
+  }
+};
+  
+/*
+const addToCartHandler = async (data) => {
   
   if (data.stock < count) {
     enqueueSnackbar("Product stock limited", { variant: 'error' });
@@ -40,18 +67,15 @@ console.log("data outside",data)
     const cartData = { ...data, quantity: count };
     
     try {
-      const dispatchedData = await dispatch(addToCart(cartData)); // This should now hold the response data
-      console.log("dispatched", dispatchedData);
-      enqueueSnackbar("Item added to cart", { variant: 'success' });
-    } catch (error) {
-      if (error.response && error.response.status === 400) {
-        enqueueSnackbar(error.response.data.message, { variant: 'info' });
-      } else {
-        enqueueSnackbar(error.message, { variant: 'error' });
-      }
-    }
+       dispatch(addToCart(cartData)); // This should now hold the response data
+} catch (error){ enqueueSnackbar(error, { variant: 'info' });
+ }
+ 
+      enqueueSnackbar("Item added to cart", { variant: 'success' });   
   }
-};
+  };
+*/
+
   useEffect(() => {
     if (wishlist && wishlist.find((i) => i._id === data._id)) {
       setClick(true);

@@ -26,7 +26,7 @@ import { fetchCartItems } from "../../redux/actions/cart";
 const Header = ({ heading }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-   const { enqueueSnackbar } = useSnackbar();
+  
   const { isAuthenticated, user } = useSelector((state) => state.user);
   const { isSeller } = useSelector((state) => state.seller);
   const { wishlist } = useSelector((state) => state.wishlist);
@@ -41,6 +41,7 @@ const Header = ({ heading }) => {
   const [open, setOpen] = useState(false);
 
   const searchRef = useRef();
+ 
 
   useEffect(() => {
     if (isAuthenticated && user) {
@@ -49,6 +50,7 @@ const Header = ({ heading }) => {
     }
   }, [dispatch, isAuthenticated, user]);
 
+ 
   const handleSearchChange = (e) => {
     const term = e.target.value;
     setSearchTerm(term);

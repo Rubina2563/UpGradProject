@@ -19,10 +19,13 @@ export const addToCart =
       });
      return data;
     } catch (error) {
+       const errorMessage =
+         error.response?.data?.message || "Something went wrong";
       dispatch({
         type: "AddToCartFail",
         payload: error.response,
       });
+      return errorMessage;
     }
   };
 

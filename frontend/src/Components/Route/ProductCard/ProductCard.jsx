@@ -24,7 +24,7 @@ const ProductCard = ({ data, isEvent }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
  
-  console.log("data", data);
+
   
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
@@ -33,9 +33,10 @@ const ProductCard = ({ data, isEvent }) => {
  useEffect(() => {
   try {
     setIsInCart(cart.some((item) => item?.product._id === data._id));
+   
     
   } catch (error) {
-   console.log("added first item")
+  
   }
 }, [cart, data._id]);
 
