@@ -66,7 +66,6 @@ const App = () => {
 
   return (
     <BrowserRouter>
-     
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='/login' element={<LoginPage />} />
@@ -225,7 +224,14 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-      
+        <Route
+          path='/payment'
+          element={
+            <ProtectedRoute>
+              <PaymentPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

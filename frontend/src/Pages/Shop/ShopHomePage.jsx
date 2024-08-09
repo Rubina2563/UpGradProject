@@ -1,5 +1,5 @@
 //corrected
-import React from 'react'
+import React from 'react';
 
 import ShopInfo from "../../Components/Shop/ShopInfo";
 import ShopProfileData from "../../Components/Shop/ShopProfileData";

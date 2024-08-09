@@ -34,7 +34,7 @@ export const getAllOrdersOfShop = (shopId) => async (dispatch) => {
     const { data } = await axios.get(
       `${server}/order/get-seller-all-orders/${shopId}`
     );
-
+console.log("action data",data)
     dispatch({
       type: "getAllOrdersShopSuccess",
       payload: data.orders,

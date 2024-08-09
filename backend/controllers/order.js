@@ -73,16 +73,18 @@ router.get(
 router.get(
   "/get-seller-all-orders/:shopId",
   AsyncErrorHandler(async (req, res, next) => {
+    console.log("req body", req.params);
     try {
       const orders = await Order.find({
-        "cart.shopId": req.params.shopId,
+        "cart.product.shopId": req.params.shopId,
       }).sort({
         createdAt: -1,
       });
 
+console.log("orders",orders)
       res.status(200).json({
         success: true,
-        orders,
+        orders:orders,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
