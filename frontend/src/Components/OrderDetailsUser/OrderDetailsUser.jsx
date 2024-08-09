@@ -87,22 +87,23 @@ const UserOrderDetails = () => {
       <br />
       {data &&
         data?.cart.map((item, index) => {
+          console.log(item)
           return(
           <div className="w-full flex items-start mb-5">
             <img
-              src={`${item.images[0]?.url}`}
+              src={`${item.product.images[0]?.url}`}
               alt=""
               className="w-[80x] h-[80px]"
             />
             <div className="w-full">
               <h5 className="pl-3 text-[20px]">{item.name}</h5>
               <h5 className="pl-3 text-[20px] text-[#00000091]">
-                US${item.discountPrice} x {item.qty}
+                Rs {item.product.discountPrice} x {item.quantity}
               </h5>
             </div>
             {!item.isReviewed && data?.status === "Delivered" ?  <div
                 className={`w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer text-[#fff]`}
-                onClick={() => setOpen(true) || setSelectedItem(item)}
+                onClick={() => setOpen(true) || setSelectedItem(item.product)}
               >
                 Write a review
               </div> : (
@@ -136,7 +137,7 @@ const UserOrderDetails = () => {
               <div>
                 <div className="pl-3 text-[20px]">{selectedItem?.name}</div>
                 <h4 className="pl-3 text-[20px]">
-                  US${selectedItem?.discountPrice} x {selectedItem?.qty}
+                  Rs {selectedItem?.discountPrice} x {selectedItem?.quantity}
                 </h4>
               </div>
             </div>

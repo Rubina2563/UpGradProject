@@ -58,23 +58,7 @@ const addToCartHandler = async (data) => {
   }
 };
   
-/*
-const addToCartHandler = async (data) => {
-  
-  if (data.stock < count) {
-    enqueueSnackbar("Product stock limited", { variant: 'error' });
-  } else {
-    const cartData = { ...data, quantity: count };
-    
-    try {
-       dispatch(addToCart(cartData)); // This should now hold the response data
-} catch (error){ enqueueSnackbar(error, { variant: 'info' });
- }
- 
-      enqueueSnackbar("Item added to cart", { variant: 'success' });   
-  }
-  };
-*/
+
 
   useEffect(() => {
     if (wishlist && wishlist.find((i) => i._id === data._id)) {

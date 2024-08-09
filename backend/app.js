@@ -42,7 +42,7 @@ import shop from "./controllers/shop.js";
 import product from "./controllers/product.js";
 import event from "./controllers/event.js";
 import coupon from "./controllers/couponCode.js";
-import payment from "./controllers/payment.js";
+
 import order from "./controllers/order.js";
 import conversation from "./controllers/conversation.js";
 import withdraw from "./controllers/withdraw.js";
@@ -56,7 +56,7 @@ app.use("/api/v2/shop", shop);
 app.use("/api/v2/product", product);
 app.use("/api/v2/event", event);
 app.use("/api/v2/coupon", coupon);
-app.use("/api/v2/payment", payment);
+
 app.use("/api/v2/withdraw", withdraw);
 app.use("/api/v2/wishlist", wishlist);
 app.use("/api/v2/cart", cart);
