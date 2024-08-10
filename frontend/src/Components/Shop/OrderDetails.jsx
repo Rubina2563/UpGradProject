@@ -81,7 +81,8 @@ let result = calculateQuantitiesAndPrice(data, seller._id);
       `${server}/order/order-refund-success/${id}`,
       {
         status,
-        totalPrice:result.totalPriceForSeller
+        totalPrice: result.totalPriceForSeller,
+        sellerId:seller._id
       },
       { withCredentials: true }
     )
@@ -181,7 +182,6 @@ let result = calculateQuantitiesAndPrice(data, seller._id);
         >
           {[
             "Processing",
-            "Transferred to delivery partner",
             "Shipping",
             "Received",
             "On the way",
@@ -190,7 +190,6 @@ let result = calculateQuantitiesAndPrice(data, seller._id);
             .slice(
               [
                 "Processing",
-                "Transferred to delivery partner",
                 "Shipping",
                 "Received",
                 "On the way",

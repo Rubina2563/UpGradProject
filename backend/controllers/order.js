@@ -105,17 +105,6 @@ router.put(
       if (!order) {
         return next(new ErrorHandler("Order not found with this id", 400));
       }
-      if (req.body.status === "Transferred to delivery partner") {
-        const sellerId = req.body.sellerId; // Assuming req.seller contains the seller info
-
-        order.cart
-          .filter((o) => o.product.shopId.toString() === sellerId.toString()) // Filter by sellerId
-          .forEach(async (o) => {
-            await updateOrder(o.product._id, o.quantity);
-          });
-
-        await updateSellerInfoAgain(req.body.totalPrice);
-      }
 
       order.status = req.body.status;
 
@@ -140,14 +129,6 @@ router.put(
         order,
       });
 
-      async function updateOrder(id, qty) {
-        const product = await Product.findById(id);
-
-        product.stock += qty;
-        product.sold_out -= qty;
-
-        await product.save({ validateBeforeSave: false });
-      }
       async function updateOrderDelivered(id, qty) {
         const product = await Product.findById(id);
 
@@ -161,13 +142,6 @@ router.put(
         const seller = await Shop.findById(req.seller.id);
 
         seller.availableBalance += amount;
-
-        await seller.save();
-      }
-      async function updateSellerInfoAgain(amount) {
-        const seller = await Shop.findById(req.seller.id);
-
-        seller.availableBalance -= amount;
 
         await seller.save();
       }
@@ -225,9 +199,15 @@ router.put(
       });
 
       if (req.body.status === "Refund Success") {
-        order.cart.forEach(async (o) => {
-          await updateOrder(o._id, o.qty);
-        });
+        const sellerId = req.body.sellerId; // Assuming req.seller contains the seller info
+
+        order.cart
+          .filter((o) => o.product.shopId.toString() === sellerId.toString()) // Filter by sellerId
+          .forEach(async (o) => {
+            await updateOrder(o.product._id, o.quantity);
+          });
+         const serviceCharge = req.body.totalPrice * 0.2;
+        await updateSellerInfoAgain(req.body.totalPrice-serviceCharge);
       }
 
       async function updateOrder(id, qty) {
@@ -237,6 +217,14 @@ router.put(
         product.sold_out -= qty;
 
         await product.save({ validateBeforeSave: false });
+      }
+
+      async function updateSellerInfoAgain(amount) {
+        const seller = await Shop.findById(req.seller.id);
+
+        seller.availableBalance -= amount;
+
+        await seller.save();
       }
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));

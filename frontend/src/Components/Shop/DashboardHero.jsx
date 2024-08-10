@@ -74,13 +74,12 @@ const DashboardHero = () => {
       .reduce(
         (acc, cartItem) => {
           acc.totalQuantity += cartItem.quantity;
-          acc.totalPrice += cartItem.product.discountPrice
- * cartItem.quantity;
+          acc.totalPrice += cartItem.product.discountPrice * cartItem.quantity;
           return acc;
         },
         { totalQuantity: 0, totalPrice: 0 }
       );
-console.log("totalPrice",totalPrice)
+    console.log("totalPrice", totalPrice);
     rows.push({
       id: order._id,
       itemsQty: totalQuantity,
@@ -90,59 +89,72 @@ console.log("totalPrice",totalPrice)
   });
 
   return (
-    <div className="w-full p-8">
-      <h3 className="text-[22px] font-Poppins pb-2">Overview</h3>
-      <div className="w-full block md:flex items-center justify-between">
-        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-[#fde7e7] shadow rounded px-2 py-5">
-          <div className="flex items-center">
+    <div className='w-full p-8'>
+      <h3 className='text-[22px] font-Poppins pb-2'>Overview</h3>
+      <div className='w-full block md:flex items-center justify-between'>
+        <div className='w-full mb-4 md:w-[30%] min-h-[20vh] bg-[#fde7e7] shadow rounded px-2 py-5'>
+          <div className='flex items-center'>
             <AiOutlineMoneyCollect
               size={30}
-              className="mr-2"
-              fill="#00000085"
+              className='mr-2'
+              fill='#00000085'
             />
-            <h3 className="font-Roboto text-[#333] text-[18px] leading-5 font-semibold text-[#00000085]">
-              Account Balance <span className="text-[16px]">(with 10% service charge)</span>
+            <h3 className='font-Roboto text-[#333] text-[18px] leading-5 font-semibold text-[#00000085]'>
+              Account Balance{" "}
+              <span className='text-[16px]'>(with 10% service charge)</span>
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">Rs {availableBalance}</h5>
-          <Link to="/dashboard-withdraw-money">
-            <h5 className="pt-4 pl-[2] text-[#d93788] font-semibold">Withdraw Money</h5>
+          <h5 className='pt-2 pl-[36px] text-[22px] font-[500]'>
+            Rs {availableBalance}
+          </h5>
+          <Link to='/dashboard-withdraw-money'>
+            <h5 className='pt-4 pl-[2] text-[#d93788] font-semibold'>
+              Withdraw Money
+            </h5>
           </Link>
         </div>
 
-        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-[#fde7e7] shadow rounded px-2 py-5">
-          <div className="flex items-center">
-            <MdBorderClear size={30} className="mr-2" fill="#00000085" />
-            <h3 className="font-Roboto text-[#333] text-[18px] leading-5 font-semibold text-[#00000085]">
+        <div className='w-full mb-4 md:w-[30%] min-h-[20vh] bg-[#fde7e7] shadow rounded px-2 py-5'>
+          <div className='flex items-center'>
+            <MdBorderClear size={30} className='mr-2' fill='#00000085' />
+            <h3 className='font-Roboto text-[#333] text-[18px] leading-5 font-semibold text-[#00000085]'>
               All Orders
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">{orders?.length}</h5>
-          <Link to="/dashboard-orders">
-            <h5 className="pt-4 pl-2 text-[#d93788] font-semibold">View Orders</h5>
+          <h5 className='pt-2 pl-[36px] text-[22px] font-[500]'>
+            {orders?.length}
+          </h5>
+          <Link to='/dashboard-orders'>
+            <h5 className='pt-4 pl-2 text-[#d93788] font-semibold'>
+              View Orders
+            </h5>
           </Link>
         </div>
 
-        <div className="w-full mb-4 md:w-[30%] min-h-[20vh] bg-[#fde7e7] shadow rounded px-2 py-5">
-          <div className="flex items-center">
+        <div className='w-full mb-4 md:w-[30%] min-h-[20vh] bg-[#fde7e7] shadow rounded px-2 py-5'>
+          <div className='flex items-center'>
             <AiOutlineMoneyCollect
               size={30}
-              className="mr-2"
-              fill="#00000085"
+              className='mr-2'
+              fill='#00000085'
             />
-            <h3 className="font-Roboto text-[#333] text-[18px] leading-5 font-semibold text-[#00000085]">
+            <h3 className='font-Roboto text-[#333] text-[18px] leading-5 font-semibold text-[#00000085]'>
               All Products
             </h3>
           </div>
-          <h5 className="pt-2 pl-[36px] text-[22px] font-[500]">{products?.length}</h5>
-          <Link to="/dashboard-products">
-            <h5 className="pt-4 pl-2 text-[#d93788] font-semibold">View Products</h5>
+          <h5 className='pt-2 pl-[36px] text-[22px] font-[500]'>
+            {products?.length}
+          </h5>
+          <Link to='/dashboard-products'>
+            <h5 className='pt-4 pl-2 text-[#d93788] font-semibold'>
+              View Products
+            </h5>
           </Link>
         </div>
       </div>
       <br />
-      <h3 className="text-[22px] font-Poppins pb-2">Latest Orders</h3>
-      <div className="w-full min-h-[45vh] bg-[#fde7e7] rounded">
+      <h3 className='text-[22px] font-Poppins pb-2'>Latest Orders</h3>
+      <div className='w-full min-h-[45vh] bg-[#fde7e7] rounded'>
         <DataGrid
           rows={rows}
           columns={columns}
