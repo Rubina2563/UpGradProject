@@ -23,7 +23,7 @@ const OrderDetails = () => {
   }, [dispatch]);
 
   const data = orders && orders.find((item) => item._id === id);
-
+  
   const orderUpdateHandler = async (e) => {
     await axios
       .put(
@@ -43,6 +43,35 @@ const OrderDetails = () => {
          enqueueSnackbar(error.response.data.message, { variant: 'error' });
       });
   };
+
+function calculateQuantitiesAndPrice(data, sellerId) {
+    let totalQuantityForSeller = 0;
+    let totalQuantity = 0;
+    let totalPriceForSeller = 0;
+
+    data.cart.forEach(item => {
+        // Add to total quantity
+        totalQuantity += item.quantity;
+
+        // If the shopId matches the sellerId
+        if (item.product.shopId === sellerId) {
+            totalQuantityForSeller += item.quantity;
+            totalPriceForSeller += item.product.discountPrice * item.quantity;
+        }
+    });
+
+    return {
+        totalQuantityForSeller,
+        totalQuantity,
+        totalPriceForSeller
+    };
+}
+
+// Example usage
+let sellerId = 1; // Replace with the specific sellerId you are looking for
+let result = calculateQuantitiesAndPrice(data, seller._id);
+
+
 
   const refundOrderUpdateHandler = async (e) => {
     await axios
@@ -95,25 +124,25 @@ const OrderDetails = () => {
       <br />
       <br />
       {data &&
-        data?.cart.map((item, index) => (
+        data?.cart.filter((cartItem) => cartItem.product.shopId === seller._id).map((item, index) => (
           <div className="w-full flex items-start mb-5">
             <img
-              src={`${item.images[0]?.url}`}
+              src={`${item.product.images[0]?.url}`}
               alt=""
               className="w-[80x] h-[80px]"
             />
             <div className="w-full">
-              <h5 className="pl-3 text-[20px]">{item.name}</h5>
+              <h5 className="pl-3 text-[20px]">{item.product.name}</h5>
               <h5 className="pl-3 text-[20px] text-[#00000091]">
-                Rs {item.discountPrice} x {item.qty}
+                Rs {item.product.discountPrice} x {item.quantity}
               </h5>
             </div>
           </div>
         ))}
-
+      
       <div className="border-t w-full text-right">
         <h5 className="pt-3 text-[18px]">
-          Total Price: <strong>Rs {data?.totalPrice}</strong>
+          Total Price: <strong>Rs {result.totalPriceForSeller}</strong>
         </h5>
       </div>
       <br />
@@ -128,7 +157,7 @@ const OrderDetails = () => {
           </h4>
           <h4 className=" text-[20px]">{data?.shippingAddress.country}</h4>
           <h4 className=" text-[20px]">{data?.shippingAddress.city}</h4>
-          <h4 className=" text-[20px]">{data?.user?.phoneNumber}</h4>
+          <h4 className=" text-[20px]">{data?.shippingAddress.phoneNumber}</h4>
         </div>
         <div className="w-full 800px:w-[40%]">
           <h4 className="pt-3 text-[20px]">Payment Info:</h4>

@@ -69,17 +69,28 @@ const AllOrders = () => {
     },
   ];
 
-  const row = [];
+  const rows = [];
 
-  orders &&
-    orders.forEach((item) => {
-      row.push({
-        id: item._id,
-        itemsQty: item.cart.reduce((acc, item) => acc + item.qty, 0),
-        total: "Rs " + item.totalPrice,
-        status: item.status,
-      });
+  orders?.forEach((order) => {
+    const { totalQuantity, totalPrice } = order.cart
+      .filter((cartItem) => cartItem.product.shopId === seller._id)
+      .reduce(
+        (acc, cartItem) => {
+          acc.totalQuantity += cartItem.quantity;
+          acc.totalPrice += cartItem.product.discountPrice
+ * cartItem.quantity;
+          return acc;
+        },
+        { totalQuantity: 0, totalPrice: 0 }
+      );
+console.log("totalPrice",totalPrice)
+    rows.push({
+      id: order._id,
+      itemsQty: totalQuantity,
+      total: `Rs ${totalPrice}`,
+      status: order.status,
     });
+  });
 
   return (
     <>
@@ -88,7 +99,7 @@ const AllOrders = () => {
       ) : (
         <div className="w-full mx-8 pt-1 mt-10 font-semibold bg-[#fde7e7]">
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick
