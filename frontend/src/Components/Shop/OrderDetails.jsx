@@ -30,6 +30,8 @@ const OrderDetails = () => {
         `${server}/order/update-order-status/${id}`,
         {
           status,
+          totalPrice: result.totalPriceForSeller,
+          sellerId:seller._id
         },
         { withCredentials: true }
       )
@@ -67,8 +69,8 @@ function calculateQuantitiesAndPrice(data, sellerId) {
     };
 }
 
-// Example usage
-let sellerId = 1; // Replace with the specific sellerId you are looking for
+console.log("data",data)
+
 let result = calculateQuantitiesAndPrice(data, seller._id);
 
 
@@ -79,6 +81,7 @@ let result = calculateQuantitiesAndPrice(data, seller._id);
       `${server}/order/order-refund-success/${id}`,
       {
         status,
+        totalPrice:result.totalPriceForSeller
       },
       { withCredentials: true }
     )

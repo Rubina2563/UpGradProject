@@ -81,10 +81,10 @@ router.get(
         createdAt: -1,
       });
 
-console.log("orders",orders)
+      console.log("orders", orders);
       res.status(200).json({
         success: true,
-        orders:orders,
+        orders: orders,
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
@@ -98,15 +98,23 @@ router.put(
   isSeller,
   AsyncErrorHandler(async (req, res, next) => {
     try {
+      console.log("req.body update order status", req.body);
+      console.log("req.params.id update", req.params.id);
       const order = await Order.findById(req.params.id);
 
       if (!order) {
         return next(new ErrorHandler("Order not found with this id", 400));
       }
       if (req.body.status === "Transferred to delivery partner") {
-        order.cart.forEach(async (o) => {
-          await updateOrder(o._id, o.qty);
-        });
+        const sellerId = req.body.sellerId; // Assuming req.seller contains the seller info
+
+        order.cart
+          .filter((o) => o.product.shopId.toString() === sellerId.toString()) // Filter by sellerId
+          .forEach(async (o) => {
+            await updateOrder(o.product._id, o.quantity);
+          });
+
+        await updateSellerInfoAgain(req.body.totalPrice);
       }
 
       order.status = req.body.status;
@@ -114,9 +122,15 @@ router.put(
       if (req.body.status === "Delivered") {
         order.deliveredAt = Date.now();
         order.paymentInfo.status = "Succeeded";
-        const serviceCharge = order.totalPrice * 0.1;
-        await updateSellerInfo(order.totalPrice - serviceCharge);
-          
+        const sellerId = req.body.sellerId;
+        order.cart
+          .filter((o) => o.product.shopId.toString() === sellerId.toString()) // Filter by sellerId
+          .forEach(async (o) => {
+            await updateOrderDelivered(o.product._id, o.quantity);
+          });
+
+        const serviceCharge = req.body.totalPrice * 0.1;
+        await updateSellerInfo(req.body.totalPrice - serviceCharge);
       }
 
       await order.save({ validateBeforeSave: false });
@@ -129,6 +143,14 @@ router.put(
       async function updateOrder(id, qty) {
         const product = await Product.findById(id);
 
+        product.stock += qty;
+        product.sold_out -= qty;
+
+        await product.save({ validateBeforeSave: false });
+      }
+      async function updateOrderDelivered(id, qty) {
+        const product = await Product.findById(id);
+
         product.stock -= qty;
         product.sold_out += qty;
 
@@ -138,7 +160,14 @@ router.put(
       async function updateSellerInfo(amount) {
         const seller = await Shop.findById(req.seller.id);
 
-        seller.availableBalance = amount;
+        seller.availableBalance += amount;
+
+        await seller.save();
+      }
+      async function updateSellerInfoAgain(amount) {
+        const seller = await Shop.findById(req.seller.id);
+
+        seller.availableBalance -= amount;
 
         await seller.save();
       }
