@@ -120,6 +120,7 @@ const App = () => {
         <Route path='/shop/preview/:id' element={<ShopPreviewPage />} />
         <Route path='/shop-create' element={<ShopCreatePage />} />
         <Route path='/shop-login' element={<ShopLoginPage />} />
+        <Route path='/admin/shop-login' element={<ShopLoginPage />} />
         <Route
           path='/shop/:id'
           element={
