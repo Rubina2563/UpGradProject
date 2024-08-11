@@ -32,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 // config
 if (process.env.NODE_ENV !== "PRODUCTION") {
   dotenv.config({
-    path: "config/.env",
+    path: ".env",
   });
 }
 
@@ -42,7 +42,7 @@ import shop from "./controllers/shop.js";
 import product from "./controllers/product.js";
 import event from "./controllers/event.js";
 import coupon from "./controllers/couponCode.js";
-
+import payment from "./controllers/payment.js";
 import order from "./controllers/order.js";
 import withdraw from "./controllers/withdraw.js";
 import wishlist from "./controllers/wishlist.js";
@@ -54,7 +54,7 @@ app.use("/api/v2/shop", shop);
 app.use("/api/v2/product", product);
 app.use("/api/v2/event", event);
 app.use("/api/v2/coupon", coupon);
-
+app.use("/api/v2/payment", payment);
 app.use("/api/v2/withdraw", withdraw);
 app.use("/api/v2/wishlist", wishlist);
 app.use("/api/v2/cart", cart);

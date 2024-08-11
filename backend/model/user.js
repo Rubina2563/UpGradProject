@@ -7,7 +7,7 @@ import { fileURLToPath } from "url";
 
 // Configure environment variables
 dotenv.config({
-  path: path.resolve(fileURLToPath(import.meta.url), "../../.env"),
+  path: path.resolve(fileURLToPath(import.meta.url), "../.env"),
 });
 
 const userSchema = new mongoose.Schema({
