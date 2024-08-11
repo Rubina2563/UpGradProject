@@ -7,7 +7,7 @@ import cloudinary from "cloudinary";
 import dotenv from "dotenv";
 import sendMail from "../utils/sendMail.js";
 import Shop from "../model/shop.js";
-import { isAuthenticated, isSeller, isAdmin } from "../middlewares/auth.js";
+import { isAuthenticated, isSeller } from "../middlewares/auth.js";
 import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
 import sendShopToken from "../utils/shopToken.js";
@@ -282,52 +282,8 @@ router.put(
   })
 );
 
-// All sellers --- for admin
-router.get(
-  "/admin-all-sellers",
-  isAuthenticated,
-  isAdmin("Admin"),
-  AsyncErrorHandler(async (req, res, next) => {
-    try {
-      const sellers = await Shop.find().sort({
-        createdAt: -1,
-      });
-      res.status(201).json({
-        success: true,
-        sellers,
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
 
-// Delete seller --- admin
-router.delete(
-  "/delete-seller/:id",
-  isAuthenticated,
-  isAdmin("Admin"),
-  AsyncErrorHandler(async (req, res, next) => {
-    try {
-      const seller = await Shop.findById(req.params.id);
 
-      if (!seller) {
-        return next(
-          new ErrorHandler("Seller is not available with this id", 400)
-        );
-      }
-
-      await Shop.findByIdAndDelete(req.params.id);
-
-      res.status(201).json({
-        success: true,
-        message: "Seller deleted successfully!",
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
 
 // Update seller withdraw methods --- sellers
 router.put(

@@ -1,5 +1,5 @@
 import express from "express";
-import { isSeller, isAuthenticated, isAdmin } from "../middlewares/auth.js";
+import { isSeller, isAuthenticated} from "../middlewares/auth.js";
 import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import Product from "../model/product.js";
 import Order from "../model/order.js";
@@ -184,24 +184,6 @@ router.put(
   })
 );
 
-// All products --- for admin
-router.get(
-  "/admin-all-products",
-  isAuthenticated,
-  isAdmin("Admin"),
-  AsyncErrorHandler(async (req, res, next) => {
-    try {
-      const products = await Product.find().sort({
-        createdAt: -1,
-      });
-      res.status(201).json({
-        success: true,
-        products,
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
+
 
 export default router;

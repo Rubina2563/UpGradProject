@@ -4,7 +4,7 @@ import Order from "../model/order.js";
 import Shop from "../model/shop.js";
 import Product from "../model/product.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import { isAuthenticated, isSeller, isAdmin } from "../middlewares/auth.js";
+import { isAuthenticated, isSeller} from "../middlewares/auth.js";
 
 const router = express.Router();
 
@@ -232,25 +232,5 @@ router.put(
   })
 );
 
-// all orders --- for admin
-router.get(
-  "/admin-all-orders",
-  isAuthenticated,
-  isAdmin("Admin"),
-  AsyncErrorHandler(async (req, res, next) => {
-    try {
-      const orders = await Order.find().sort({
-        deliveredAt: -1,
-        createdAt: -1,
-      });
-      res.status(201).json({
-        success: true,
-        orders,
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
 
 export default router;

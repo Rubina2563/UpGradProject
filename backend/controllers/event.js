@@ -3,7 +3,7 @@ import AsyncErrorHandler from "../middlewares/AsyncErrorHandler.js";
 import Shop from "../model/shop.js";
 import Event from "../model/event.js";
 import ErrorHandler from "../utils/ErrorHandler.js";
-import { isSeller, isAdmin, isAuthenticated } from "../middlewares/auth.js";
+import { isSeller, isAuthenticated } from "../middlewares/auth.js";
 import cloudinary from "cloudinary";
 
 const router = express.Router();
@@ -113,24 +113,6 @@ router.delete(
   })
 );
 
-// all events --- for admin
-router.get(
-  "/admin-all-events",
-  isAuthenticated,
-  isAdmin("Admin"),
-  AsyncErrorHandler(async (req, res, next) => {
-    try {
-      const events = await Event.find().sort({
-        createdAt: -1,
-      });
-      res.status(201).json({
-        success: true,
-        events,
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
+
 
 export default router;
