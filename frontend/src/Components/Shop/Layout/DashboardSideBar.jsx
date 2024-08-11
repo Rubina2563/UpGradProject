@@ -100,7 +100,7 @@ const DashboardSideBar = ({ active }) => {
               active === 5 ? "text-[crimson]" : "text-[#555]"
             }`}
           >
-            All Events
+            All Offers
           </h5>
         </Link>
       </div>
@@ -116,7 +116,7 @@ const DashboardSideBar = ({ active }) => {
               active === 6 ? "text-[crimson]" : "text-[#555]"
             }`}
           >
-            Create Event
+            Create Offer
           </h5>
         </Link>
       </div>

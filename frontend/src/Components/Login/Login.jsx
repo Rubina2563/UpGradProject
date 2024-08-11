@@ -96,13 +96,7 @@ const Login = () => {
 
           
 
-            <div className='text-sm text-center'>
-              <a
-                href='.forgot-password'
-                className='font-medium text-xl  text-blue-900 hover:text-blue-500'>
-                Forgot your password?
-              </a>
-            </div>
+           
 
             <div className='space-y-6'>
               <button className='bg-slate-600 rounded-md text-white sm:text-xl p-3 lg:text-2xl w-full hover:bg-slate-400'>

@@ -20,6 +20,7 @@ import {
   ShopLoginPage,
   OrderDetailsPage,
   TrackOrderPage,
+  UnderConstruction
 } from "./Routes/Routes.js";
 
 import {
@@ -78,6 +79,7 @@ const App = () => {
           path='/seller/activation/:activation_token'
           element={<SellerActivationPage />}
         />
+        <Route path='/under-construction' element={<UnderConstruction />} />
         <Route path='/products' element={<ProductPage />} />
         <Route path='/product/:id' element={<ProductDetailsPage />} />
         <Route path='/best-selling' element={<BestSellingPage />} />
@@ -118,7 +120,7 @@ const App = () => {
           }
         />
         <Route path='/shop/preview/:id' element={<ShopPreviewPage />} />
-        <Route path='admin/shop-signup' element={<ShopCreatePage />} /> 
+        <Route path='admin/shop-signup' element={<ShopCreatePage />} />
         <Route path='/shop-login' element={<ShopLoginPage />} />
         <Route path='/admin/shop-login' element={<ShopLoginPage />} />
         <Route
@@ -217,7 +219,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-       
+
         <Route
           path='/payment'
           element={

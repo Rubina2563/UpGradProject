@@ -67,7 +67,7 @@ const ProfileSidebar = ({ setActive, active }) => {
   <span
     className="absolute left-5 bottom-1 translate-y-full bg-gray-800 text-white text-sm px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
   >
-    Refunds
+    Remaining refunds
   </span>
 </div>
 

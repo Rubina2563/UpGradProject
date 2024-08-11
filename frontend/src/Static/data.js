@@ -582,55 +582,68 @@ export const productData = [
 export const footerProductLinks = [
   {
     name: "About us",
-    link: "/about",
+    link: "/under-construction",
   },
   {
     name: "Careers",
-    link: "/carrers",
+    link: "/under-construction",
   },
   {
     name: "Store Locations",
+    link: "/under-construction",
   },
   {
     name: "Our Blog",
+    link: "/under-construction",
   },
   {
     name: "Reviews",
+    link: "/under-construction",
   },
 ];
 
 export const footercompanyLinks = [
   {
     name: "Game & Video",
+    link: "/under-construction",
   },
   {
     name: "Phone &Tablets",
+    link: "/under-construction",
   },
   {
     name: "Computers & Laptop",
+    link: "/under-construction",
   },
   {
     name: "Sport Watches",
+    link: "/under-construction",
   },
   {
     name: "Events",
+    link: "/under-construction",
   },
 ];
 
 export const footerSupportLinks = [
   {
     name: "FAQ",
+    link: "/under-construction",
   },
   {
     name: "Reviews",
+    link: "/under-construction",
   },
   {
     name: "Contact Us",
+    link: "/under-construction",
   },
   {
     name: "Shipping",
+    link: "/under-construction",
   },
   {
     name: "Live chat",
+    link: "/under-construction",
   },
 ];

@@ -16,8 +16,10 @@ import SellerActivationPage from "../Pages/SellerActivationPage";
 import ShopLoginPage from "../Pages/ShopLoginPage";
 import OrderDetailsPage from "../Pages/OrderDetailsPage";
 import TrackOrderPage from "../Pages/TrackOrderPage";
+import UnderConstruction from "../Pages/UnderConstructionPage.jsx";
 
 export {
+  UnderConstruction,
   LoginPage,
   SignUpPage,
   UserActivationPage,
