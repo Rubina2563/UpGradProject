@@ -21,7 +21,7 @@ export const navItems = [
     url: "/products",
   },
    {
-    title: "Events",
+    title: "Offers",
     url: "/events",
   },
   {

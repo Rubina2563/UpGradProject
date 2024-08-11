@@ -44,13 +44,11 @@ import event from "./controllers/event.js";
 import coupon from "./controllers/couponCode.js";
 
 import order from "./controllers/order.js";
-import conversation from "./controllers/conversation.js";
 import withdraw from "./controllers/withdraw.js";
 import wishlist from "./controllers/wishlist.js";
 import cart from "./controllers/cart.js";
 
 app.use("/api/v2/user", user);
-app.use("/api/v2/conversation", conversation);
 app.use("/api/v2/order", order);
 app.use("/api/v2/shop", shop);
 app.use("/api/v2/product", product);

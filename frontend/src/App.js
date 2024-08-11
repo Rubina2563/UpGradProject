@@ -35,7 +35,7 @@ import {
   ShopAllRefunds,
   ShopSettingsPage,
   ShopWithDrawMoneyPage,
-  ShopInboxPage,
+  
 } from "./Routes/ShopRoutes";
 
 
@@ -50,8 +50,8 @@ import { getAllProducts } from "./redux/actions/product";
 import { getAllEvents } from "./redux/actions/event";
 import axios from "axios";
 import { server } from "./server";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
+
+
 
 const App = () => {
  
@@ -118,7 +118,7 @@ const App = () => {
           }
         />
         <Route path='/shop/preview/:id' element={<ShopPreviewPage />} />
-        <Route path='/shop-create' element={<ShopCreatePage />} />
+        <Route path='admin/shop-signup' element={<ShopCreatePage />} /> 
         <Route path='/shop-login' element={<ShopLoginPage />} />
         <Route path='/admin/shop-login' element={<ShopLoginPage />} />
         <Route
@@ -217,14 +217,7 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        <Route
-          path='/dashboard-messages'
-          element={
-            <SellerProtectedRoute>
-              <ShopInboxPage />
-            </SellerProtectedRoute>
-          }
-        />
+       
         <Route
           path='/payment'
           element={

@@ -21,7 +21,7 @@ export const isAuthenticated = AsyncErrorHandler(async (req, res, next) => {
     return next(new ErrorHandler("User not found", 404));
   }
 
-  console.log("User from middleware:", req.user); // Debugging line
+  
   next();
 });
 

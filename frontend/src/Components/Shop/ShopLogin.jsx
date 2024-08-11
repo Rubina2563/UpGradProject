@@ -104,30 +104,15 @@ const ShopLogin = () => {
 
          
 
-            <div className='text-sm text-center'>
-              <a
-                href='.forgot-password'
-                className='font-medium text-xl  text-blue-900 hover:text-blue-500'>
-                Forgot your password?
-              </a>
-            </div>
+          
 
-            <div className='space-y-6'>
-              <button className='bg-slate-600 rounded-md text-white sm:text-xl p-3 lg:text-2xl w-full hover:bg-slate-400'>
+            <div className='space-y-6 mx-4 w-1/2'>
+              <button className='bg-slate-600 rounded-md text-white sm:text-xl p-3 lg:text-2xl w-1/2 hover:bg-slate-400'>
                 Submit
               </button>
             </div>
 
-            <div className='flex justify-between p-3'>
-              <h2 className='sm:text-base text-red-500 font-semibold lg:text-xl'>
-                Don't have an account ?
-              </h2>{" "}
-              <Link
-                to='/sign-up'
-                className='text-blue-800 pl-2 font-semibold sm:text-base lg:text-xl hover:text-blue-500'>
-                Sign Up
-              </Link>
-            </div>
+            
 
           </form>
         </div>
