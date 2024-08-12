@@ -649,7 +649,7 @@ const Address = () => {
                   </div>
 
                   <div className="w-full pb-2">
-                    <label className="block pb-2">Choose your City</label>
+                    <label className="block pb-2">Choose your State</label>
                     <select
                       name=""
                       id=""
@@ -658,7 +658,7 @@ const Address = () => {
                       className="w-[95%] border h-[40px] rounded-[5px]"
                     >
                       <option value="" className="block border pb-2">
-                        choose your city
+                        choose your state
                       </option>
                       {State &&
                         State.getStatesOfCountry(country).map((item) => (
@@ -674,7 +674,7 @@ const Address = () => {
                   </div>
 
                   <div className="w-full pb-2">
-                    <label className="block pb-2">Address 1</label>
+                    <label className="block pb-2">Address line 1</label>
                     <input
                       type="address"
                       className={`w-full border p-1 rounded-[5px]`}
@@ -684,7 +684,7 @@ const Address = () => {
                     />
                   </div>
                   <div className="w-full pb-2">
-                    <label className="block pb-2">Address 2</label>
+                    <label className="block pb-2">Address line 2</label>
                     <input
                       type="address"
                       className={`w-full border p-1 rounded-[5px]`}
