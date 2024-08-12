@@ -198,7 +198,7 @@ const CartSingle = ({ data, increaseQuantityHandler, decreaseQuantityHandler, re
             Rs {data.product.discountPrice} * {value}
           </h4>
           <h4 className="font-[600] text-[17px] pt-[3px] text-[#d02222] font-Roboto">
-            Rs {data.product.discountPrice * value}
+          Total: Rs {data.product.discountPrice * value}
           </h4>
         </div>
         <RxCross1

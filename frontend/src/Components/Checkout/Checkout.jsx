@@ -249,7 +249,7 @@ const ShippingInfo = ({
 
         <div className="w-full flex pb-3">
           <div className="w-[50%]">
-            <label className="block pb-2">Address1</label>
+            <label className="block pb-2">Address Line1</label>
             <input
               type="text"
               required
@@ -259,7 +259,7 @@ const ShippingInfo = ({
             />
           </div>
           <div className="w-[50%]">
-            <label className="block pb-2">Address2</label>
+            <label className="block pb-2">Address Line2</label>
             <input
               type="text"
               value={address2}
@@ -272,12 +272,13 @@ const ShippingInfo = ({
 
         <div></div>
       </form>
+      <div className="bg-red-600 text-center text-white">
       <h5
         className="text-[18px] cursor-pointer inline-block"
         onClick={() => setUserInfo(!userInfo)}
       >
         Choose From saved address
-      </h5>
+      </h5></div>
       {userInfo && (
         <div>
           {user?.addresses.map((item, index) => (

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { server } from "../../server";
@@ -20,116 +19,98 @@ const Payment = () => {
     const orderData = JSON.parse(localStorage.getItem("latestOrder"));
     setOrderData(orderData);
   }, []);
-  const amount = orderData?.totalPrice;
+  const amount = Math.floor(orderData?.totalPrice);
 
- const handlePayment = async (e) => {
-  e.preventDefault(); // Prevent the form from submitting and causing a page reload
-  
-  try {
-    const res = await fetch(`${server}/payment/order`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ amount }),
-    });
+  const handlePayment = async (e) => {
+    e.preventDefault(); // Prevent the form from submitting and causing a page reload
 
-    const data = await res.json();
-    console.log("order details:", data.data);
-    handlePaymentVerify(data.data);
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+      const res = await fetch(`${server}/payment/order`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ amount }),
+      });
 
-   const handlePaymentVerify = async (data) => {
-  const options = {
-    key: 'rzp_test_FeT3JwrD0APeGM',
-    amount: data.amount,
-    currency: data.currency,
-    name: "ShopPlusPlus",
-    description: "Test Mode",
-    order_id: data.id,
-    handler: async (response) => {
-      console.log("response", response);
-      try {
-        const res = await fetch(`${server}/payment/verify`, {
-          method: 'POST',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            razorpay_order_id: response.razorpay_order_id,
-            razorpay_payment_id: response.razorpay_payment_id,
-            razorpay_signature: response.razorpay_signature,
-          })
-        });
-
-        const verifyData = await res.json();
-
-        if (verifyData.message) {
-          // If payment verification is successful, proceed with order creation
-          order.paymentInfo = {
-            id: response.razorpay_payment_id,
-            status: "succeeded",
-            type: "Razorpay",
-          };
-
-          const config = {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          };
-
-          // Create the order
-          await axios.post(`${server}/order/create-order`, order, config).then((res) => {
-            // Empty the cart and latest order
-            localStorage.setItem("cartItems", JSON.stringify([]));
-            localStorage.setItem("latestOrder", JSON.stringify([]));
-
-            // Navigate to the order success page
-            navigate("/order/success");
-
-            // Display success message
-            enqueueSnackbar("Order successful", { variant: "success" });
-
-            // Reload the page to update the cart state
-            window.location.reload();
-          });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    theme: {
-      color: "#5f63b8"
+      const data = await res.json();
+      console.log("order details:", data.data);
+      handlePaymentVerify(data.data);
+    } catch (error) {
+      console.log(error);
     }
   };
-  const rzp1 = new window.Razorpay(options);
-  rzp1.open();
-};
 
-  const createOrder = (data, actions) => {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            description: "Sunflower",
-            amount: {
-              currency_code: "USD",
-              value: orderData?.totalPrice,
+  const handlePaymentVerify = async (data) => {
+    const options = {
+      key: "rzp_test_FeT3JwrD0APeGM",
+      amount: data.amount,
+      currency: data.currency,
+      name: "ShopPlusPlus",
+      description: "Test Mode",
+      order_id: data.id,
+      handler: async (response) => {
+        console.log("response", response);
+        try {
+          const res = await fetch(`${server}/payment/verify`, {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
             },
-          },
-        ],
-        // not needed if a shipping address is actually needed
-        application_context: {
-          shipping_preference: "NO_SHIPPING",
-        },
-      })
-      .then((orderID) => {
-        return orderID;
-      });
+            body: JSON.stringify({
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+            }),
+          });
+
+          const verifyData = await res.json();
+
+          if (verifyData.message) {
+            // If payment verification is successful, proceed with order creation
+            order.paymentInfo = {
+              id: response.razorpay_payment_id,
+              status: "succeeded",
+              type: "Razorpay",
+            };
+
+            const config = {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            };
+
+            // Create the order
+            await axios
+              .post(`${server}/order/create-order`, order, config)
+              .then((res) => {
+                // Empty the cart and latest order
+                localStorage.setItem("cartItems", JSON.stringify([]));
+                localStorage.setItem("latestOrder", JSON.stringify([]));
+
+                // Navigate to the order success page
+                navigate("/order/success");
+
+                // Display success message
+                enqueueSnackbar("Order successful", { variant: "success" });
+
+                // Reload the page to update the cart state
+                window.location.reload();
+              });
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#5f63b8",
+      },
+    };
+    const rzp1 = new window.Razorpay(options);
+    rzp1.open();
   };
+
+  
 
   const order = {
     cart: orderData?.cart,
@@ -138,46 +119,7 @@ const Payment = () => {
     totalPrice: orderData?.totalPrice,
   };
 
-  const onApprove = async (data, actions) => {
-    return actions.order.capture().then(function (details) {
-      const { payer } = details;
 
-      let paymentInfo = payer;
-
-      if (paymentInfo !== undefined) {
-        paypalPaymentHandler(paymentInfo);
-      }
-    });
-  };
-
-  const paypalPaymentHandler = async (paymentInfo) => {
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    order.paymentInfo = {
-      id: paymentInfo.payer_id,
-      status: "succeeded",
-      type: "Paypal",
-    };
-
-    await axios
-      .post(`${server}/order/create-order`, order, config)
-      .then((res) => {
-        setOpen(false);
-        navigate("/order/success");
-        enqueueSnackbar("Order successful", { variant: "success" });
-        localStorage.setItem("cartItems", JSON.stringify([]));
-        localStorage.setItem("latestOrder", JSON.stringify([]));
-        window.location.reload();
-      });
-  };
-
-  const paymentData = {
-    amount: Math.round(orderData?.totalPrice * 100),
-  };
 
   const cashOnDeliveryHandler = async (e) => {
     e.preventDefault();
@@ -212,8 +154,7 @@ const Payment = () => {
             user={user}
             open={open}
             setOpen={setOpen}
-            onApprove={onApprove}
-            createOrder={createOrder}
+           
             handlePayment={handlePayment}
             cashOnDeliveryHandler={cashOnDeliveryHandler}
           />
@@ -230,8 +171,7 @@ const PaymentInfo = ({
   user,
   open,
   setOpen,
-  onApprove,
-  createOrder,
+  
   handlePayment,
   cashOnDeliveryHandler,
 }) => {
@@ -240,55 +180,6 @@ const PaymentInfo = ({
   return (
     <div className='w-full md:w-[95%] bg-[#fff] rounded-md p-5 pb-8'>
       {/* paypal payment */}
-      <div>
-        <div className='flex w-full pb-5 border-b mb-2'>
-          <div
-            className='w-[25px] h-[25px] rounded-full bg-transparent border-[3px] border-[#1d1a1ab4] relative flex items-center justify-center'
-            onClick={() => setSelect(2)}>
-            {select === 2 ? (
-              <div className='w-[13px] h-[13px] bg-[#1d1a1acb] rounded-full' />
-            ) : null}
-          </div>
-          <h4 className='text-[18px] pl-2 font-[600] text-[#000000b1]'>
-            Pay with Paypal
-          </h4>
-        </div>
-
-        {/* pay with payement */}
-        {select === 2 ? (
-          <div className='w-full flex border-b'>
-            <div
-              className={`w-[150px]  my-3 flex items-center justify-center  !bg-[#f63b60] text-white h-[45px] rounded-[5px] cursor-pointer text-[18px] font-[600]`}
-              onClick={() => setOpen(true)}>
-              Pay Now
-            </div>
-            {open && (
-              <div className='w-full fixed top-0 left-0 bg-[#00000039] h-screen flex items-center justify-center z-[99999]'>
-                <div className='w-full 800px:w-[40%] h-screen 800px:h-[80vh] bg-white rounded-[5px] shadow flex flex-col justify-center p-8 relative overflow-y-scroll'>
-                  <div className='w-full flex justify-end p-3'>
-                    <RxCross1
-                      size={30}
-                      className='cursor-pointer absolute top-3 right-3'
-                      onClick={() => setOpen(false)}
-                    />
-                  </div>
-                  <PayPalScriptProvider
-                    options={{
-                      "client-id":
-                        "Aczac4Ry9_QA1t4c7TKH9UusH3RTe6onyICPoCToHG10kjlNdI-qwobbW9JAHzaRQwFMn2-k660853jn",
-                    }}>
-                    <PayPalButtons
-                      style={{ layout: "vertical" }}
-                      onApprove={onApprove}
-                      createOrder={createOrder}
-                    />
-                  </PayPalScriptProvider>
-                </div>
-              </div>
-            )}
-          </div>
-        ) : null}
-      </div>
 
       <br />
       {/* cash on delivery */}
@@ -319,6 +210,7 @@ const PaymentInfo = ({
           </div>
         ) : null}
       </div>
+      <br />
       {/*razorpay*/}
       <div>
         <div className='flex w-full pb-5 border-b mb-2'>
@@ -334,7 +226,7 @@ const PaymentInfo = ({
           </h4>
         </div>
 
-        {/* cash on delivery */}
+        {/* razorpay */}
         {select === 4 ? (
           <div className='w-full flex'>
             <form className='w-full' onSubmit={handlePayment}>
