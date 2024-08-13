@@ -80,30 +80,33 @@ router.get(
   })
 );
 
-// Delete product of a shop
 router.delete(
   "/delete-shop-product/:id",
   isSeller,
   AsyncErrorHandler(async (req, res, next) => {
     try {
+      // Find the product by ID
       const product = await Product.findById(req.params.id);
 
       if (!product) {
-        return next(new ErrorHandler("Product is not found with this id", 404));
+        return next(new ErrorHandler("Product not found with this ID", 404));
       }
 
+      // Remove associated images from Cloudinary
       for (let i = 0; i < product.images.length; i++) {
         await cloudinary.v2.uploader.destroy(product.images[i].public_id);
       }
 
-      await product.remove();
+      // Delete the product
+      await Product.deleteOne({ _id: req.params.id });
 
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        message: "Product Deleted successfully!",
+        message: "Product deleted successfully!",
       });
     } catch (error) {
-      return next(new ErrorHandler(error, 400));
+      console.log(error);
+      return next(new ErrorHandler(error.message, 400));
     }
   })
 );

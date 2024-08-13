@@ -5,7 +5,7 @@ import {
   AiOutlineEye,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProductDetailsCard from "../ProductDetailsCard/ProductDetailsCard";
 import { addToWishlist, removeFromWishlist } from "../../../redux/actions/wishlist";
@@ -17,28 +17,29 @@ const ProductCard = ({ data, isEvent }) => {
   const { enqueueSnackbar } = useSnackbar();
   const { wishlist } = useSelector((state) => state.wishlist);
   const { cart } = useSelector((state) => state.cart);
-  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
- 
-
+  const location = useLocation();
   
+  // Extract isSeller from URL params
+  const queryParams = new URLSearchParams(location.search);
+  const isSeller = queryParams.get('isSeller') === 'true';
+
   useEffect(() => {
     setIsInWishlist(wishlist.some((item) => item._id === data._id));
   }, [wishlist, data._id]);
 
- useEffect(() => {
-  try {
-    setIsInCart(cart.some((item) => item?.product._id === data._id));
-   
-    
-  } catch (error) {
-  
-  }
-}, [cart, data._id]);
+  useEffect(() => {
+    try {
+      setIsInCart(cart.some((item) => item?.product._id === data._id));
+    } catch (error) {
+      // Handle error if needed
+    }
+  }, [cart, data._id]);
 
   const addToWishlistHandler = () => {
     if (isAuthenticated) {
@@ -82,25 +83,20 @@ const ProductCard = ({ data, isEvent }) => {
     <>
       <div className="w-full h-[370px] bg-white rounded-lg shadow-sm p-3 relative cursor-pointer">
         <div className="flex justify-end"></div>
-        <Link to={`${isEvent ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+         {isSeller ? (
+        <>
           <img
             src={data.images && data.images[0]?.url}
             alt={data.name}
             className="w-full h-[170px] object-contain"
           />
-        </Link>
-        <Link to={`/shop/preview/${data?.shop._id}`}>
           <h5 className="pt-3 text-[15px] text-blue-400 pb-3">{data.shop.name}</h5>
-        </Link>
-        <Link to={`${isEvent ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
           <h4 className="pb-3 font-[500]">
             {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
           </h4>
-
           <div className="flex">
             <Ratings rating={data?.ratings} />
           </div>
-
           <div className="py-2 flex items-center justify-between">
             <div className="flex">
               <h5 className="font-bold text-[18px] text-[#333] font-Roboto">
@@ -114,59 +110,97 @@ const ProductCard = ({ data, isEvent }) => {
               {data?.sold_out} sold
             </span>
           </div>
-        </Link>
-
+        </>
+      ) : (
+        <>
+          <Link to={`${isEvent ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+            <img
+              src={data.images && data.images[0]?.url}
+              alt={data.name}
+              className="w-full h-[170px] object-contain"
+            />
+          </Link>
+          <Link to={`/shop/preview/${data?.shop._id}`}>
+            <h5 className="pt-3 text-[15px] text-blue-400 pb-3">{data.shop.name}</h5>
+          </Link>
+          <Link to={`${isEvent ? `/product/${data._id}?isEvent=true` : `/product/${data._id}`}`}>
+            <h4 className="pb-3 font-[500]">
+              {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
+            </h4>
+            <div className="flex">
+              <Ratings rating={data?.ratings} />
+            </div>
+            <div className="py-2 flex items-center justify-between">
+              <div className="flex">
+                <h5 className="font-bold text-[18px] text-[#333] font-Roboto">
+                  {data.originalPrice === 0 ? data.originalPrice : data.discountPrice} Rs
+                </h5>
+                <h4 className="font-[500] text-[16px] text-[#d55b45] pl-3 mt-[-4px] line-through">
+                  {data.originalPrice ? data.originalPrice + " Rs" : null}
+                </h4>
+              </div>
+              <span className="font-[400] text-[17px] text-[#68d284]">
+                {data?.sold_out} sold
+              </span>
+            </div>
+          </Link>
+        </>
+      )}
         {/* Side options */}
         <div>
-          {isAuthenticated ? (
-            isInWishlist ? (
-              <AiFillHeart
+          {!isSeller && ( // Conditionally render based on isSeller
+            <>
+              {isAuthenticated ? (
+                isInWishlist ? (
+                  <AiFillHeart
+                    size={22}
+                    className="cursor-pointer absolute right-2 top-5"
+                    onClick={removeFromWishlistHandler}
+                    color="red"
+                    title="Remove from wishlist"
+                  />
+                ) : (
+                  <AiOutlineHeart
+                    size={22}
+                    className="cursor-pointer absolute right-2 top-5"
+                    onClick={addToWishlistHandler}
+                    color="#333"
+                    title="Add to wishlist"
+                  />
+                )
+              ) : (
+                <AiOutlineHeart
+                  size={22}
+                  className="cursor-not-allowed absolute right-2 top-5"
+                  color="#333"
+                  title="Login required"
+                />
+              )}
+              <AiOutlineEye
                 size={22}
-                className="cursor-pointer absolute right-2 top-5"
-                onClick={removeFromWishlistHandler}
-                color="red"
-                title="Remove from wishlist"
-              />
-            ) : (
-              <AiOutlineHeart
-                size={22}
-                className="cursor-pointer absolute right-2 top-5"
-                onClick={addToWishlistHandler}
+                className="cursor-pointer absolute right-2 top-14"
+                onClick={() => setOpen(!open)}
                 color="#333"
-                title="Add to wishlist"
+                title="Quick view"
               />
-            )
-          ) : (
-            <AiOutlineHeart
-              size={22}
-              className="cursor-not-allowed absolute right-2 top-5"
-              color="#333"
-              title="Login required"
-            />
-          )}
-          <AiOutlineEye
-            size={22}
-            className="cursor-pointer absolute right-2 top-14"
-            onClick={() => setOpen(!open)}
-            color="#333"
-            title="Quick view"
-          />
-          {isAuthenticated ? (
-            <button
-              onClick={handleCartToggle}
-              disabled={data.stock < 1}
-              className={`cursor-pointer absolute right-2 top-24 ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-              title={data.stock < 1 ? "Out of stock" : "Add to cart"}
-            >
-              <AiOutlineShoppingCart size={25} color="#444" />
-            </button>
-          ) : (
-            <button
-              className="cursor-not-allowed absolute right-2 top-24"
-              title="Login required"
-            >
-              <AiOutlineShoppingCart size={25} color="#444" />
-            </button>
+              {isAuthenticated ? (
+                <button
+                  onClick={handleCartToggle}
+                  disabled={data.stock < 1}
+                  className={`cursor-pointer absolute right-2 top-24 ${data.stock < 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  title={data.stock < 1 ? "Out of stock" : "Add to cart"}
+                >
+                  <AiOutlineShoppingCart size={25} color="#444" />
+                </button>
+              ) : (
+                <button
+                  className="cursor-not-allowed absolute right-2 top-24"
+                  title="Login required"
+                >
+                  <AiOutlineShoppingCart size={25} color="#444" />
+                </button>
+              )}
+            </>
           )}
           {open && <ProductDetailsCard setOpen={setOpen} data={data} />}
         </div>

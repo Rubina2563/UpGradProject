@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  AiFillHeart,
-  AiOutlineHeart,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +12,7 @@ import {
 import { addToCart } from "../../redux/actions/cart";
 import { useSnackbar } from 'notistack';
 import Ratings from "./Ratings";
+import { useParams, useSearchParams } from "react-router-dom";
 
 const ProductDetails = ({ data }) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -24,6 +23,8 @@ const ProductDetails = ({ data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
+  const [searchParams] = useSearchParams();
+  const isSeller = searchParams.get("isSeller");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -131,11 +132,10 @@ const ProductDetails = ({ data }) => {
                   </h3>
                 </div>
                 <div className="flex items-center mt-12 justify-between pr-3">
-                  <div>
+                  {!isSeller && (<div>
                     <button
-                      className={`bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out ${
-                        count >= data.stock ? 'cursor-not-allowed opacity-50' : ''
-                      }`}
+                      className={`bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out ${count >= data.stock ? 'cursor-not-allowed opacity-50' : ''
+                        }`}
                       onClick={incrementCount}
                       disabled={count >= data.stock}
                       title={count >= data.stock ? "Stock exceeding limit" : ""}
@@ -151,20 +151,23 @@ const ProductDetails = ({ data }) => {
                     >
                       -
                     </button>
-                  </div>
+                  </div>)}
                 
                 </div>
-                <div
-                  className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${
-                    data.stock <= 0 || !isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
-                  }`}
-                  onClick={() => data.stock > 0 && isAuthenticated && addToCartHandler(data._id)}
-                  title={data.stock <= 0 ? 'Out of stock' : isAuthenticated ? "Add to cart" : "Login please"}
-                >
-                  <span className="text-white flex items-center">
-                    Add to cart <AiOutlineShoppingCart className="ml-1" />
-                  </span>
-                </div>
+               {!isSeller && (
+                  <div
+                    className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${
+                      data.stock <= 0 || !isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                    onClick={() => data.stock > 0 && isAuthenticated && addToCartHandler(data._id)}
+                    title={data.stock <= 0 ? 'Out of stock' : isAuthenticated ? "Add to cart" : "Login please"}
+                  >
+                    <span className="text-white flex items-center">
+                      Add to cart <AiOutlineShoppingCart className="ml-1" />
+                    </span>
+                  </div>
+                )}
+
                 <div className="flex items-center pt-8">
                   <Link to={`/shop/preview/${data?.shop._id}`}>
                     <img

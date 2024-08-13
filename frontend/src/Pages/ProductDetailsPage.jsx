@@ -13,6 +13,7 @@ const ProductDetailsPage = () => {
   const [data, setData] = useState(null);
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get("isEvent");
+  const isSeller = searchParams.get("isSeller"); // Check if the seller is viewing
 
   useEffect(() => {
     if (eventData !== null) {
@@ -26,15 +27,13 @@ const ProductDetailsPage = () => {
 
   return (
     <div>
-      <Header />
+      {!isSeller && <Header />} {/* Only render Header if not a seller */}
       <ProductDetails data={data} />
-        {
-          !eventData && (
-            <>
-            {data && <SuggestedProduct data={data} />}
-            </>
-          )
-        }
+      {!eventData && (
+        <>
+          {!isSeller && data && <SuggestedProduct data={data} />}
+        </>
+      )}
       <Footer />
     </div>
   );

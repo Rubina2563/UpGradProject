@@ -50,7 +50,7 @@ const DashboardHeader = () => {
             <FiPackage color="#555" size={30} className="mx-5 cursor-pointer" />
           </Link>
          
-          <Link to={`/shop/${seller._id}`}>
+          <Link to={`/shop/${seller._id}?isSeller=true`}>
             <img
               src={`${seller.avatar?.url}`}
               alt=""

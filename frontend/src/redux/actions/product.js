@@ -39,7 +39,7 @@ export const createProduct =
     } catch (error) {
       dispatch({
         type: "productCreateFail",
-        payload: error.response.data.message,
+        payload: error.response,
       });
     }
   };
@@ -87,7 +87,7 @@ export const deleteProduct = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deleteProductFailed",
-      payload: error.response.data.message,
+      payload: error.response    ,
     });
   }
 };
