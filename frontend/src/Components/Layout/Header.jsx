@@ -137,13 +137,8 @@ const Header = ({ heading }) => {
             ) : null}
           </div>
 
-          <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer">
-            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
-              <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Your Shop" : "Shopkeeper ?"}{" "}
-                <IoIosArrowForward className="ml-1" />
-              </h1>
-            </Link>
+          <div className="w-[150px]  h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer">
+         
           </div>
         </div>
       </div>
@@ -305,13 +300,8 @@ const Header = ({ heading }) => {
                 )}
                   </div>
                 </div>
-    <div className="w-[150px] bg-black h-[50px] my-3 flex items-center justify-center rounded-xl cursor-pointer">
-            <Link to={`${isSeller ? "/dashboard" : "/shop-create"}`}>
-              <h1 className="text-[#fff] flex items-center">
-                {isSeller ? "Your Shop" : "Shopkeeper ?"}{" "}
-                <IoIosArrowForward className="ml-1" />
-              </h1>
-            </Link>
+    <div className="w-[150px] h-[50px] my-3 flex items-center justify-center rounded-xl ">
+           
           </div>
                 <RxCross1 size={30} className="ml-4 mt-5 cursor-pointer" onClick={() => setOpen(false)} />
               </div>
