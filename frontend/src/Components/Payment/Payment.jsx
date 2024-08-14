@@ -21,31 +21,30 @@ const Payment = () => {
   }, []);
   const amount = Math.floor(orderData?.totalPrice);
 
-  const handlePayment = async (e) => {
+ const handlePayment = async (e) => {
     e.preventDefault(); // Prevent the form from submitting and causing a page reload
 
     try {
-      const res = await fetch(`${server}/payment/order`, {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ amount }),
-      });
+        const res = await fetch(`${server}/payment/order`, {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({ amount }),
+        });
 
-      if (!res.ok) {
-      throw new Error('Network response was not ok');
-    }
+        // Log the status code of the response
+        console.log("Response status code:", res.status);
 
-    const data = await res.json();
-    console.log("Order details:", data.data);
+        // Parse and handle the response data if the status is 200
+        const data = await res.json();
+        console.log("Order details:", data.data);
 
-      handlePaymentVerify(data.data);
+        handlePaymentVerify(data.data);
     } catch (error) {
-      console.log("from order",error);
+        console.log("Error during order creation:", error);
     }
-  };
-
+};
   const handlePaymentVerify = async (data) => {
     const options = {
       key: "rzp_test_FeT3JwrD0APeGM",
@@ -113,6 +112,7 @@ const Payment = () => {
     };
     const rzp1 = new window.Razorpay(options);
     rzp1.open();
+   
   };
 
   
