@@ -21,7 +21,7 @@ const razorpayInstance = new Razorpay({
 });
 
 // ROUTE 1 : Create Order Api Using POST Method http://localhost:4000/api/payment/order
-router.post("/order", (req, res) => {
+router.post("/orders", (req, res) => {
   const { amount } = req.body;
 
   try {

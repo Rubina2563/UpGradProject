@@ -25,20 +25,17 @@ const Payment = () => {
     e.preventDefault(); // Prevent the form from submitting and causing a page reload
 
     try {
-        const res = await fetch(`${server}/payment/order`, {
+        const response = await fetch(`${server}/payment/orders`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
             },
             body: JSON.stringify({ amount }),
         });
-
-        // Log the status code of the response
-        console.log("Response status code:", res.status);
-
+      
         // Parse and handle the response data if the status is 200
-        const data = await res.json();
-        console.log("Order details:", data.data);
+        const data = await response.json();
+        console.log("Order details:", data);
 
         handlePaymentVerify(data.data);
     } catch (error) {
