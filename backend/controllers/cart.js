@@ -32,7 +32,7 @@ router.post(
       return res.status(400).json({ message: "Item already present in cart" });
     } else {
       user.cart.push({
-        product: product._id,
+        product: product,
         quantity: req.body.productId.quantity,
       });
       await user.save();

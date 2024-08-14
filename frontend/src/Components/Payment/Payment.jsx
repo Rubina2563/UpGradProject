@@ -33,11 +33,16 @@ const Payment = () => {
         body: JSON.stringify({ amount }),
       });
 
-      const data = await res.json();
-      console.log("order details:", data.data);
+      if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = await res.json();
+    console.log("Order details:", data.data);
+
       handlePaymentVerify(data.data);
     } catch (error) {
-      console.log(error);
+      console.log("from order",error);
     }
   };
 
@@ -99,7 +104,7 @@ const Payment = () => {
               });
           }
         } catch (error) {
-          console.log(error);
+          console.log("from verify",error);
         }
       },
       theme: {

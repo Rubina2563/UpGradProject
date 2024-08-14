@@ -37,11 +37,12 @@ router.post("/order", (req, res) => {
         return res.status(500).json({ message: "Something Went Wrong!" });
       }
       res.status(200).json({ data: order });
-      console.log(order);
+      console.log("frm payment order",order);
     });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error!" });
     console.log(error);
+    res.status(500).json({ message: "Internal Server Error!" });
+    
   }
 });
 

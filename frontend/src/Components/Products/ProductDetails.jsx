@@ -25,6 +25,7 @@ const ProductDetails = ({ data }) => {
   const [select, setSelect] = useState(0);
   const [searchParams] = useSearchParams();
   const isSeller = searchParams.get("isSeller");
+   const isEvent = searchParams.get("isEvent");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -132,7 +133,7 @@ const ProductDetails = ({ data }) => {
                   </h3>
                 </div>
                 <div className="flex items-center mt-12 justify-between pr-3">
-                  {!isSeller && (<div>
+                  {!isEvent && !isSeller && (<div>
                     <button
                       className={`bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 shadow-lg hover:opacity-75 transition duration-300 ease-in-out ${count >= data.stock ? 'cursor-not-allowed opacity-50' : ''
                         }`}
@@ -154,7 +155,7 @@ const ProductDetails = ({ data }) => {
                   </div>)}
                 
                 </div>
-               {!isSeller && (
+               {!isEvent && !isSeller && (
                   <div
                     className={`w-[150px] bg-black my-3 justify-center cursor-pointer mt-6 rounded h-11 flex items-center ${
                       data.stock <= 0 || !isAuthenticated ? 'opacity-50 cursor-not-allowed' : ''

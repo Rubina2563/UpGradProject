@@ -18,7 +18,7 @@ const AllEvents = () => {
   useEffect(() => {
     dispatch(getAllEventsShop(seller._id));
   }, [dispatch]);
-  
+
 const handleDelete = (id) => {
   console.log('Delete event called for ID:', id);
   if (id) {
@@ -67,27 +67,7 @@ const handleDelete = (id) => {
       minWidth: 130,
       flex: 0.6,
     },
-    {
-      field: "Preview",
-      flex: 0.8,
-      minWidth: 100,
-      headerName: "",
-      type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        const d = params.row.name;
-        const product_name = d.replace(/\s+/g, "-");
-        return (
-          <>
-            <Link to={`/product/${product_name}`}>
-              <Button>
-                <AiOutlineEye size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
-    },
+   
     {
       field: "Delete",
       flex: 0.8,
