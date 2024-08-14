@@ -1,4 +1,3 @@
-//corrected
 import React, { useEffect, useState } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +7,7 @@ import { useSnackbar } from 'notistack';
 import { createevent } from "../../redux/actions/event";
 
 const CreateEvent = () => {
-    const { enqueueSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
   const { seller } = useSelector((state) => state.seller);
   const { success, error } = useSelector((state) => state.events);
   const navigate = useNavigate();
@@ -19,9 +18,9 @@ const CreateEvent = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [tags, setTags] = useState("");
-  const [originalPrice, setOriginalPrice] = useState();
-  const [discountPrice, setDiscountPrice] = useState();
-  const [stock, setStock] = useState();
+  const [originalPrice, setOriginalPrice] = useState("");
+  const [discountPrice, setDiscountPrice] = useState("");
+  const [stock, setStock] = useState("");
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
 
@@ -30,10 +29,11 @@ const CreateEvent = () => {
     const minEndDate = new Date(startDate.getTime() + 3 * 24 * 60 * 60 * 1000);
     setStartDate(startDate);
     setEndDate(null);
-    document.getElementById("end-date").min = minEndDate.toISOString().slice(
-      0,
-      10
-    );
+
+    const endDateInput = document.getElementById("end-date");
+    if (endDateInput) {
+      endDateInput.min = minEndDate.toISOString().slice(0, 10);
+    }
   };
 
   const handleEndDateChange = (e) => {
@@ -50,7 +50,7 @@ const CreateEvent = () => {
     : "";
 
   useEffect(() => {
-     if (error) {
+    if (error) {
       enqueueSnackbar(error, { variant: 'error' });
     }
     if (success) {
@@ -58,7 +58,7 @@ const CreateEvent = () => {
       navigate('/dashboard-events');
       window.location.reload();
     }
-  }, [dispatch, error, success]);
+  }, [dispatch, error, success, enqueueSnackbar, navigate]);
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -85,6 +85,7 @@ const CreateEvent = () => {
     images.forEach((image) => {
       newForm.append("images", image);
     });
+
     const data = {
       name,
       description,
@@ -98,13 +99,13 @@ const CreateEvent = () => {
       start_Date: startDate?.toISOString(),
       Finish_Date: endDate?.toISOString(),
     };
+
     dispatch(createevent(data));
   };
 
   return (
-    <div className="w-[90%] 800px:w-[50%] font-semibold bg-[#fde7e7]  shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
+    <div className="w-[90%] 800px:w-[50%] font-semibold bg-[#fde7e7] shadow h-[80vh] rounded-[4px] p-3 overflow-y-scroll">
       <h5 className="text-[30px] font-Poppins text-center">Create Offer</h5>
-      {/* create event form */}
       <form onSubmit={handleSubmit}>
         <br />
         <div>
@@ -115,6 +116,7 @@ const CreateEvent = () => {
             type="text"
             name="name"
             value={name}
+            required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setName(e.target.value)}
             placeholder="Enter your event product name..."
@@ -143,11 +145,12 @@ const CreateEvent = () => {
             Category <span className="text-red-500">*</span>
           </label>
           <select
+            required
             className="w-full mt-2 border h-[35px] rounded-[5px]"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
           >
-            <option value="Choose a category">Choose a category</option>
+            <option value="">Choose a category</option>
             {categoriesData &&
               categoriesData.map((i) => (
                 <option value={i.title} key={i.title}>
@@ -173,8 +176,9 @@ const CreateEvent = () => {
           <label className="pb-2">Original Price</label>
           <input
             type="number"
-            name="price"
+            name="originalPrice"
             value={originalPrice}
+            required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setOriginalPrice(e.target.value)}
             placeholder="Enter your event product price..."
@@ -187,8 +191,9 @@ const CreateEvent = () => {
           </label>
           <input
             type="number"
-            name="price"
+            name="discountPrice"
             value={discountPrice}
+            required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setDiscountPrice(e.target.value)}
             placeholder="Enter your event product price with discount..."
@@ -201,8 +206,9 @@ const CreateEvent = () => {
           </label>
           <input
             type="number"
-            name="price"
+            name="stock"
             value={stock}
+            required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={(e) => setStock(e.target.value)}
             placeholder="Enter your event product stock..."
@@ -215,9 +221,10 @@ const CreateEvent = () => {
           </label>
           <input
             type="date"
-            name="price"
+            name="startDate"
             id="start-date"
             value={startDate ? startDate.toISOString().slice(0, 10) : ""}
+            required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={handleStartDateChange}
             min={today}
@@ -231,9 +238,10 @@ const CreateEvent = () => {
           </label>
           <input
             type="date"
-            name="price"
-            id="start-date"
+            name="endDate"
+            id="end-date"
             value={endDate ? endDate.toISOString().slice(0, 10) : ""}
+            required
             className="mt-2 appearance-none block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
             onChange={handleEndDateChange}
             min={minEndDate}
@@ -247,34 +255,38 @@ const CreateEvent = () => {
           </label>
           <input
             type="file"
-            name=""
+            name="images"
             id="upload"
-            className="hidden"
-            multiple
+            accept=".jpg,.jpeg,.png"
             onChange={handleImageChange}
+            multiple
+            required
+            className="hidden"
           />
           <div className="w-full flex items-center flex-wrap">
             <label htmlFor="upload">
-              <AiOutlinePlusCircle size={30} className="mt-3" color="#555" />
+              <AiOutlinePlusCircle
+                size={30}
+                className="mt-3 cursor-pointer"
+                color="#555"
+              />
             </label>
             {images &&
-              images.map((i) => (
+              images.map((i, index) => (
                 <img
+                  key={index}
                   src={i}
-                  key={i}
                   alt=""
                   className="h-[120px] w-[120px] object-cover m-2"
                 />
               ))}
           </div>
           <br />
-          <div>
-            <input
-              type="submit"
-              value="Create"
-              className="mt-2 cursor-pointer bg-white text-red-700 font-semibold appearance-none text-center block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
+          <input
+            type="submit"
+            value="Create"
+            className="mt-2 cursor-pointer bg-white text-red-700 font-semibold appearance-none text-center block w-full px-3 h-[35px] border border-gray-300 rounded-[3px] placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+          />
         </div>
       </form>
     </div>

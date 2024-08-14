@@ -18,11 +18,25 @@ const AllEvents = () => {
   useEffect(() => {
     dispatch(getAllEventsShop(seller._id));
   }, [dispatch]);
-
-  const handleDelete = (id) => {
-    dispatch(deleteEvent(id));
-    window.location.reload();
+  
+const handleDelete = (id) => {
+  console.log('Delete event called for ID:', id);
+  if (id) {
+    dispatch(deleteEvent(id))
+      .then(() => {
+        console.log('Event deleted successfully');
+        // Optionally reload the page after a successful delete
+        setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      })
+      .catch((error) => {
+        console.error('Error deleting event:', error);
+      });
+  } else {
+    console.error('No ID provided for deletion');
   }
+};
 
   const columns = [
     { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.7 },

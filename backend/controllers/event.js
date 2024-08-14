@@ -44,6 +44,7 @@ router.post(
         productData.shop = shop;
 
         const event = await Event.create(productData);
+       
 
         res.status(201).json({
           success: true,
@@ -97,22 +98,24 @@ router.delete(
         return next(new ErrorHandler("Event is not found with this id", 404));
       }
 
+      // Delete associated images from Cloudinary
       for (let i = 0; i < event.images.length; i++) {
         await cloudinary.v2.uploader.destroy(event.images[i].public_id);
       }
 
-      await event.remove();
+      // Delete the event
+      await event.deleteOne(); // Use deleteOne() instead of remove()
 
       res.status(201).json({
         success: true,
         message: "Event Deleted successfully!",
       });
     } catch (error) {
-      return next(new ErrorHandler(error, 400));
+      console.log("from delete event", error);
+      return next(new ErrorHandler(error.message || "An error occurred while deleting the event", 400));
     }
   })
 );
-
 
 
 export default router;

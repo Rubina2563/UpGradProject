@@ -11,12 +11,12 @@ export const createevent = (data) => async (dispatch) => {
     const { d } = await axios.post(`${server}/event/create-event`, data);
     dispatch({
       type: "eventCreateSuccess",
-      payload: d.event,
+      payload: d,
     });
   } catch (error) {
     dispatch({
       type: "eventCreateFail",
-      payload: error.response.data.message,
+      payload: error,
     });
   }
 };
@@ -62,7 +62,7 @@ export const deleteEvent = (id) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: "deleteeventFailed",
-      payload: error.response.data.message,
+      payload: error,
     });
   }
 };
