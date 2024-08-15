@@ -1,7 +1,7 @@
 backend/.env
 frontend/node_modules
-node_modules
-socket/node_modules
+backend/node_modules
+/node_modules
 frontend/src/ShopCreate.jsx
 
 npm-debug.log*
