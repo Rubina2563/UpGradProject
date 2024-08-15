@@ -52,7 +52,7 @@ router.post(
       };
 
       const activationToken = createActivationToken(seller);
-      const activationUrl = `http://localhost:3000/seller/activation/${activationToken}`;
+      const activationUrl = `https://up-grad-project-front.vercel.app/seller/activation/${activationToken}`;
 console.log(activationUrl)
       try {
         await sendMail({

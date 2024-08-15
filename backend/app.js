@@ -15,7 +15,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // Specify the exact origin
+    origin: "https://up-grad-project-front.vercel.app", // Specify the exact origin
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
@@ -23,7 +23,8 @@ app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use("/", (req, res) => {
+app.use("/", express.static(path.join(__dirname,"./uploads")));
+app.use("/test", (req, res) => {
   res.send("Hello world!");
 });
 
