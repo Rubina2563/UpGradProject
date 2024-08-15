@@ -52,7 +52,7 @@ router.post(
       };
 
       const activationToken = createActivationToken(seller);
-      const activationUrl = `https://up-grad-project-front-bf0n904i2-rubinatazaks-projects.vercel.app/seller/activation/${activationToken}`;
+      const activationUrl = `https://up-grad-project-front.vercel.app/seller/activation/${activationToken}`;
 console.log(activationUrl)
       try {
         await sendMail({

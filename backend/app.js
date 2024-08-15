@@ -15,8 +15,7 @@ const app = express();
 
 app.use(
   cors({
-    origin:
-      "https://up-grad-project-front-bf0n904i2-rubinatazaks-projects.vercel.app", // Specify the exact origin
+    origin: "https://up-grad-project-front.vercel.app", // Specify the exact origin
     credentials: true, // Allow credentials (cookies, authorization headers, etc.)
   })
 );
