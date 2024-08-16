@@ -1,5 +1,62 @@
 # ShopPlusPlus App README
 
+## Tech Stack
+
+### Frontend
+- **React**: Building the user interface.
+- **Redux**: State management.
+- **Tailwind CSS**: Styling with utility-first CSS classes.
+- **Material-UI (MUI)**: UI components, including DataGrid.
+- **React Router**: Routing within the application.
+
+### Backend
+- **Node.js**: Server-side logic.
+- **Express.js**: Web framework for Node.js.
+- **MongoDB**: Database for storing users, products, orders, etc.
+- **Mongoose**: Object Data Modeling (ODM) for MongoDB.
+- **Cloudinary**: Image management and storage (e.g., product images).
+- **Razorpay**: Payment processing (in test mode).
+
+### Deployment
+- **Vercel**: For deploying the application.
+- **MongoDB Atlas**: For hosting the MongoDB database.
+
+### Other Tools
+- **JWT (JSON Web Tokens)**: Authentication and authorization.
+- **Axios**: HTTP requests from the frontend to the backend.
+- **Lottie**: Loading animations.
+- **Snackbar**: Notifications.
+
+### How to Deploy It Locally
+
+To deploy the ShopPlusPlus app locally, follow these steps:
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/Rubina2563/ShopPlusPlus.git
+   cd ShopPlusPlus
+
+2. **Install dependencies for both frontend and backend:**
+
+   Navigate to the frontend directory and install dependencies:
+   cd frontend
+   npm install
+   
+   Then, navigate to the backend directory and install dependencies:
+   cd ../backend
+   npm install
+   
+3. **Start the frontend:**
+In the frontend directory, run:
+npm start
+Change all my vercel url to your local port
+
+4. **Start the backend:**
+In the backend directory, run:
+npm run dev
+Change all my vercel url to your local port
+
 ## Overview
 
 This e-commerce platform is a sophisticated multi-user, single-admin application designed to provide a seamless shopping experience. It includes robust features such as user-specific wishlists and carts, dynamic product searching, order tracking, and comprehensive profile management. The platform also offers full control to the admin for product and order management, including handling refunds and monitoring sales metrics. The design emphasizes persistence, ensuring that users' data like wishlists and carts remain intact across sessions.
