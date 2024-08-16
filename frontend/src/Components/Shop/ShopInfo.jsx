@@ -6,8 +6,10 @@ import { server } from "../../server";
 import Loader from "../Layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProductsShop } from "../../redux/actions/product";
+import { useSnackbar } from 'notistack';
 
 const ShopInfo = ({ isOwner }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [data,setData] = useState({});
   const {products} = useSelector((state) => state.products);
   const [isLoading,setIsLoading] = useState(false);
