@@ -27,25 +27,25 @@ const Faq = () => {
     {
       question: "Do you offer international shipping?",
       answer:
-        "Currently, we only offer shipping within the United States.",
+        "Currently, we only offer shipping within the India.",
       
     },
     {
       question: "How do I track my order?",
       answer:
-        "You can track your order by clicking the tracking link in your shipping confirmation email, or by logging into your account on our website and viewing the order details.",
+        "You can track your order by clicking the tracking link of into your account on our website and viewing the order details.",
       
       },
       {
       question: "What payment methods do you accept?",
       answer:
-        "We accept Visa, Mastercard, PayPal, and we also have a cash on delivery system.",
+        "We accept Razorpay and we also have a cash on delivery system.",
      
     },
     {
       question: "How do I contact customer support?",
       answer:
-        "You can contact our customer support team by emailing us at support@myecommercestore.com, or by calling us at (555) 123-4567 between the hours of 9am and 5pm EST, Monday through Friday.",
+        "We are currently working on customer supports link",
       
     },
     {
