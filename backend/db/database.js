@@ -11,9 +11,9 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 
-const connectDatabase = () => {
+const connectDatabase =async () => {
     console.log(`DB_URL: ${process.env.DB_URL}`);
-  mongoose
+  await mongoose
     .connect(process.env.DB_URL, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
