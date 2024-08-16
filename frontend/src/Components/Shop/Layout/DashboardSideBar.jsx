@@ -8,13 +8,14 @@ import { MdOutlineLocalOffer } from "react-icons/md";
 import { RxDashboard } from "react-icons/rx";
 import { VscNewFile } from "react-icons/vsc";
 import { CiMoneyBill, CiSettings } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
 import { server } from "../../../server";
 import { useSnackbar } from 'notistack';
 
 import { HiOutlineReceiptRefund } from "react-icons/hi";
 
 const DashboardSideBar = ({ active }) => {
+  const navigate = useNavigate();
 const { enqueueSnackbar } = useSnackbar();
     const logoutHandler = async () => {
    
