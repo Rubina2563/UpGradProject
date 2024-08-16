@@ -6,7 +6,7 @@ const Events = () => {
   const { allEvents, isLoading } = useSelector((state) => state.events);
 
   return (
-    <div className="w-11/12 mx-auto">
+    <div className="w-8/12 mx-auto">
       <div className="text-[27px] text-center md:text-start font-[600] font-Roboto pb-[20px]">
         <h1 >Timely Offers</h1>
       </div>
