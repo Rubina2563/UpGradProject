@@ -16,10 +16,21 @@ import { HiOutlineReceiptRefund } from "react-icons/hi";
 const DashboardSideBar = ({ active }) => {
 
     const logoutHandler = async () => {
-    axios.get(`${server}/shop/logout`,{
-      withCredentials: true,
-    });
-    window.location.reload();
+   
+       axios
+      .get(`${server}/shop/logout`, { withCredentials: true })
+      .then((res) => {
+         // Extracting the success message from the response
+    const successMessage = res.data?.message || "Operation successful";
+
+    // Using enqueueSnackbar to show the success message
+    enqueueSnackbar(successMessage, { variant: 'success' });
+        window.location.reload(true);
+        navigate("/shop-login");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
   };
 
   return (

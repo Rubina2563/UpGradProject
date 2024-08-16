@@ -27,11 +27,22 @@ const ShopInfo = ({ isOwner }) => {
   }, [])
   
 
-  const logoutHandler = async () => {
-    axios.get(`${server}/shop/logout`,{
-      withCredentials: true,
-    });
-    window.location.reload();
+     const logoutHandler = async () => {
+   
+       axios
+      .get(`${server}/shop/logout`, { withCredentials: true })
+      .then((res) => {
+         // Extracting the success message from the response
+    const successMessage = res.data?.message || "Operation successful";
+
+    // Using enqueueSnackbar to show the success message
+    enqueueSnackbar(successMessage, { variant: 'success' });
+        window.location.reload(true);
+        navigate("/shop-login");
+      })
+      .catch((error) => {
+        console.log(error.response.data.message);
+      });
   };
 
   const totalReviewsLength =
