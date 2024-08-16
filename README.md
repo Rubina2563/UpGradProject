@@ -59,6 +59,7 @@ In the backend directory, run:
 
 This e-commerce platform is a sophisticated multi-user, single-admin application designed to provide a seamless shopping experience. It includes robust features such as user-specific wishlists and carts, dynamic product searching, order tracking, and comprehensive profile management. The platform also offers full control to the admin for product and order management, including handling refunds and monitoring sales metrics. The design emphasizes persistence, ensuring that users' data like wishlists and carts remain intact across sessions.
 
+![Payment Successful](./frontend/src/Static/paymentScreenshot.png)
 ## Features
 
 ### User Features
