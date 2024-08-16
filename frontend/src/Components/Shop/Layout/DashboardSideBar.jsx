@@ -191,7 +191,7 @@ const DashboardSideBar = ({ active }) => {
       </div>
 
       <div className="w-full flex items-center p-4" onClick={logoutHandler}>
-         <Link to="/settings" className="w-full flex items-center">
+       
           <AiOutlineLogin size={25} color={active === 12 ? "red" : ""} />
             <h5
             className={`hidden md:block pl-2 text-[18px] font-[400] ${
@@ -200,7 +200,7 @@ const DashboardSideBar = ({ active }) => {
           >
             Logout
           </h5>
-          </Link>
+          
       </div>
     </div>
   );
