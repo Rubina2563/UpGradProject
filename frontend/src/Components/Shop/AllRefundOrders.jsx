@@ -1,4 +1,3 @@
-//corrrected
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect } from "react";
@@ -15,10 +14,14 @@ const AllRefundOrders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllOrdersOfShop(seller._id));
-  }, [dispatch]);
+    if (seller?._id) {
+      dispatch(getAllOrdersOfShop(seller._id));
+    }
+  }, [dispatch, seller]);
 
-  const refundOrders = orders && orders.filter((item) => item.status === "Processing refund"  || item.status === "Refund Success");
+  const refundOrders = orders?.filter(
+    (item) => item.status === "Processing refund" || item.status === "Refund Success"
+  );
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -28,13 +31,9 @@ const AllRefundOrders = () => {
       headerName: "Status",
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
-      },
+      cellClassName: (params) =>
+        params.value === "Delivered" ? "greenColor" : "redColor",
     },
-
 
     {
       field: "total",
@@ -45,37 +44,26 @@ const AllRefundOrders = () => {
     },
 
     {
-      field: " ",
+      field: "actions",
       flex: 1,
       minWidth: 150,
       headerName: "",
-      type: "number",
       sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/dashboard-order/${params.id}`}>
-              <Button>
-                <AiOutlineArrowRight size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
+      renderCell: (params) => (
+        <Link to={`/dashboard-order/${params.id}`}>
+          <Button>
+            <AiOutlineArrowRight size={20} />
+          </Button>
+        </Link>
+      ),
     },
   ];
 
-  const row = [];
-
-  refundOrders &&
-  refundOrders.forEach((item) => {
-      row.push({
-        id: item._id,
-        
-        total: "Rs " + item.totalPrice,
-        status: item.status,
-      });
-    });
+  const rows = refundOrders?.map((item) => ({
+    id: item._id,
+    total: `Rs ${item.totalPrice}`,
+    status: item.status,
+  }));
 
   return (
     <>
@@ -84,7 +72,7 @@ const AllRefundOrders = () => {
       ) : (
         <div className="w-full mx-8 pt-1 mt-10 font-semibold bg-[#fde7e7]">
           <DataGrid
-            rows={row}
+            rows={rows}
             columns={columns}
             pageSize={10}
             disableSelectionOnClick

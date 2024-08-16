@@ -227,9 +227,8 @@ const AllOrders = () => {
       minWidth: 130,
       flex: 0.7,
       cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
+        const status = params.value;  // Use params.value directly
+      return status === "Delivered" ? "greenColor" : "redColor";
       },
     },
     {
@@ -238,6 +237,9 @@ const AllOrders = () => {
       type: "number",
       minWidth: 130,
       flex: 0.7,
+       renderCell: (params) => (
+      <div>{params.value}</div>  // Use params.value directly
+    ),
     },
 
     {
@@ -246,6 +248,9 @@ const AllOrders = () => {
       type: "number",
       minWidth: 130,
       flex: 0.8,
+       renderCell: (params) => (
+      <div>{params.value}</div>  // Use params.value directly
+    ),
     },
 
     {
@@ -307,51 +312,47 @@ const AllRefundOrders = () => {
   const eligibleOrders =
     orders && orders.filter((item) => item.status === "Processing refund");
 
-  const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+ const columns = [
+  { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
-    {
-      field: "status",
-      headerName: "Status",
-      minWidth: 130,
-      flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
-      },
+  {
+    field: "status",
+    headerName: "Status",
+    minWidth: 130,
+    flex: 0.7,
+    cellClassName: (params) => {
+      const status = params.value;  // Use params.value directly
+      return status === "Delivered" ? "greenColor" : "redColor";
     },
-   
+  },
 
-    {
-      field: "total",
-      headerName: "Total",
-      type: "number",
-      minWidth: 130,
-      flex: 0.8,
-    },
+  {
+    field: "total",
+    headerName: "Total",
+    type: "number",
+    minWidth: 130,
+    flex: 0.8,
+    renderCell: (params) => (
+      <div>{params.value}</div>  // Use params.value directly
+    ),
+  },
 
-    {
-      field: " ",
-      flex: 1,
-      minWidth: 150,
-      headerName: "",
-      type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/user/order/${params.id}`}>
-              <Button>
-                <AiOutlineArrowRight size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
-    },
-  ];
-
+  {
+    field: " ",
+    flex: 1,
+    minWidth: 150,
+    headerName: "",
+    type: "number",
+    sortable: false,
+    renderCell: (params) => (
+      <Link to={`/user/order/${params.id}`}>
+        <Button>
+          <AiOutlineArrowRight size={20} />
+        </Button>
+      </Link>
+    ),
+  },
+];
   const row = [];
 
   eligibleOrders &&
@@ -386,56 +387,44 @@ const TrackOrder = () => {
     dispatch(getAllOrdersOfUser(user._id));
   }, []);
 
-  const columns = [
-    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+   {
+    field: "itemsQty",
+    headerName: "Items Qty",
+    type: "number",
+    minWidth: 130,
+    flex: 0.7,
+    renderCell: (params) => (
+      <div>{params.value}</div> // Use params.value directly
+    ),
+  },
 
-    {
-      field: "status",
-      headerName: "Status",
-      minWidth: 130,
-      flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
-      },
-    },
-    {
-      field: "itemsQty",
-      headerName: "Items Qty",
-      type: "number",
-      minWidth: 130,
-      flex: 0.7,
-    },
+  {
+    field: "total",
+    headerName: "Total",
+    type: "number",
+    minWidth: 130,
+    flex: 0.8,
+    renderCell: (params) => (
+      <div>{params.value}</div> // Use params.value directly
+    ),
+  },
 
-    {
-      field: "total",
-      headerName: "Total",
-      type: "number",
-      minWidth: 130,
-      flex: 0.8,
-    },
-
-    {
-      field: " ",
-      flex: 1,
-      minWidth: 150,
-      headerName: "",
-      type: "number",
-      sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/user/track/order/${params.id}`}>
-              <Button>
-                <MdTrackChanges size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
-    },
-  ];
+  {
+    field: " ",
+    flex: 1,
+    minWidth: 150,
+    headerName: "",
+    type: "number",
+    sortable: false,
+    renderCell: (params) => (
+      <Link to={`/user/track/order/${params.id}`}>
+        <Button>
+          <MdTrackChanges size={20} />
+        </Button>
+      </Link>
+    ),
+  },
+];
 
   const row = [];
 

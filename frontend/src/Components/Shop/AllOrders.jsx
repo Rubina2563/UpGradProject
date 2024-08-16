@@ -1,4 +1,3 @@
-//corrected
 import { Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect } from "react";
@@ -15,8 +14,10 @@ const AllOrders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllOrdersOfShop(seller._id));
-  }, [dispatch]);
+    if (seller?._id) {
+      dispatch(getAllOrdersOfShop(seller._id));
+    }
+  }, [dispatch, seller]);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -26,12 +27,10 @@ const AllOrders = () => {
       headerName: "Status",
       minWidth: 130,
       flex: 0.7,
-      cellClassName: (params) => {
-        return params.getValue(params.id, "status") === "Delivered"
-          ? "greenColor"
-          : "redColor";
-      },
+      cellClassName: (params) =>
+        params.value === "Delivered" ? "greenColor" : "redColor",
     },
+
     {
       field: "itemsQty",
       headerName: "Items Qty",
@@ -49,23 +48,18 @@ const AllOrders = () => {
     },
 
     {
-      field: " ",
+      field: "actions",
       flex: 1,
       minWidth: 150,
       headerName: "",
-      type: "number",
       sortable: false,
-      renderCell: (params) => {
-        return (
-          <>
-            <Link to={`/dashboard-order/${params.id}`}>
-              <Button>
-                <AiOutlineArrowRight size={20} />
-              </Button>
-            </Link>
-          </>
-        );
-      },
+      renderCell: (params) => (
+        <Link to={`/dashboard-order/${params.id}`}>
+          <Button>
+            <AiOutlineArrowRight size={20} />
+          </Button>
+        </Link>
+      ),
     },
   ];
 
@@ -77,13 +71,12 @@ const AllOrders = () => {
       .reduce(
         (acc, cartItem) => {
           acc.totalQuantity += cartItem.quantity;
-          acc.totalPrice += cartItem.product.discountPrice
- * cartItem.quantity;
+          acc.totalPrice += cartItem.product.discountPrice * cartItem.quantity;
           return acc;
         },
         { totalQuantity: 0, totalPrice: 0 }
       );
-console.log("totalPrice",totalPrice)
+    console.log("totalPrice", totalPrice);
     rows.push({
       id: order._id,
       itemsQty: totalQuantity,
