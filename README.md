@@ -44,7 +44,7 @@ To deploy the ShopPlusPlus app locally, follow these steps:
    cd frontend
    npm install
    
-   Then, navigate to the backend directory and install dependencies:
+   -Then, navigate to the backend directory and install dependencies:
    ```bash
    cd ../backend
    npm install
@@ -55,7 +55,7 @@ In the frontend directory, run:
 npm start
 Change all my vercel url to your local port
 
-6. **Start the backend:**
+5. **Start the backend:**
 In the backend directory, run:
 ```bash
 npm run dev
