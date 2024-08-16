@@ -32,28 +32,28 @@
 To deploy the ShopPlusPlus app locally, follow these steps:
 
 1. **Clone the repository:**
-   git clone https://github.com/Rubina2563/ShopPlusPlus.git
-   cd ShopPlusPlus
+  - git clone https://github.com/Rubina2563/ShopPlusPlus.git
+  - cd ShopPlusPlus
 
 2. **Install dependencies for both frontend and backend:**
 
    Navigate to the frontend directory and install dependencies:
-   cd frontend
-   npm install
+  - cd frontend
+  - npm install
    
  3. **Then, navigate to the backend directory and install dependencies:**
-   cd ../backend
-   npm install
+  - cd ../backend
+  - npm install
    
  4. **Start the frontend:**
   In the frontend directory, run:
-   npm start
-  Change all my vercel url to your local port
+  - npm start
+  - Change all my vercel url to your local port
 
 5. **Start the backend:**
 In the backend directory, run:
-npm run dev
-Change all my vercel url to your local port
+- npm run dev
+- Change all my vercel url to your local port
 
 ## Overview
 
