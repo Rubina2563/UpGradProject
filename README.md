@@ -95,7 +95,7 @@ This e-commerce platform is a sophisticated multi-user, single-admin application
 ### Admin Features
 
 1. **Admin Authentication:**
-   - The platform is designed for a single admin user. The admin can log in through the `/shop-login` route using the email "rubinatazak@gmail.com" and the password "1234".
+   - The platform is designed for a single admin user. The admin can log in through the `/shop-login` route using the email "tazakaejaz13@gmail.com" and the password "1234".
    - Upon logging in, the admin is redirected to the admin profile page, where they have full control over the platform's operations.
 
 2. **Product Management:**
