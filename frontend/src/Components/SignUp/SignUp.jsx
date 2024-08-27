@@ -6,6 +6,7 @@ import axios from "axios";
 import { server } from "../../server";
 import { useSnackbar } from 'notistack';
 import Loader from "../Layout/Loader";
+import imageCompression from 'browser-image-compression';
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -16,56 +17,78 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false); // Loading state
   const { enqueueSnackbar } = useSnackbar();
 
-  const handleFileInputChange = (e) => {
-    const reader = new FileReader();
+  const handleFileInputChange = async (e) => {
+    const file = e.target.files[0];
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setAvatar(reader.result);
+    // Check if file size is greater than 100KB
+    if (file.size > 100 * 1024) {
+      try {
+        // Compress the image
+        const options = {
+          maxSizeMB: 0.1, // Max file size in MB
+          maxWidthOrHeight: 1920, // Max width or height
+          useWebWorker: true, // Enable web worker for faster compression
+        };
+        const compressedFile = await imageCompression(file, options);
+
+        const reader = new FileReader();
+        reader.onload = () => {
+          if (reader.readyState === 2) {
+            setAvatar(reader.result);
+          }
+        };
+        reader.readAsDataURL(compressedFile);
+      } catch (error) {
+        enqueueSnackbar('Failed to compress image', { variant: 'error' });
       }
-    };
-
-    reader.readAsDataURL(e.target.files[0]);
+    } else {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setAvatar(reader.result);
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
     if (password.length < 4) {
-    enqueueSnackbar('Password must be at least 4 characters long', { variant: 'error' });
-    return;
-  }
-  
-   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (!emailRegex.test(email)) {
-    enqueueSnackbar('Please enter a valid email address', { variant: 'error' });
-    return;
-  }
+      enqueueSnackbar('Password must be at least 4 characters long', { variant: 'error' });
+      return;
+    }
 
- 
-  if (!avatar) {
-    enqueueSnackbar('Profile pic is mandatory', { variant: 'error' });
-    return;
-  }
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(email)) {
+      enqueueSnackbar('Please enter a valid email address', { variant: 'error' });
+      return;
+    }
 
-  setIsLoading(true);
+    if (!avatar) {
+      enqueueSnackbar('Profile pic is mandatory', { variant: 'error' });
+      return;
+    }
 
-  axios
-    .post(`${server}/user/create-user`, { name, email, password, avatar })
-    .then((res) => {
-      enqueueSnackbar(res.data.message, { variant: 'success' });
-      setName("");
-      setEmail("");
-      setPassword("");
-      setAvatar(null);
-    })
-    .catch((error) => {
-      enqueueSnackbar(`Error: ${error.response.data.message}`, { variant: 'error' });
-    })
-    .finally(() => {
-      setIsLoading(false); // Stop loading
-    });
-};
+    setIsLoading(true);
+
+    axios
+      .post(`${server}/user/create-user`, { name, email, password, avatar })
+      .then((res) => {
+        enqueueSnackbar(res.data.message, { variant: 'success' });
+        setName("");
+        setEmail("");
+        setPassword("");
+        setAvatar(null);
+      })
+      .catch((error) => {
+        enqueueSnackbar(`Error: ${error.response.data.message}`, { variant: 'error' });
+      })
+      .finally(() => {
+        setIsLoading(false); // Stop loading
+      });
+  };
 
   return (
     <>

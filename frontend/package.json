@@ -15,6 +15,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
+    "browser-image-compression": "^2.0.2",
     "country-state-city": "^3.2.1",
     "js-cookie": "^3.0.5",
     "notistack": "^3.0.1",
